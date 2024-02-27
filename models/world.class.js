@@ -12,14 +12,15 @@ class World {
     ];
     backgroundObjects = [
         new BackgroundObject('img/3_backgrounds/3_layers/3_background/L1.png', 0),
-        // new BackgroundObject('img/3_backgrounds/3_layers/1_light/COMPLETO.png', 0),
         new BackgroundObject('img/3_backgrounds/3_layers/4_background_2/L1.png', 0),
         new BackgroundObject('img/3_backgrounds/3_layers/3_background/L1.png', 0),
         new BackgroundObject('img/3_backgrounds/3_layers/2_floor/L1.png', 0),     
     ];
     background = [
         new Background('img/3_backgrounds/3_layers/5_water/L1.png', 0),
+        new Background('img/3_backgrounds/3_layers/1_light/1.png', 0)
     ];
+
     canvas;
     ctx;
     constructor(canvas) {

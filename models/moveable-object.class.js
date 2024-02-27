@@ -1,4 +1,4 @@
-class MoveableObject{
+class MoveableObject {
     x = 40;
     y = 250;
     width = 200;
@@ -6,9 +6,22 @@ class MoveableObject{
     img;
     resulutionwidth = 720;
     resulutionheight = 480;
-    loadIMG(path){
+    imageChache = {};
+    currentImage = 0;
+    speed = 0.5;
+
+    loadIMG(path) {
         this.img = new Image();
         this.img.src = path;
+    }
+
+    loadImages(array) {
+        array.forEach((path) => {
+            let img = new Image();
+            img.src = path;
+            this.imageChache[path] = img;
+        });
+
     }
 
     loadRandomImage(imagePaths) {
@@ -17,22 +30,25 @@ class MoveableObject{
         this.loadIMG(randomImagePath);
     }
 
-    moveRight(){
-        console.log('moving right')
+    moveRight() {
+        setInterval(() => {
+            this.x += this.speed
+        }, 1000/60);
     }
 
-    moveLeft(){
+    moveLeft() {
+        setInterval(() => {
+            this.x -= this.speed
+        }, 1000/60);
+    }
+
+    moveUP() {
 
 
     }
 
-    moveUP(){
+    moveDown() {
 
-    
-    }
-
-    moveDown(){
-        
     }
 
 }
