@@ -1,9 +1,6 @@
 class World {
     character = new Character();
-    enemies = level1.enemies;
-    environment = level1.environment;
-    backgroundObjects = level1.backgroundObjects;
-    background = level1.background;
+    level = level1;
     canvas;
     ctx;
     keyboard;
@@ -17,7 +14,7 @@ class World {
         this.setWorld();
     }
 
-    setWorld(){
+    setWorld() {
         this.character.world = this;
     }
 
@@ -26,11 +23,11 @@ class World {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.ctx.translate(this.camera_x, 0);
 
-        this.addObjectsToMap(this.background);
-        this.addObjectsToMap(this.environment);
-        this.addObjectsToMap(this.backgroundObjects);
+        this.addObjectsToMap(this.level.background);
+        this.addObjectsToMap(this.level.environment);
+        this.addObjectsToMap(this.level.backgroundObjects);
         this.addToMap(this.character);
-        this.addObjectsToMap(this.enemies);
+        this.addObjectsToMap(this.level.enemies);
 
         this.ctx.translate(-this.camera_x, 0);
 
@@ -48,31 +45,31 @@ class World {
     }
 
     addToMap(mo) {
-        if (mo.mirroredSideways){
+        if (mo.mirroredSideways) {
             this.mirrorSideways(mo);
         }
         // if (mo.mirroredUpways){
         //     this.mirrorUpwards(mo);
         // }
         this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height)
-        if (mo.mirroredSideways){
+        if (mo.mirroredSideways) {
             this.mirrorBackwards(mo);
         }
         // if (mo.mirroredUpways){
         //     this.mirrorUpwards(mo);
         // }
-        
+
     }
 
-    mirrorSideways(mo){
+    mirrorSideways(mo) {
         this.ctx.save();
         this.ctx.translate(mo.width, 0); // wird um die eigene Breite verschoben
         this.ctx.scale(-1, 1);  // kontext wird gespiegelt
         mo.x = mo.x * -1;  // x koordinate spiegeln
     }
 
-    mirrorBackwards(mo){
-        mo.x = mo.x * -1; 
+    mirrorBackwards(mo) {
+        mo.x = mo.x * -1;
         this.ctx.restore();
     }
 
@@ -82,9 +79,9 @@ class World {
     //     this.ctx.rotate(Math.PI / -2); // Das Bild um 90 Grad drehen
     //     this.ctx.drawImage(mo.img, -mo.width / 2, -mo.height / 2, mo.width, mo.height); // Charakter zeichnen
     //     this.ctx.restore(); // Gespeicherten Zustand des Canvas-Kontextes wiederherstellen
-      
+
     // }
-    
-    
+
+
 
 }
