@@ -20,31 +20,31 @@ class Character extends MoveableObject {
         this.animate();
     }
 
-    animate(){
-        setInterval(() =>{
-            if(this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x){
+    animate() {
+        setInterval(() => {
+            if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
                 this.x += this.speed;
                 this.mirroredSideways = false;
             }
-            if(this.world.keyboard.LEFT && this.x > 0){
+            if (this.world.keyboard.LEFT && this.x > 0) {
                 this.x -= this.speed;
                 this.mirroredSideways = true;
             }
-            if(this.world.keyboard.UP && this.y > this.world.level.level_end_y_top){
+            if (this.world.keyboard.UP && this.y > this.world.level.level_end_y_top) {
                 this.y -= this.speed;
-                this. mirroredUpways = true;
+                this.mirroredUpways = true;
                 this.mirroredDownways = false;
             }
-            if(this.world.keyboard.DOWN && this.y < this.world.level.level_end_y_bottom){
+            if (this.world.keyboard.DOWN && this.y < this.world.level.level_end_y_bottom) {
                 this.y += this.speed;
-                this. mirroredDownways = true;
-                this. mirroredUpways = false;
+                this.mirroredDownways = true;
+                this.mirroredUpways = false;
             }
             this.world.camera_x = -this.x + 100;
-        }, 1000/60);
+        }, 1000 / 60);
         setInterval(() => {
-            if(this.world.keyboard.RIGHT || this.world.keyboard.LEFT || this.world.keyboard.UP || this.world.keyboard.DOWN ){
-            this.playAnimation(this.IMAGES_WALKING);
+            if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT || this.world.keyboard.UP || this.world.keyboard.DOWN) {
+                this.playAnimation(this.IMAGES_WALKING);
             }
         }, 144);
     }

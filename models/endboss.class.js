@@ -1,4 +1,4 @@
-class Endboss extends MoveableObject{
+class Endboss extends MoveableObject {
 
     IMAGES_WALKING = [
         'img/2_enemys/3_final_enemy/1_introduce/1.png',
@@ -12,10 +12,17 @@ class Endboss extends MoveableObject{
         'img/2_enemys/3_final_enemy/1_introduce/9.png',
         'img/2_enemys/3_final_enemy/1_introduce/10.png',
     ];
-
-    constructor(){
-        super().loadIMG(IMAGES_WALKING[0]);
+    currentImage = 0;
+    constructor() {
+        super().loadIMG(this.IMAGES_WALKING[0]);
         this.loadImages(this.IMAGES_WALKING);
-        this.x = 700;
+        this.x = 700*3;
+        this.animate();
+    }
+
+    animate() {
+        setInterval(() => {
+            this.playAnimation(this.IMAGES_WALKING);
+        }, 144);
     }
 }
