@@ -10,11 +10,21 @@ class Character extends MoveableObject {
         'img/1_sharkie/3_swim/5.png',
         'img/1_sharkie/3_swim/6.png'
     ];
+    IMAGES_FLOATING = [
+        'img/1_sharkie/3_swim/1.png',
+        'img/1_sharkie/3_swim/2.png',
+        'img/1_sharkie/3_swim/3.png',
+        'img/1_sharkie/3_swim/4.png',
+        'img/1_sharkie/3_swim/5.png',
+        'img/1_sharkie/3_swim/6.png'
+    ];
+
     world;
 
     constructor() {
         super().loadIMG('../img/1_sharkie/1_idle/1.png')
         this.loadImages(this.IMAGES_WALKING);
+        this.loadImages(this.IMAGES_FLOATING);
         this.y = 200;
         this.x = 150;
         this.animate();
@@ -22,11 +32,14 @@ class Character extends MoveableObject {
 
     animate() {
         setInterval(() => {
+                this.playAnimation(this.IMAGES_FLOATING);
+        }, 250);
+        setInterval(() => {
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
                 this.x += this.speed;
                 this.mirroredSideways = false;
             }
-            if (this.world.keyboard.LEFT && this.x > 0) {
+            if (this.world.keyboard.LEFT && this.x > -480) {
                 this.x -= this.speed;
                 this.mirroredSideways = true;
             }

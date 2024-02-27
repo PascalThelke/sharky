@@ -3,7 +3,7 @@ class Level {
     environment;
     backgroundObjects;
     background;
-    level_end_x = 720*3;
+    level_end_x = 750*3;
     level_end_y_top = -90;
     level_end_y_bottom = 280;
 
