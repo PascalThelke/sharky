@@ -9,6 +9,8 @@ class MoveableObject {
     imageChache = {};
     currentImage = 0;
     speed = 0.5;
+    mirroredSideways = false;
+    mirroredUpways = false;
 
     loadIMG(path) {
         this.img = new Image();
