@@ -1,25 +1,9 @@
 class World {
     character = new Character();
-    enemies = [
-        new Pufferfish(),
-        new Pufferfish(),
-        new Pufferfish()
-    ];
-    environment = [
-        new Barrier(),
-        new Barrier(),
-        new Barrier()
-    ];
-    backgroundObjects = [
-        new BackgroundObject('img/3_backgrounds/3_layers/3_background/L1.png', 0),
-        new BackgroundObject('img/3_backgrounds/3_layers/4_background_2/L1.png', 0),
-        new BackgroundObject('img/3_backgrounds/3_layers/3_background/L1.png', 0),
-        new BackgroundObject('img/3_backgrounds/3_layers/2_floor/L1.png', 0),     
-    ];
-    background = [
-        new Background('img/3_backgrounds/3_layers/5_water/L1.png', 0),
-        new Background('img/3_backgrounds/3_layers/1_light/1.png', 0)
-    ];
+    enemies = level1.enemies;
+    environment = level1.environment;
+    backgroundObjects = level1.backgroundObjects;
+    background = level1.background;
     canvas;
     ctx;
     keyboard;
