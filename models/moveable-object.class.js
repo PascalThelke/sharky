@@ -4,7 +4,7 @@ class MoveableObject{
     width = 200;
     height = 150;
     img;
-
+    resulutionheight = 480;
     loadIMG(path){
         this.img = new Image();
         this.img.src = path;
