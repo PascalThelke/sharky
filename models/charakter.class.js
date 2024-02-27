@@ -31,15 +31,11 @@ class Character extends MoveableObject {
                 this.mirroredSideways = true;
             }
             if(this.world.keyboard.UP && this.y > this.world.level.level_end_y_top){
-                console.log('maxheight of this level: ',this.world.level.level_end_y_top);
-                console.log('actual height',this.y);
                 this.y -= this.speed;
                 this. mirroredUpways = true;
                 this.mirroredDownways = false;
             }
             if(this.world.keyboard.DOWN && this.y < this.world.level.level_end_y_bottom){
-                console.log('maxdeph of this level: ',this.world.level.level_end_y_bottom);
-                console.log('actual height',this.y);
                 this.y += this.speed;
                 this. mirroredDownways = true;
                 this. mirroredUpways = false;
@@ -48,10 +44,7 @@ class Character extends MoveableObject {
         }, 1000/60);
         setInterval(() => {
             if(this.world.keyboard.RIGHT || this.world.keyboard.LEFT || this.world.keyboard.UP || this.world.keyboard.DOWN ){
-                let i = this.currentImage % this.IMAGES_WALKING.length;
-                let path = this.IMAGES_WALKING[i];
-                this.img = this.imageChache[path];
-                this.currentImage++;
+            this.playAnimation(this.IMAGES_WALKING);
             }
         }, 144);
     }

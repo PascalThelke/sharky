@@ -32,6 +32,14 @@ class MoveableObject {
         this.loadIMG(randomImagePath);
     }
 
+    playAnimation(images){
+        let i = this.currentImage % this.IMAGES_WALKING.length;
+        let path = images[i];
+        this.img = this.imageChache[path];
+        this.currentImage++;
+
+    }
+
     moveRight() {
         setInterval(() => {
             this.x += this.speed
