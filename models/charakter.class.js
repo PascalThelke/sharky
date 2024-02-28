@@ -11,12 +11,31 @@ class Character extends MoveableObject {
         'img/1_sharkie/3_swim/6.png'
     ];
     IMAGES_FLOATING = [
-        'img/1_sharkie/3_swim/1.png',
-        'img/1_sharkie/3_swim/2.png',
-        'img/1_sharkie/3_swim/3.png',
-        'img/1_sharkie/3_swim/4.png',
-        'img/1_sharkie/3_swim/5.png',
-        'img/1_sharkie/3_swim/6.png'
+        'img/1_sharkie/1_idle/1.png',
+        'img/1_sharkie/1_idle/2.png',
+        'img/1_sharkie/1_idle/3.png',
+        'img/1_sharkie/1_idle/4.png',
+        'img/1_sharkie/1_idle/5.png',
+        'img/1_sharkie/1_idle/6.png',
+        'img/1_sharkie/1_idle/7.png',
+        'img/1_sharkie/1_idle/8.png',
+        'img/1_sharkie/1_idle/9.png',
+        'img/1_sharkie/1_idle/10.png',
+        'img/1_sharkie/1_idle/11.png',
+        'img/1_sharkie/1_idle/12.png',
+        'img/1_sharkie/1_idle/13.png',
+        'img/1_sharkie/1_idle/14.png',
+        'img/1_sharkie/1_idle/15.png',
+        'img/1_sharkie/1_idle/16.png',
+        'img/1_sharkie/1_idle/17.png',
+        'img/1_sharkie/1_idle/18.png',
+
+        // 'img/1_sharkie/3_swim/1.png',
+        // 'img/1_sharkie/3_swim/2.png',
+        // 'img/1_sharkie/3_swim/3.png',
+        // 'img/1_sharkie/3_swim/4.png',
+        // 'img/1_sharkie/3_swim/5.png',
+        // 'img/1_sharkie/3_swim/6.png'
     ];
 
     world;
@@ -32,24 +51,24 @@ class Character extends MoveableObject {
 
     animate() {
         setInterval(() => {
-                this.playAnimation(this.IMAGES_FLOATING);
+            this.playAnimation(this.IMAGES_FLOATING);
         }, 250);
         setInterval(() => {
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
-                this.x += this.speed;
+                this.moveRight();
                 this.mirroredSideways = false;
             }
             if (this.world.keyboard.LEFT && this.x > -480) {
-                this.x -= this.speed;
+                this.moveLeft();
                 this.mirroredSideways = true;
             }
             if (this.world.keyboard.UP && this.y > this.world.level.level_end_y_top) {
-                this.y -= this.speed;
+                moveUP();
                 this.mirroredUpways = true;
                 this.mirroredDownways = false;
             }
             if (this.world.keyboard.DOWN && this.y < this.world.level.level_end_y_bottom) {
-                this.y += this.speed;
+                moveDown();
                 this.mirroredDownways = true;
                 this.mirroredUpways = false;
             }

@@ -51,7 +51,14 @@ class World {
         // if (mo.mirroredUpways){
         //     this.mirrorUpwards(mo);
         // }
+        
         this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height)
+        this.ctx.beginPath();
+        this.ctx.linewidth = '5';
+        this.ctx.strokeStyle = 'blue';
+        this.ctx.rect(mo.x, mo.y, mo.width, mo.height);
+        this.ctx.stroke();
+
         if (mo.mirroredSideways) {
             this.mirrorBackwards(mo);
         }
