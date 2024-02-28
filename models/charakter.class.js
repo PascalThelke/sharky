@@ -64,12 +64,12 @@ class Character extends MoveableObject {
         setInterval(() => {
             this.playAnimation(this.IMAGES_FLOATING);
             if (this.world.keyboard.SPACE) {
-                const originalX = this.x;
-                this.x += 70;
+                // const originalX = this.x;
+                // this.x += 70;
                 this.playAnimation(this.MEELE_ATTACK);
-                setTimeout(() => {
-                    this.x = originalX;
-                }, 250); 
+                // setTimeout(() => {
+                //     this.x = originalX;
+                // }, 250); 
             }
         }, 250);
         setInterval(() => {
