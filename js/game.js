@@ -17,6 +17,8 @@ window.addEventListener('keyup', (event) => {
         keyboard.DOWN = false;
     } else if (event.keyCode === 68) { // Taste D
         keyboard.RIGHT = false;
+    } else if (event.keyCode === 32) { // Leertaste
+        keyboard.SPACE = false;
     }
 });
 
@@ -29,5 +31,7 @@ window.addEventListener('keydown', (event) => {
         keyboard.DOWN = true;
     } else if (event.keyCode === 68) { // Taste D
         keyboard.RIGHT = true;
+    } else if (event.keyCode === 32) { // Leertaste
+        keyboard.SPACE = true;
     }
 });

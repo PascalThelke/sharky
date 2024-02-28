@@ -37,6 +37,16 @@ class Character extends MoveableObject {
         // 'img/1_sharkie/3_swim/5.png',
         // 'img/1_sharkie/3_swim/6.png'
     ];
+    MEELE_ATTACK = [
+        'img/1_sharkie/4_attack/2_fin_slap/1.png',
+        'img/1_sharkie/4_attack/2_fin_slap/2.png',
+        'img/1_sharkie/4_attack/2_fin_slap/3.png',
+        'img/1_sharkie/4_attack/2_fin_slap/4.png',
+        'img/1_sharkie/4_attack/2_fin_slap/5.png',
+        'img/1_sharkie/4_attack/2_fin_slap/6.png',
+        'img/1_sharkie/4_attack/2_fin_slap/7.png',
+        'img/1_sharkie/4_attack/2_fin_slap/8.png'
+    ]
 
     world;
 
@@ -44,6 +54,7 @@ class Character extends MoveableObject {
         super().loadIMG('../img/1_sharkie/1_idle/1.png')
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_FLOATING);
+        this.loadImages(this.MEELE_ATTACK);
         this.y = 200;
         this.x = 150;
         this.animate();
@@ -52,6 +63,14 @@ class Character extends MoveableObject {
     animate() {
         setInterval(() => {
             this.playAnimation(this.IMAGES_FLOATING);
+            if (this.world.keyboard.SPACE) {
+                const originalX = this.x;
+                this.x += 70;
+                this.playAnimation(this.MEELE_ATTACK);
+                setTimeout(() => {
+                    this.x = originalX;
+                }, 250); 
+            }
         }, 250);
         setInterval(() => {
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
@@ -63,12 +82,12 @@ class Character extends MoveableObject {
                 this.mirroredSideways = true;
             }
             if (this.world.keyboard.UP && this.y > this.world.level.level_end_y_top) {
-                moveUP();
+                this.moveUP();
                 this.mirroredUpways = true;
                 this.mirroredDownways = false;
             }
             if (this.world.keyboard.DOWN && this.y < this.world.level.level_end_y_bottom) {
-                moveDown();
+                this.moveDown();
                 this.mirroredDownways = true;
                 this.mirroredUpways = false;
             }
@@ -78,8 +97,10 @@ class Character extends MoveableObject {
             if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT || this.world.keyboard.UP || this.world.keyboard.DOWN) {
                 this.playAnimation(this.IMAGES_WALKING);
             }
-        }, 144);
+
+        }, 1000);
     }
+
 
 
 }

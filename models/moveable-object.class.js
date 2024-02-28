@@ -40,14 +40,28 @@ class MoveableObject {
 
     }
 
+    draw(ctx) {
+        ctx.drawImage(this.img, this.x, this.y, this.width, this.height)
+    }
+
+    drawFrame(ctx) {
+        if (this instanceof Character || this instanceof Pufferfish || this instanceof Endboss) {
+            ctx.beginPath();
+            ctx.linewidth = '5';
+            ctx.strokeStyle = 'blue';
+            ctx.rect(this.x, this.y, this.width, this.height);
+            ctx.stroke();
+        }
+    }
+
     moveRight() {
         this.x += this.speed;
-     
+
     }
 
     moveLeft() {
         this.x -= this.speed;
-       
+
     }
 
     moveUP() {
