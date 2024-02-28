@@ -23,7 +23,8 @@ class World {
         setInterval(() => {
             this.level.enemies.forEach((e) => {
                 if (this.character.isColliding(e)) {
-                    console.log('collided with', e);
+                    this.character.getHit();
+                    console.log('collided with',e,'recent health', this.character.health);
                 }
             });
         }, 200);

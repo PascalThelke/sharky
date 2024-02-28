@@ -9,8 +9,10 @@ class MoveableObject {
     imageChache = {};
     currentImage = 0;
     speed = 0.5;
+    health = 100;
     mirroredSideways = false;
     mirroredUpways = false;
+    lastHit = 0;
 
     loadIMG(path) {
         this.img = new Image();
@@ -33,7 +35,7 @@ class MoveableObject {
     }
 
     playAnimation(images) {
-        let i = this.currentImage % this.IMAGES_WALKING.length;
+        let i = this.currentImage % images.length;
         let path = images[i];
         this.img = this.imageChache[path];
         this.currentImage++;
@@ -64,6 +66,25 @@ class MoveableObject {
         //     (this.y + this.offsetY + this.height) >= mo.y &&
         //     (this.y + this.offsetY) <= (mo.y + mo.height);
         // mo.onCollisionCourse; // Optional: hiermit könnten wir schauen, ob ein Objekt sich in die richtige Richtung bewegt. Nur dann kollidieren wir. Nützlich bei Gegenständen, auf denen man stehen kann.
+    }
+
+    getHit() {
+        this.health -= 5;
+        if (this.health < 0) {
+            this.health = 0;
+        } else {
+            this.lastHit = new Date().getTime();
+        }
+    }
+
+    isHurt() {
+        let timepassed = new Date().getTime() - this.lastHit;
+        timepassed = timepassed / 1000;
+        return timepassed < 2;
+    }
+
+    isDead() {
+        return this.health == 0;
     }
 
     moveRight() {
