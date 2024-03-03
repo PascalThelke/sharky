@@ -2,8 +2,43 @@ body{
     display: flex;
     flex-direction: column;
     align-items: center;
+    background-image: url('./img/3_backgrounds/the_background.jpg');
+    background-position: top;
+
 }
 
 canvas{
     background-color: black;
+}
+
+#hud{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 720px;
+    height: 80px;
+    margin-top: -80px;
+}
+
+#hud div{
+    width: 30%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+#hud div button{
+    border-radius: 36px;
+    border: 0px;
+    height: 56px;
+    width: 56px;
+    font-weight: 700;
+    font-size: 32px;
+    cursor: pointer;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    background-color: lightblue;
+}
+
+#hud div button:active{
+    scale: 0.9;
 }
