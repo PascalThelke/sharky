@@ -4,6 +4,7 @@ class MoveableObject extends DrawableObject {
     mirroredSideways = false;
     mirroredUpways = false;
     lastHit = 0;
+    lastActionTime;
 
     offset = {
         top: 0,
@@ -51,6 +52,10 @@ class MoveableObject extends DrawableObject {
             thisBottom > moTop && moBottom > thisTop;
     }
     
+
+    getLastActionTime(){
+        this.lastActionTime = new Date().getTime();
+    }
     
 
     getHit() {

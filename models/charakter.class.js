@@ -3,6 +3,7 @@ class Character extends MoveableObject {
     width = 300;
     height = 250;
     speed = 10;
+    lastActionTime = new Date().getTime();
 
     offset = {
         top: 120,
@@ -82,6 +83,23 @@ class Character extends MoveableObject {
         'img/1_sharkie/5_hurt/1_poisoned/5.png',
     ];
 
+    SLEEP_ANIMATION = [
+        'img/1_sharkie/2_long_idle/I1.png',
+        'img/1_sharkie/2_long_idle/I2.png',
+        'img/1_sharkie/2_long_idle/I3.png',
+        'img/1_sharkie/2_long_idle/I4.png',
+        'img/1_sharkie/2_long_idle/I5.png',
+        'img/1_sharkie/2_long_idle/I6.png',
+        'img/1_sharkie/2_long_idle/I7.png',
+        'img/1_sharkie/2_long_idle/I8.png',
+        'img/1_sharkie/2_long_idle/I9.png',
+        'img/1_sharkie/2_long_idle/I10.png',
+        'img/1_sharkie/2_long_idle/I11.png',
+        'img/1_sharkie/2_long_idle/I12.png',
+        'img/1_sharkie/2_long_idle/I13.png',
+        'img/1_sharkie/2_long_idle/I14.png'
+    ];
+
     world;
 
     constructor() {
@@ -91,48 +109,68 @@ class Character extends MoveableObject {
         this.loadImages(this.MEELE_ATTACK);
         this.loadImages(this.DEAD_ANIMATION);
         this.loadImages(this.IS_HURT_POISON);
+        this.loadImages(this.SLEEP_ANIMATION);
         this.y = 200;
         this.x = 150;
         this.animate();
     }
 
     animate() {
+        let sleepAnimationPlayed = false;
+
         setInterval(() => {
-            this.playAnimation(this.IMAGES_FLOATING);
-            if (this.world.keyboard.SPACE) {
-                // const originalX = this.x;
-                // this.x += 70;
-                this.playAnimation(this.MEELE_ATTACK);
-                // setTimeout(() => {
-                //     this.x = originalX;
-                // }, 250); 
+            const currentTime = new Date().getTime();
+            const timePassed = (currentTime - this.lastActionTime) / 1000;
+
+            if (timePassed > 5) {
+                if (!sleepAnimationPlayed) {
+                    this.playAnimation(this.SLEEP_ANIMATION);
+                    sleepAnimationPlayed = true;
+                } else {
+                    // Spielen Sie nur die letzten 4 Bilder der Schlafanimation wiederholt ab
+                    const lastIndex = this.SLEEP_ANIMATION.length - 1;
+                    const lastFourImages = this.SLEEP_ANIMATION.slice(lastIndex - 3, lastIndex + 1);
+                    this.playAnimation(lastFourImages);
+                }
+            } else {
+                // Wenn eine Aktion ausgeführt wird, setzen Sie sleepAnimationPlayed zurück
+                sleepAnimationPlayed = false;
+                this.playAnimation(this.IMAGES_FLOATING);
+                if (this.world.keyboard.SPACE) {
+                    this.playAnimation(this.MEELE_ATTACK);
+                }
             }
         }, 250);
+        
         setInterval(() => {
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
                 this.moveRight();
+                this.getLastActionTime();
                 this.mirroredSideways = false;
             }
             if (this.world.keyboard.LEFT && this.x > -480) {
                 this.moveLeft();
+                this.getLastActionTime();
                 this.mirroredSideways = true;
             }
             if (this.world.keyboard.UP && this.y > this.world.level.level_end_y_top) {
                 this.moveUP();
+                this.getLastActionTime();
                 this.mirroredUpways = true;
                 this.mirroredDownways = false;
             }
             if (this.world.keyboard.DOWN && this.y < this.world.level.level_end_y_bottom) {
                 this.moveDown();
+                this.getLastActionTime();
                 this.mirroredDownways = true;
                 this.mirroredUpways = false;
             }
             this.world.camera_x = -this.x + 100;
         }, 1000 / 60);
         setInterval(() => {
-            if(this.isDead()){
+            if (this.isDead()) {
                 this.playAnimation(this.DEAD_ANIMATION);
-            }else if(this.isHurt()){
+            } else if (this.isHurt()) {
                 this.playAnimation(this.IS_HURT_POISON);
             }
             if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT || this.world.keyboard.UP || this.world.keyboard.DOWN) {
