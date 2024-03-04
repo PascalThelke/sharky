@@ -3,6 +3,15 @@ class Character extends MoveableObject {
     width = 300;
     height = 250;
     speed = 10;
+
+    offset = {
+        top: 120,
+        left: 60,
+        right: 60,
+        bottom: 55
+    }
+
+
     IMAGES_WALKING = [
         'img/1_sharkie/3_swim/1.png',
         'img/1_sharkie/3_swim/2.png',
@@ -10,6 +19,7 @@ class Character extends MoveableObject {
         'img/1_sharkie/3_swim/5.png',
         'img/1_sharkie/3_swim/6.png'
     ];
+
     IMAGES_FLOATING = [
         'img/1_sharkie/1_idle/1.png',
         'img/1_sharkie/1_idle/2.png',
@@ -37,6 +47,7 @@ class Character extends MoveableObject {
         // 'img/1_sharkie/3_swim/5.png',
         // 'img/1_sharkie/3_swim/6.png'
     ];
+
     MEELE_ATTACK = [
         'img/1_sharkie/4_attack/2_fin_slap/1.png',
         'img/1_sharkie/4_attack/2_fin_slap/2.png',
@@ -47,6 +58,7 @@ class Character extends MoveableObject {
         'img/1_sharkie/4_attack/2_fin_slap/7.png',
         'img/1_sharkie/4_attack/2_fin_slap/8.png'
     ]
+
     DEAD_ANIMATION = [
         'img/1_sharkie/6_dead/1_poisoned/1.png',
         'img/1_sharkie/6_dead/1_poisoned/2.png',

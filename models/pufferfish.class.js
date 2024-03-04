@@ -3,6 +3,13 @@ class Pufferfish extends MoveableObject {
     height = 100;
     width = 150;
 
+    offset = {
+        top: 0,
+        left: 10,
+        right: 10,
+        bottom: 20
+    }
+
     IMAGES_WALKING = [
         'img/2_enemys/1_pufferfish_3_colored_options/1_swim/1.swim1.png',
         'img/2_enemys/1_pufferfish_3_colored_options/1_swim/1.swim2.png',

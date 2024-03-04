@@ -2,6 +2,12 @@ class Jellyfish extends MoveableObject{
     height = 150;
     width = 100;
     
+    offset = {
+        top: 20,
+        left: 10,
+        right: 10,
+        bottom: 20
+    }
 
     IMAGES_WALKING = [
         'img/2_enemys/2_jellyfish/2_regular_damage/Lila_1.png',
@@ -23,20 +29,20 @@ class Jellyfish extends MoveableObject{
     }
 
     animate() {
-        let movingDown = false; // Variable, um den Bewegungszustand zu verfolgen
+        let movingDown = false; 
     
         setInterval(() => {
             if (movingDown) {
                 if (this.y < this.resulutionheight - this.height) {
                     this.moveDown();
                 } else {
-                    movingDown = false; // Ändere den Zustand, um die Richtung zu ändern
+                    movingDown = false; 
                 }
             } else {
                 if (this.y > 0) {
                     this.moveUP();
                 } else {
-                    movingDown = true; // Ändere den Zustand, um die Richtung zu ändern
+                    movingDown = true; 
                 }
             }
         }, 1000 / 60);

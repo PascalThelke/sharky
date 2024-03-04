@@ -21,7 +21,7 @@ canvas{
 }
 
 #hud{
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: space-between;
     width: 720px;
@@ -79,6 +79,10 @@ canvas{
 }
 
 @media only screen and (max-height: 480px){
+
+    #hud{
+        display: flex;
+    }
 
     canvas{
         height: 100vh;

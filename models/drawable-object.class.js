@@ -35,13 +35,25 @@ class DrawableObject {
 
     drawFrame(ctx) {
         if (this instanceof Character || this instanceof Pufferfish || this instanceof Endboss || this instanceof Jellyfish) {
+            // ctx.beginPath();
+            // ctx.lineWidth = '5';
+            // ctx.strokeStyle = 'blue'; // Blauer Rahmen
+            // ctx.rect(this.x, this.y, this.width, this.height);
+            // ctx.stroke();
+    
+            // Zeichne den roten Rahmen mit Berücksichtigung des Offsets
             ctx.beginPath();
-            ctx.linewidth = '5';
-            ctx.strokeStyle = 'blue';
-            ctx.rect(this.x, this.y, this.width, this.height);
+            ctx.strokeStyle = 'red'; // Roter Rahmen
+            const offsetX = this.offset.left;
+            const offsetY = this.offset.top;
+            const width = this.width - this.offset.left - this.offset.right;
+            const height = this.height - this.offset.top - this.offset.bottom;
+            ctx.rect(this.x + offsetX, this.y + offsetY, width, height);
             ctx.stroke();
         }
     }
+    
+    
 
 }
 

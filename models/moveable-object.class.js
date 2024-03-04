@@ -5,6 +5,13 @@ class MoveableObject extends DrawableObject {
     mirroredUpways = false;
     lastHit = 0;
 
+    offset = {
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0
+    };
+
     playAnimation(images) {
         let i = this.currentImage % images.length;
         let path = images[i];
@@ -14,16 +21,37 @@ class MoveableObject extends DrawableObject {
     }
 
 
+    // isColliding(mo) {
+    //     // return this.x + this.width > mo.x &&
+    //     //     this.y + this.height > mo.y &&
+    //     //     this.x < mo.x &&
+    //     //     this.y < mo.y + mo.height;
+    //     return(this.x + this.width) >= mo.x && this.x <= (mo.x + mo.width) &&
+    //         (this.y + this.offsetY + this.height) >= mo.y &&
+    //         (this.y + this.offsetY) <= (mo.y + mo.height);
+    //     mo.onCollisionCourse; // Optional: hiermit könnten wir schauen, ob ein Objekt sich in die richtige Richtung bewegt. Nur dann kollidieren wir. Nützlich bei Gegenständen, auf denen man stehen kann.
+    // }
+
     isColliding(mo) {
-        return this.x + this.width > mo.x &&
-            this.y + this.height > mo.y &&
-            this.x < mo.x &&
-            this.y < mo.y + mo.height;
-        // return(this.x + this.width) >= mo.x && this.x <= (mo.x + mo.width) &&
-        //     (this.y + this.offsetY + this.height) >= mo.y &&
-        //     (this.y + this.offsetY) <= (mo.y + mo.height);
-        // mo.onCollisionCourse; // Optional: hiermit könnten wir schauen, ob ein Objekt sich in die richtige Richtung bewegt. Nur dann kollidieren wir. Nützlich bei Gegenständen, auf denen man stehen kann.
+        // Berechne die Positionen der Kollisionsboxen unter Berücksichtigung des Offsets
+        const thisLeft = this.x + this.offset.left;
+        const thisRight = this.x + this.width - this.offset.right;
+        const thisTop = this.y + this.offset.top;
+        const thisBottom = this.y + this.height - this.offset.bottom;
+    
+        const moLeft = mo.x + mo.offset.left;
+        const moRight = mo.x + mo.width - mo.offset.right;
+        const moTop = mo.y + mo.offset.top;
+        const moBottom = mo.y + mo.height - mo.offset.bottom;
+    
+        // Überprüfe auf Kollision
+        return thisRight >= moLeft && thisLeft <= moRight &&
+            thisBottom >= moTop && thisTop <= moBottom &&
+            thisRight > moLeft && moRight > thisLeft &&
+            thisBottom > moTop && moBottom > thisTop;
     }
+    
+    
 
     getHit() {
         this.health -= 5;
