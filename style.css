@@ -1,14 +1,23 @@
 body{
+    margin: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
     background-image: url('./img/3_backgrounds/the_background.jpg');
     background-position: top;
+    font-family: 'luckiestguy', Arial, Helvetica, sans-serif;
+}
 
+h1{
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    font-size: 48px;
+    color: darkblue;
+    letter-spacing: 4px;
 }
 
 canvas{
     background-color: black;
+    display: block;
 }
 
 #hud{
@@ -36,9 +45,36 @@ canvas{
     font-size: 32px;
     cursor: pointer;
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-    background-color: lightblue;
+    background-color: white;
+    color: darkblue;
 }
 
 #hud div button:active{
     scale: 0.9;
+}
+
+@font-face {
+    font-family: 'luckiestguy';
+    src: url('./img/5_fonts/luckiestguy-Regular.ttf') format('truetype');
+}
+
+
+/* for smartphones*/
+@media only screen and (max-width: 720px){
+    #hud,
+    canvas {
+        width: 100%;
+    }
+
+}
+
+@media only screen and (max-height: 480px){
+
+    canvas{
+        height: 100vh;
+    }
+
+    h1{
+        display: none;
+    }
 }
