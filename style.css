@@ -25,12 +25,11 @@ canvas{
     align-items: center;
     justify-content: space-between;
     width: 720px;
-    height: 80px;
-    margin-top: -80px;
+    height: 172px;
+    margin-top: -176px;
 }
 
 #hud div{
-    width: 30%;
     display: flex;
     align-items: center;
     justify-content: space-evenly;
@@ -39,18 +38,29 @@ canvas{
 #hud div button{
     border-radius: 36px;
     border: 0px;
-    height: 56px;
-    width: 56px;
+    height: 48px;
+    width: 48px;
     font-weight: 700;
     font-size: 32px;
     cursor: pointer;
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
     background-color: white;
     color: darkblue;
+    margin-top: -8px;
 }
 
 #hud div button:active{
     scale: 0.9;
+}
+
+.column{
+    display: flex;
+    flex-direction: column;
+}
+
+.center{
+    display: flex;
+    align-items: center;
 }
 
 @font-face {

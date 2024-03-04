@@ -18,6 +18,16 @@ document.getElementById('buttonRight').addEventListener('touchstart' , (e) => {
     keyboard.RIGHT = true;
 });
 
+document.getElementById('buttonUP').addEventListener('touchstart' , (e) => {
+    e.preventDefault();
+    keyboard.UP = true;
+});
+
+document.getElementById('buttonDown').addEventListener('touchstart' , (e) => {
+    e.preventDefault();
+    keyboard.DOWN = true;
+});
+
 document.getElementById('buttonSpace').addEventListener('touchstart' , (e) => {
     e.preventDefault();
     keyboard.SPACE = true;
@@ -31,6 +41,16 @@ document.getElementById('buttonLeft').addEventListener('touchend' , (e) => {
 document.getElementById('buttonRight').addEventListener('touchend' , (e) => {
     e.preventDefault();
     keyboard.RIGHT = false;
+});
+
+document.getElementById('buttonUP').addEventListener('touchend' , (e) => {
+    e.preventDefault();
+    keyboard.UP = false;
+});
+
+document.getElementById('buttonDown').addEventListener('touchend' , (e) => {
+    e.preventDefault();
+    keyboard.DOWN = false;
 });
 
 document.getElementById('buttonSpace').addEventListener('touchend' , (e) => {
