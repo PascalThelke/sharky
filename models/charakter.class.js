@@ -60,6 +60,17 @@ class Character extends MoveableObject {
         'img/1_sharkie/4_attack/2_fin_slap/8.png'
     ]
 
+    RANGE_ATTACK = [
+        'img/1_sharkie/4_attack/1_bubble_trap/2_op_with_bubble_formation/1.png',
+        'img/1_sharkie/4_attack/1_bubble_trap/2_op_with_bubble_formation/2.png',
+        'img/1_sharkie/4_attack/1_bubble_trap/2_op_with_bubble_formation/3.png',
+        'img/1_sharkie/4_attack/1_bubble_trap/2_op_with_bubble_formation/4.png',
+        'img/1_sharkie/4_attack/1_bubble_trap/2_op_with_bubble_formation/5.png',
+        'img/1_sharkie/4_attack/1_bubble_trap/2_op_with_bubble_formation/6.png',
+        'img/1_sharkie/4_attack/1_bubble_trap/2_op_with_bubble_formation/7.png',
+        'img/1_sharkie/4_attack/1_bubble_trap/2_op_with_bubble_formation/8.png'
+    ];
+
     DEAD_ANIMATION = [
         'img/1_sharkie/6_dead/1_poisoned/1.png',
         'img/1_sharkie/6_dead/1_poisoned/2.png',
@@ -107,6 +118,7 @@ class Character extends MoveableObject {
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_FLOATING);
         this.loadImages(this.MEELE_ATTACK);
+        this.loadImages(this.RANGE_ATTACK);
         this.loadImages(this.DEAD_ANIMATION);
         this.loadImages(this.IS_HURT_POISON);
         this.loadImages(this.SLEEP_ANIMATION);
@@ -117,17 +129,17 @@ class Character extends MoveableObject {
 
     animate() {
         let sleepAnimationPlayed = false;
+        let deadAnimationPlayed = false;
 
         setInterval(() => {
             const currentTime = new Date().getTime();
             const timePassed = (currentTime - this.lastActionTime) / 1000;
-
-            if (timePassed > 5) {
+            if (timePassed >= 5) {
                 if (!sleepAnimationPlayed) {
                     this.playAnimation(this.SLEEP_ANIMATION);
                     sleepAnimationPlayed = true;
-                } else {
-                    // Spielen Sie nur die letzten 4 Bilder der Schlafanimation wiederholt ab
+                }
+                else {
                     const lastIndex = this.SLEEP_ANIMATION.length - 1;
                     const lastFourImages = this.SLEEP_ANIMATION.slice(lastIndex - 3, lastIndex + 1);
                     this.playAnimation(lastFourImages);
@@ -136,30 +148,27 @@ class Character extends MoveableObject {
                 // Wenn eine Aktion ausgeführt wird, setzen Sie sleepAnimationPlayed zurück
                 sleepAnimationPlayed = false;
                 this.playAnimation(this.IMAGES_FLOATING);
-                if (this.world.keyboard.SPACE) {
-                    this.playAnimation(this.MEELE_ATTACK);
-                }
             }
-        }, 250);
-        
+        }, 350);
+
         setInterval(() => {
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
                 this.moveRight();
                 this.getLastActionTime();
                 this.mirroredSideways = false;
             }
-            if (this.world.keyboard.LEFT && this.x > -480) {
+            if (this.world.keyboard.LEFT && this.x > this.world.level.level_end_y) {
                 this.moveLeft();
                 this.getLastActionTime();
                 this.mirroredSideways = true;
             }
-            if (this.world.keyboard.UP && this.y > this.world.level.level_end_y_top) {
+            if (this.world.keyboard.UP && this.y > this.world.level.level_end_top) {
                 this.moveUP();
                 this.getLastActionTime();
                 this.mirroredUpways = true;
                 this.mirroredDownways = false;
             }
-            if (this.world.keyboard.DOWN && this.y < this.world.level.level_end_y_bottom) {
+            if (this.world.keyboard.DOWN && this.y < this.world.level.level_end_bottom) {
                 this.moveDown();
                 this.getLastActionTime();
                 this.mirroredDownways = true;
@@ -176,10 +185,28 @@ class Character extends MoveableObject {
             if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT || this.world.keyboard.UP || this.world.keyboard.DOWN) {
                 this.playAnimation(this.IMAGES_WALKING);
             }
+            if (this.world.keyboard.SPACE) {
+                this.playAnimation(this.MEELE_ATTACK);
+            }
+            if (this.world.keyboard.E)
+                this.playAnimation(this.RANGE_ATTACK);
 
-        }, 250);
+        }, 350);
+        setInterval(() => {
+            if (this.world.keyboard.SPACE) {
+                this.playAnimation(this.MEELE_ATTACK);
+            }
+            if (this.world.keyboard.E) {
+                this.playAnimation(this.RANGE_ATTACK);
+                this.createBubbble();
+            }
+
+        }, 150);
     }
 
+    createBubbble(){
+        bubble = new ThrowableObject();
+    }
 
 
 }

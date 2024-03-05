@@ -5,6 +5,8 @@ class MoveableObject extends DrawableObject {
     mirroredUpways = false;
     lastHit = 0;
     lastActionTime;
+    speedY = 0;
+    acceleration = 2.5;
 
     offset = {
         top: 0,
@@ -12,6 +14,13 @@ class MoveableObject extends DrawableObject {
         right: 0,
         bottom: 0
     };
+
+    applyUpwardTrend(){
+        setInterval(() =>{
+            this.y += this.speedY;
+            this.speedY -= this.acceleration;
+        }, 1000/25);
+    }
 
     playAnimation(images) {
         let i = this.currentImage % images.length;
@@ -34,7 +43,7 @@ class MoveableObject extends DrawableObject {
     // }
 
     isColliding(mo) {
-        // Berechne die Positionen der Kollisionsboxen unter Berücksichtigung des Offsets
+        // Berechnung der Positionen der Kollisionsboxen unter Berücksichtigung des Offsets
         const thisLeft = this.x + this.offset.left;
         const thisRight = this.x + this.width - this.offset.right;
         const thisTop = this.y + this.offset.top;

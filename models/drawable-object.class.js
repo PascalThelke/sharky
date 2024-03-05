@@ -34,16 +34,16 @@ class DrawableObject {
     }
 
     drawFrame(ctx) {
-        if (this instanceof Character || this instanceof Pufferfish || this instanceof Endboss || this instanceof Jellyfish) {
-            // ctx.beginPath();
-            // ctx.lineWidth = '5';
-            // ctx.strokeStyle = 'blue'; // Blauer Rahmen
-            // ctx.rect(this.x, this.y, this.width, this.height);
-            // ctx.stroke();
+        if (this instanceof Character || this instanceof Pufferfish || this instanceof Endboss || this instanceof Jellyfish || this instanceof ThrowableObject) {
+            ctx.beginPath();
+            ctx.lineWidth = '2';
+            ctx.strokeStyle = 'blue'; 
+            ctx.rect(this.x, this.y, this.width, this.height);
+            ctx.stroke();
     
             // Zeichne den roten Rahmen mit Berücksichtigung des Offsets
             ctx.beginPath();
-            ctx.strokeStyle = 'red'; // Roter Rahmen
+            ctx.strokeStyle = 'red'; 
             const offsetX = this.offset.left;
             const offsetY = this.offset.top;
             const width = this.width - this.offset.left - this.offset.right;

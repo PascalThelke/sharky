@@ -68,7 +68,9 @@ document.addEventListener('keydown', (event) => {
         keyboard.DOWN = true;
     } else if (event.key === 'd') {
         keyboard.RIGHT = true;
-    } else if (event.key === ' ') {
+    } else if (event.key === 'e') {
+        keyboard.E = true;
+    }else if (event.key === ' ') {
         keyboard.SPACE = true;
     }
 });
@@ -82,7 +84,9 @@ document.addEventListener('keyup', (event) => {
         keyboard.DOWN = false;
     } else if (event.key === 'd') {
         keyboard.RIGHT = false;
-    } else if (event.key === ' ') {
+    } else if (event.key === 'e') {
+        keyboard.E = false;
+    }else if (event.key === ' ') {
         keyboard.SPACE = false;
     }
 });
