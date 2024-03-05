@@ -1,4 +1,5 @@
 class ThrowableObject extends MoveableObject {
+
     height = 48;
     width = 48;
     speed = 10;
@@ -6,38 +7,34 @@ class ThrowableObject extends MoveableObject {
 
     offset = {
         top: 0,
-        left: 10,
-        right: 10,
-        bottom: 20
+        left: 0,
+        right: 0,
+        bottom: 0
     }
 
 
-    constructor() {
+    constructor(x, y, character) {
         super().loadIMG('img/1_sharkie/4_attack/1_bubble_trap/Bubble.png');
-        this.x = 100;
-        this.y = 100;
-        this.throw(100, 100);
-      
-    }
-
-    throw(x, y){ 
         this.x = x;
         this.y = y;
-        setInterval(() => {
-            this.moveRight();
-            setTimeout(() =>{
-                this.applyUpwardTrend();
-            }, 300);
-        }, 1000 / 60);
+        this.character = character;
+        this.blow();
 
     }
 
-    animate() {
+    blow() {
         setInterval(() => {
-            this.moveRight();
-            setTimeout(() =>{
-                applyUpwardTrend();
-            }, 10);
-        }, 1000 / 60);
+            if (this.character.mirroredSideways) {
+                this.moveLeft();
+                setTimeout(() => {
+                    this.applyUpwardTrend();
+                }, 500);
+            } else {
+                this.moveRight();
+                setTimeout(() => {
+                    this.applyUpwardTrend();
+                }, 500);
+            }
+        }, 1000 / 50);
     }
 }

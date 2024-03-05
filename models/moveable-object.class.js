@@ -4,9 +4,9 @@ class MoveableObject extends DrawableObject {
     mirroredSideways = false;
     mirroredUpways = false;
     lastHit = 0;
-    lastActionTime;
     speedY = 0;
     acceleration = 2.5;
+    lastActionTime = new Date().getTime();
 
     offset = {
         top: 0,
@@ -15,12 +15,6 @@ class MoveableObject extends DrawableObject {
         bottom: 0
     };
 
-    applyUpwardTrend(){
-        setInterval(() =>{
-            this.y += this.speedY;
-            this.speedY -= this.acceleration;
-        }, 1000/25);
-    }
 
     playAnimation(images) {
         let i = this.currentImage % images.length;
@@ -61,6 +55,14 @@ class MoveableObject extends DrawableObject {
             thisBottom > moTop && moBottom > thisTop;
     }
     
+
+    applyUpwardTrend(){
+        setInterval(() =>{
+            this.y += this.speedY;
+            this.speedY -= this.acceleration;
+        }, 1000/60);
+    }
+
 
     getLastActionTime(){
         this.lastActionTime = new Date().getTime();
@@ -103,6 +105,10 @@ class MoveableObject extends DrawableObject {
 
     moveDown() {
         this.y += this.speed;
+    }
+
+    getMirroredSideways() {
+        return this.mirroredSideways;
     }
 
 }

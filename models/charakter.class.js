@@ -1,9 +1,9 @@
 class Character extends MoveableObject {
-
+    world;
     width = 300;
     height = 250;
     speed = 10;
-    lastActionTime = new Date().getTime();
+ 
 
     offset = {
         top: 120,
@@ -61,14 +61,13 @@ class Character extends MoveableObject {
     ]
 
     RANGE_ATTACK = [
-        'img/1_sharkie/4_attack/1_bubble_trap/2_op_with_bubble_formation/1.png',
-        'img/1_sharkie/4_attack/1_bubble_trap/2_op_with_bubble_formation/2.png',
-        'img/1_sharkie/4_attack/1_bubble_trap/2_op_with_bubble_formation/3.png',
-        'img/1_sharkie/4_attack/1_bubble_trap/2_op_with_bubble_formation/4.png',
-        'img/1_sharkie/4_attack/1_bubble_trap/2_op_with_bubble_formation/5.png',
-        'img/1_sharkie/4_attack/1_bubble_trap/2_op_with_bubble_formation/6.png',
-        'img/1_sharkie/4_attack/1_bubble_trap/2_op_with_bubble_formation/7.png',
-        'img/1_sharkie/4_attack/1_bubble_trap/2_op_with_bubble_formation/8.png'
+        'img/1_sharkie/4_attack/1_bubble_trap/3_op2_without_bubbles/1.png',
+        'img/1_sharkie/4_attack/1_bubble_trap/3_op2_without_bubbles/2.png',
+        'img/1_sharkie/4_attack/1_bubble_trap/3_op2_without_bubbles/3.png',
+        'img/1_sharkie/4_attack/1_bubble_trap/3_op2_without_bubbles/4.png',
+        'img/1_sharkie/4_attack/1_bubble_trap/3_op2_without_bubbles/5.png',
+        'img/1_sharkie/4_attack/1_bubble_trap/3_op2_without_bubbles/6.png',
+        'img/1_sharkie/4_attack/1_bubble_trap/3_op2_without_bubbles/7.png'
     ];
 
     DEAD_ANIMATION = [
@@ -111,7 +110,7 @@ class Character extends MoveableObject {
         'img/1_sharkie/2_long_idle/I14.png'
     ];
 
-    world;
+  
 
     constructor() {
         super().loadIMG('../img/1_sharkie/1_idle/1.png')
@@ -124,8 +123,13 @@ class Character extends MoveableObject {
         this.loadImages(this.SLEEP_ANIMATION);
         this.y = 200;
         this.x = 150;
+        // this.setCharacter();
         this.animate();
     }
+
+    // setCharacter() {
+    //     this.throwableObject.character = this;
+    // }
 
     animate() {
         let sleepAnimationPlayed = false;
@@ -185,11 +189,11 @@ class Character extends MoveableObject {
             if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT || this.world.keyboard.UP || this.world.keyboard.DOWN) {
                 this.playAnimation(this.IMAGES_WALKING);
             }
-            if (this.world.keyboard.SPACE) {
-                this.playAnimation(this.MEELE_ATTACK);
-            }
-            if (this.world.keyboard.E)
-                this.playAnimation(this.RANGE_ATTACK);
+            // if (this.world.keyboard.SPACE) {
+            //     this.playAnimation(this.MEELE_ATTACK);
+            // }
+            // if (this.world.keyboard.E)
+            //     this.playAnimation(this.RANGE_ATTACK);
 
         }, 350);
         setInterval(() => {
@@ -198,15 +202,10 @@ class Character extends MoveableObject {
             }
             if (this.world.keyboard.E) {
                 this.playAnimation(this.RANGE_ATTACK);
-                this.createBubbble();
             }
-
-        }, 150);
+        }, 60);
     }
 
-    createBubbble(){
-        bubble = new ThrowableObject();
-    }
 
 
 }

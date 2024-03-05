@@ -6,7 +6,7 @@ class World {
     keyboard;
     camera_x = 0;
     statusBar = new StatusBar();
-    throwableObjects = [new ThrowableObject()];
+    throwableObjects = [];
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -14,22 +14,40 @@ class World {
         this.keyboard = keyboard;
         this.draw();
         this.setWorld();
-        this.checkCollisions();
+        this.run();
     }
 
     setWorld() {
         this.character.world = this;
+        this.throwableObjects.world = this;
     }
 
-    checkCollisions(){
+    run() {
         setInterval(() => {
-            this.level.enemies.forEach((e) => {
-                if (this.character.isColliding(e)) {
-                    this.character.getHit();
-                    this.statusBar.setPercentage(this.character.health)
-                }
-            });
+            this.checkThorwObject();
+            this.checkCollisions();
         }, 200);
+    }
+
+    checkThorwObject(){
+        if(this.keyboard.E && !this.character.mirroredSideways){
+            let bottle = new ThrowableObject(this.character.x + 220, this.character.y + 120, this.character);
+            this.throwableObjects.push(bottle);
+        }
+        if(this.keyboard.E && this.character.mirroredSideways){
+            let bottle = new ThrowableObject(this.character.x + 10, this.character.y + 120, this.character);
+            this.throwableObjects.push(bottle);
+        }
+        
+    }
+
+    checkCollisions() {
+        this.level.enemies.forEach((e) => {
+            if (this.character.isColliding(e)) {
+                this.character.getHit();
+                this.statusBar.setPercentage(this.character.health)
+            }
+        });
     }
 
     draw() {
