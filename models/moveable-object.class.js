@@ -5,7 +5,7 @@ class MoveableObject extends DrawableObject {
     mirroredUpways = false;
     lastHit = 0;
     speedY = 0;
-    acceleration = 2.5;
+    acceleration = 0.5;
     lastActionTime = new Date().getTime();
 
     offset = {

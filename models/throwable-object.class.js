@@ -28,12 +28,12 @@ class ThrowableObject extends MoveableObject {
                 this.moveLeft();
                 setTimeout(() => {
                     this.applyUpwardTrend();
-                }, 500);
+                }, 300);
             } else {
                 this.moveRight();
                 setTimeout(() => {
                     this.applyUpwardTrend();
-                }, 500);
+                }, 300);
             }
         }, 1000 / 50);
     }

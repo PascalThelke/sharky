@@ -42,13 +42,25 @@ class World {
     }
 
     checkCollisions() {
+        // Kollisionen mit den Gegnern überprüfen
         this.level.enemies.forEach((e) => {
             if (this.character.isColliding(e)) {
                 this.character.getHit();
-                this.statusBar.setPercentage(this.character.health)
+                this.statusBar.setPercentage(this.character.health);
             }
         });
+    
+        // Kollisionen von ThrowableObjects mit Gegnern überprüfen
+        this.throwableObjects.forEach((to) => {
+            this.level.enemies.forEach((e) => {
+                if (to.isColliding(e)) {
+                    console.log('outch!', e)
+                }
+            });
+    
+        });
     }
+    
 
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
