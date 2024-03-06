@@ -36,8 +36,8 @@ class World {
             this.throwableObjects.push(bubble);
         }
         if(this.keyboard.E && this.character.mirroredSideways){
-            let bottle = new ThrowableObject(this.character.x + 10, this.character.y + 120, this.character);
-            this.throwableObjects.push(bottle);
+            let bubble = new ThrowableObject(this.character.x + 10, this.character.y + 120, this.character);
+            this.throwableObjects.push(bubble);
         }
         
     }

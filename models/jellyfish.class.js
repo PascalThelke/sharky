@@ -29,19 +29,45 @@ class Jellyfish extends MoveableObject {
     }
 
     animate() {
-        let movingDown = false;
+        let movingDown = false; 
+
         setInterval(() => {
-            if (movingDown && this.y < this.resulutionheight - this.height) {
-                this.moveDown();
+            if (movingDown) {
+                if (this.y < this.resulutionheight - this.height) {
+                    this.moveDown();
+                } else {
+                    movingDown = false; 
+                }
             } else {
-                movingDown = false;
                 if (this.y > 0) {
                     this.moveUP();
                 } else {
-                    movingDown = true;
+                    movingDown = true; 
                 }
             }
+
+
+
         }, 1000 / 60);
+
+       
+        // let movingUP = false;
+        // setInterval(() => {
+          
+        //     if (movingUP) {
+        //         if (this.y > 0) {
+        //             this.moveUP();
+        //         } else {
+        //             movingUP = false;
+        //         }
+        //     } else {
+        //         if (this.y < this.resolutionHeight - this.height) {
+        //             this.moveDown();
+        //         } else {
+        //             movingUP = true;
+        //         }
+        //     }
+        // }, 1000 / 60);
 
 
         setInterval(() => {
