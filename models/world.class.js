@@ -8,6 +8,7 @@ class World {
     statusBar = new StatusBar();
     throwableObjects = [];
 
+
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
@@ -31,8 +32,8 @@ class World {
 
     checkThorwObject(){
         if(this.keyboard.E && !this.character.mirroredSideways){
-            let bottle = new ThrowableObject(this.character.x + 220, this.character.y + 120, this.character);
-            this.throwableObjects.push(bottle);
+            let bubble = new ThrowableObject(this.character.x + 220, this.character.y + 120, this.character);
+            this.throwableObjects.push(bubble);
         }
         if(this.keyboard.E && this.character.mirroredSideways){
             let bottle = new ThrowableObject(this.character.x + 10, this.character.y + 120, this.character);
@@ -57,8 +58,15 @@ class World {
                     console.log('outch!', e)
                 }
             });
-    
         });
+
+         // Kollisionen mit Coins überprüfen
+         this.level.collectables.forEach((co) => {
+            if (this.character.isColliding(co)) {
+                console.log('coin counter up by 1');
+            }
+        });
+
     }
     
 
@@ -75,12 +83,13 @@ class World {
         this.ctx.translate(this.camera_x, 0);
 
         this.addToMap(this.character);
+        
+        this.addObjectsToMap(this.level.collectables);
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.throwableObjects);
 
         this.ctx.translate(-this.camera_x, 0);
 
-        //draw() wird immer wieder abgerufen
         let self = this;
         requestAnimationFrame(function () {
             self.draw();
