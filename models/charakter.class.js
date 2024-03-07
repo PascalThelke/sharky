@@ -7,7 +7,8 @@ class Character extends MoveableObject {
     poison = 0;
     originOffset;
     isAttacking = false;
- 
+    intervalIds = [];
+
     mirroredMeeleOffset = {
         top: 120,
         left: -20,
@@ -127,7 +128,7 @@ class Character extends MoveableObject {
         'img/1_sharkie/2_long_idle/I14.png'
     ];
 
-  
+
 
     constructor() {
         super().loadIMG('../img/1_sharkie/1_idle/1.png')
@@ -151,25 +152,10 @@ class Character extends MoveableObject {
         let deadAnimationPlayed = false;
 
         setInterval(() => {
-            const currentTime = new Date().getTime();
-            const timePassed = (currentTime - this.lastActionTime) / 1000;
-            if (timePassed >= 5) {
-                if (!sleepAnimationPlayed) {
-                    this.playAnimation(this.SLEEP_ANIMATION);
-                    sleepAnimationPlayed = true;
-                }
-                else {
-                    const lastIndex = this.SLEEP_ANIMATION.length - 1;
-                    const lastFourImages = this.SLEEP_ANIMATION.slice(lastIndex - 3, lastIndex + 1);
-                    this.playAnimation(lastFourImages);
-                }
-            } else {
-                sleepAnimationPlayed = false;
-                this.playAnimation(this.IMAGES_FLOATING);
-            }
+
         }, 350);
 
-        setInterval(() => {
+        let movementInterval = setInterval(() => {
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
                 this.moveRight();
                 this.getLastActionTime();
@@ -192,50 +178,74 @@ class Character extends MoveableObject {
                 this.mirroredDownways = true;
                 this.mirroredUpways = false;
             }
-            
-            
             this.world.camera_x = -this.x + 100;
         }, 1000 / 60);
-        setInterval(() => {
+        let animationInterval = setInterval(() => {
+            const currentTime = new Date().getTime();
+            const timePassed = (currentTime - this.lastActionTime) / 1000;
+            if (timePassed >= 5) {
+                if (!sleepAnimationPlayed) {
+                    this.playAnimation(this.SLEEP_ANIMATION);
+                    sleepAnimationPlayed = true;
+                }
+                else {
+                    const lastIndex = this.SLEEP_ANIMATION.length - 1;
+                    const lastFourImages = this.SLEEP_ANIMATION.slice(lastIndex - 3, lastIndex + 1);
+                    this.playAnimation(lastFourImages);
+                }
+            } else {
+                sleepAnimationPlayed = false;
+                this.playAnimation(this.IMAGES_FLOATING);
+            }
             if (this.isDead()) {
+                this.stopMovement();
+
                 this.playAnimation(this.DEAD_ANIMATION);
+
+
+
             } else if (this.isHurt()) {
                 this.playAnimation(this.IS_HURT_POISON);
             }
             if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT || this.world.keyboard.UP || this.world.keyboard.DOWN) {
                 this.playAnimation(this.IMAGES_WALKING);
             }
-
         }, 350);
 
 
-        setInterval(() => {
+
+        let emoteInterval = setInterval(() => {
             if (this.world.keyboard.SPACE && !sleepAnimationPlayed) {
-                if(!this.mirroredSideways){
+                if (!this.mirroredSideways) {
                     this.isAttacking = true;
                     this.playAnimation(this.MEELE_ATTACK);
                     this.offset = this.meeleOffset;
                     setTimeout(() => {
                         this.offset = this.originOffset;
                         this.isAttacking = false;
-                    }, 350);   
-                }else {
+                    }, 350);
+                } else {
                     this.isAttacking = true;
                     this.playAnimation(this.MEELE_ATTACK);
                     this.offset = this.mirroredMeeleOffset;
                     setTimeout(() => {
                         this.offset = this.originOffset;
                         this.isAttacking = false;
-                    }, 350); 
+                    }, 350);
                 }
-               
+
             }
-            if (this.world.keyboard.E && !sleepAnimationPlayed ) {
+            if (this.world.keyboard.E && !sleepAnimationPlayed) {
                 this.playAnimation(this.RANGE_ATTACK);
             }
         }, 210);
+        this.intervalIds.push(animationInterval, movementInterval, emoteInterval);
     }
 
+
+    stopMovement() {
+        this.intervalIds.forEach(clearInterval);
+    }
 
 
 }
