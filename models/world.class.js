@@ -18,6 +18,7 @@ class World {
         this.draw();
         this.setWorld();
         this.run();
+        this.deSpawnforPerformance();
     }
 
     setWorld() {
@@ -32,6 +33,12 @@ class World {
         }, 200);
     }
 
+    deSpawnforPerformance(){
+        setTimeout(() => {
+            this.level.enemies.splice(0, 3)
+        }, 45000);
+    }
+
     checkThorwObject(){
         if(this.keyboard.E && !this.character.mirroredSideways && this.character.poison != 0){
             let bubble = new ThrowableObject(this.character.x + 220, this.character.y + 120, this.character);
@@ -39,10 +46,19 @@ class World {
             this.character.poison -= 20;
             console.log('poisonlevel is', this.character.poison)
             this.poisonBar.setPercentage(this.character.poison);
+            setTimeout(() => {
+                this.throwableObjects.splice(0, 1);
+            },5000);
         }
         if(this.keyboard.E && this.character.mirroredSideways && this.character.poison != 0){
             let bubble = new ThrowableObject(this.character.x + 10, this.character.y + 120, this.character);
             this.throwableObjects.push(bubble);
+            this.character.poison -= 20;
+            console.log('poisonlevel is', this.character.poison)
+            this.poisonBar.setPercentage(this.character.poison);
+            setTimeout(() => {
+                this.throwableObjects.splice(0, 1);
+            },5000);
         }
         
     }
@@ -60,6 +76,7 @@ class World {
         this.throwableObjects.forEach((to) => {
             this.level.enemies.forEach((e) => {
                 if (to.isColliding(e)) {
+                    e.getHit();
                     console.log('outch!', e);
                 }
             });
@@ -123,18 +140,11 @@ class World {
         if (mo.mirroredSideways) {
             this.mirrorSideways(mo);
         }
-        // if (mo.mirroredUpways){
-        //     this.mirrorUpwards(mo);
-        // }
         mo.draw(this.ctx);
         mo.drawFrame(this.ctx);
         if (mo.mirroredSideways) {
             this.mirrorBackwards(mo);
         }
-        // if (mo.mirroredUpways){
-        //     this.mirrorUpwards(mo);
-        // }
-
     }
 
     mirrorSideways(mo) {
@@ -149,14 +159,6 @@ class World {
         this.ctx.restore();
     }
 
-    // mirrorUpwards(mo){
-    //     this.ctx.save(); // Aktuellen Zustand des Canvas-Kontextes speichern
-    //     this.ctx.translate(mo.x + mo.width / 2, mo.y + mo.height / 2); // Kontext wird zum Mittelpunkt des Objekts verschoben
-    //     this.ctx.rotate(Math.PI / -2); // Das Bild um 90 Grad drehen
-    //     this.ctx.drawImage(mo.img, -mo.width / 2, -mo.height / 2, mo.width, mo.height); // Charakter zeichnen
-    //     this.ctx.restore(); // Gespeicherten Zustand des Canvas-Kontextes wiederherstellen
-
-    // }
 
 
 

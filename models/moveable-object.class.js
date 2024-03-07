@@ -42,39 +42,46 @@ class MoveableObject extends DrawableObject {
         const thisRight = this.x + this.width - this.offset.right;
         const thisTop = this.y + this.offset.top;
         const thisBottom = this.y + this.height - this.offset.bottom;
-    
+
         const moLeft = mo.x + mo.offset.left;
         const moRight = mo.x + mo.width - mo.offset.right;
         const moTop = mo.y + mo.offset.top;
         const moBottom = mo.y + mo.height - mo.offset.bottom;
-    
+
         // Überprüfe auf Kollision
         return thisRight >= moLeft && thisLeft <= moRight &&
             thisBottom >= moTop && thisTop <= moBottom &&
             thisRight > moLeft && moRight > thisLeft &&
             thisBottom > moTop && moBottom > thisTop;
     }
-    
 
-    applyUpwardTrend(){
-        setInterval(() =>{
+
+    applyUpwardTrend() {
+        setInterval(() => {
             this.y += this.speedY;
             this.speedY -= this.acceleration;
-        }, 1000/60);
+        }, 1000 / 60);
     }
 
 
-    getLastActionTime(){
+    getLastActionTime() {
         this.lastActionTime = new Date().getTime();
     }
-    
+
 
     getHit() {
-        this.health -= 5;
-        if (this.health < 0) {
-            this.health = 0;
+        if (this instanceof Jellyfish) {
+            this.health -= 100;
+            if (this.health < 0) {
+                this.health = 0;
+            }
         } else {
-            this.lastHit = new Date().getTime();
+            this.health -= 5;
+            if (this.health < 0) {
+                this.health = 0;
+            } else {
+                this.lastHit = new Date().getTime();
+            }
         }
     }
 

@@ -6,13 +6,19 @@ class Character extends MoveableObject {
     coins = 0;
     poison = 0;
  
+    meeleOffset = {
+        top: 120,
+        left: 180,
+        right: -20,
+        bottom: 55
+    };
 
     offset = {
         top: 120,
         left: 60,
         right: 60,
         bottom: 55
-    }
+    };
 
 
     IMAGES_WALKING = [
@@ -195,10 +201,10 @@ class Character extends MoveableObject {
 
         }, 350);
         setInterval(() => {
-            if (this.world.keyboard.SPACE) {
+            if (this.world.keyboard.SPACE && !sleepAnimationPlayed) {
                 this.playAnimation(this.MEELE_ATTACK);
             }
-            if (this.world.keyboard.E ) {
+            if (this.world.keyboard.E && !sleepAnimationPlayed ) {
                 this.playAnimation(this.RANGE_ATTACK);
               
             }
