@@ -50,11 +50,16 @@ const level1 = new Level(
         new Background('img/3_backgrounds/3_layers/5_water/L2.png', 720*3),
     ],
     [
-        new CollecteableOject(),
-        new CollecteableOject(),
-        new CollecteableOject(),
-        new CollecteableOject(),
-        new CollecteableOject()
+        new CollecteableOject(1),
+        new CollecteableOject(1),
+        new CollecteableOject(1),
+        new CollecteableOject(1),
+        new CollecteableOject(1),
+        new CollecteableOject(2),
+        new CollecteableOject(2),
+        new CollecteableOject(2),
+        new CollecteableOject(2),
+        new CollecteableOject(2)
     ],
 
 );

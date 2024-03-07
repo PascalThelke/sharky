@@ -5,7 +5,9 @@ class World {
     ctx;
     keyboard;
     camera_x = 0;
-    statusBar = new StatusBar();
+    statusBar = new StatusBar(20, 10, 0, 100);
+    coinBar = new StatusBar(20, 50, 1, 0);
+    poisonBar = new StatusBar(20, 90, 2, 0);
     throwableObjects = [];
 
 
@@ -31,11 +33,14 @@ class World {
     }
 
     checkThorwObject(){
-        if(this.keyboard.E && !this.character.mirroredSideways){
+        if(this.keyboard.E && !this.character.mirroredSideways && this.character.poison != 0){
             let bubble = new ThrowableObject(this.character.x + 220, this.character.y + 120, this.character);
             this.throwableObjects.push(bubble);
+            this.character.poison -= 20;
+            console.log('poisonlevel is', this.character.poison)
+            this.poisonBar.setPercentage(this.character.poison);
         }
-        if(this.keyboard.E && this.character.mirroredSideways){
+        if(this.keyboard.E && this.character.mirroredSideways && this.character.poison != 0){
             let bubble = new ThrowableObject(this.character.x + 10, this.character.y + 120, this.character);
             this.throwableObjects.push(bubble);
         }
@@ -55,19 +60,29 @@ class World {
         this.throwableObjects.forEach((to) => {
             this.level.enemies.forEach((e) => {
                 if (to.isColliding(e)) {
-                    console.log('outch!', e)
+                    console.log('outch!', e);
                 }
             });
         });
-
-         // Kollisionen mit Coins überprüfen
-         this.level.collectables.forEach((co) => {
+    
+        // Kollisionen mit Collectables überprüfen
+        this.level.collectables.forEach((co) => {
             if (this.character.isColliding(co)) {
-                console.log('coin counter up by 1');
+                if (co.type === 1) { // Coin
+                    console.log('coin counter up by 1');
+                    this.character.coins += 20;
+                    this.coinBar.setPercentage(this.character.coins);
+                } else if (co.type === 2) { // Poison
+                    
+                    this.character.poison += 20;
+                    console.log('poison counter up by 20', this.character.poison);
+                    this.poisonBar.setPercentage(this.character.poison);
+                }
+                this.level.collectables.splice(this.level.collectables.indexOf(co), 1);
             }
         });
-
     }
+    
     
 
     draw() {
@@ -80,6 +95,8 @@ class World {
 
         this.ctx.translate(-this.camera_x, 0);
         this.addToMap(this.statusBar);
+        this.addToMap(this.coinBar);
+        this.addToMap(this.poisonBar);
         this.ctx.translate(this.camera_x, 0);
 
         this.addToMap(this.character);

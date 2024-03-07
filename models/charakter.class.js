@@ -3,6 +3,8 @@ class Character extends MoveableObject {
     width = 300;
     height = 250;
     speed = 10;
+    coins = 0;
+    poison = 0;
  
 
     offset = {
@@ -149,7 +151,6 @@ class Character extends MoveableObject {
                     this.playAnimation(lastFourImages);
                 }
             } else {
-                // Wenn eine Aktion ausgeführt wird, setzen Sie sleepAnimationPlayed zurück
                 sleepAnimationPlayed = false;
                 this.playAnimation(this.IMAGES_FLOATING);
             }
@@ -178,6 +179,8 @@ class Character extends MoveableObject {
                 this.mirroredDownways = true;
                 this.mirroredUpways = false;
             }
+            
+            
             this.world.camera_x = -this.x + 100;
         }, 1000 / 60);
         setInterval(() => {
@@ -189,21 +192,17 @@ class Character extends MoveableObject {
             if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT || this.world.keyboard.UP || this.world.keyboard.DOWN) {
                 this.playAnimation(this.IMAGES_WALKING);
             }
-            // if (this.world.keyboard.SPACE) {
-            //     this.playAnimation(this.MEELE_ATTACK);
-            // }
-            // if (this.world.keyboard.E)
-            //     this.playAnimation(this.RANGE_ATTACK);
 
         }, 350);
         setInterval(() => {
             if (this.world.keyboard.SPACE) {
                 this.playAnimation(this.MEELE_ATTACK);
             }
-            if (this.world.keyboard.E) {
+            if (this.world.keyboard.E ) {
                 this.playAnimation(this.RANGE_ATTACK);
+              
             }
-        }, 60);
+        }, 210);
     }
 
 
