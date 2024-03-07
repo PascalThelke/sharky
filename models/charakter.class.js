@@ -5,7 +5,16 @@ class Character extends MoveableObject {
     speed = 10;
     coins = 0;
     poison = 0;
+    originOffset;
+    isAttacking = false;
  
+    mirroredMeeleOffset = {
+        top: 120,
+        left: -20,
+        right: 180,
+        bottom: 55
+    }
+
     meeleOffset = {
         top: 120,
         left: 180,
@@ -131,13 +140,11 @@ class Character extends MoveableObject {
         this.loadImages(this.SLEEP_ANIMATION);
         this.y = 200;
         this.x = 150;
-        // this.setCharacter();
+        this.originOffset = this.offset;
         this.animate();
     }
 
-    // setCharacter() {
-    //     this.throwableObject.character = this;
-    // }
+
 
     animate() {
         let sleepAnimationPlayed = false;
@@ -200,13 +207,31 @@ class Character extends MoveableObject {
             }
 
         }, 350);
+
+
         setInterval(() => {
             if (this.world.keyboard.SPACE && !sleepAnimationPlayed) {
-                this.playAnimation(this.MEELE_ATTACK);
+                if(!this.mirroredSideways){
+                    this.isAttacking = true;
+                    this.playAnimation(this.MEELE_ATTACK);
+                    this.offset = this.meeleOffset;
+                    setTimeout(() => {
+                        this.offset = this.originOffset;
+                        this.isAttacking = false;
+                    }, 350);   
+                }else {
+                    this.isAttacking = true;
+                    this.playAnimation(this.MEELE_ATTACK);
+                    this.offset = this.mirroredMeeleOffset;
+                    setTimeout(() => {
+                        this.offset = this.originOffset;
+                        this.isAttacking = false;
+                    }, 350); 
+                }
+               
             }
             if (this.world.keyboard.E && !sleepAnimationPlayed ) {
                 this.playAnimation(this.RANGE_ATTACK);
-              
             }
         }, 210);
     }

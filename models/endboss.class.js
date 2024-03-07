@@ -1,5 +1,5 @@
 class Endboss extends MoveableObject {
-
+    health = 300;
     height = 300;
     width = 350;
 
@@ -25,11 +25,20 @@ class Endboss extends MoveableObject {
         'img/2_enemys/3_final_enemy/2_floating/12.png',
         'img/2_enemys/3_final_enemy/2_floating/13.png'
     ];
+
+    DEAD_ANIMATION = [
+        'img/2_enemys/3_final_enemy/4_dead/Mesa de trabajo 2 copia 6.png',
+        'img/2_enemys/3_final_enemy/4_dead/Mesa de trabajo 2 copia 7.png',
+        'img/2_enemys/3_final_enemy/4_dead/Mesa de trabajo 2 copia 8.png',
+        'img/2_enemys/3_final_enemy/4_dead/Mesa de trabajo 2 copia 9.png',
+        'img/2_enemys/3_final_enemy/4_dead/Mesa de trabajo 2 copia 10.png'
+    ];
     
     currentImage = 0;
     constructor() {
         super().loadIMG(this.IMAGES_FLOATING[0]);
         this.loadImages(this.IMAGES_FLOATING);
+        this.loadImages(this.DEAD_ANIMATION);
         this.x = 700*3;
         this.y = 1;
         this.animate();
@@ -37,7 +46,13 @@ class Endboss extends MoveableObject {
 
     animate() {
         setInterval(() => {
-            this.playAnimation(this.IMAGES_FLOATING);
-        }, 144);
+            if (this.isDead()) {
+                this.playAnimation(this.DEAD_ANIMATION);
+                this.applyUpwardTrend();
+            }else{
+                this.playAnimation(this.IMAGES_FLOATING);
+            }
+       
+        }, 350);
     }
 }

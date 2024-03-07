@@ -18,7 +18,7 @@ class World {
         this.draw();
         this.setWorld();
         this.run();
-        this.deSpawnforPerformance();
+        // this.deSpawnforPerformance();
     }
 
     setWorld() {
@@ -33,74 +33,97 @@ class World {
         }, 200);
     }
 
-    deSpawnforPerformance(){
-        setTimeout(() => {
-            this.level.enemies.splice(0, 3)
-        }, 45000);
-    }
+    // deSpawnforPerformance(){
+    //     setTimeout(() => {
+    //         this.level.enemies.splice(0, 3)
+    //     }, 45000);
+    // }
 
-    checkThorwObject(){
-        if(this.keyboard.E && !this.character.mirroredSideways && this.character.poison != 0){
+    checkThorwObject() {
+        if (this.keyboard.E && !this.character.mirroredSideways && this.character.poison != 0) {
             let bubble = new ThrowableObject(this.character.x + 220, this.character.y + 120, this.character);
             this.throwableObjects.push(bubble);
+            bubble.timeOfDeath = Date.now() + 6000;
             this.character.poison -= 20;
             console.log('poisonlevel is', this.character.poison)
             this.poisonBar.setPercentage(this.character.poison);
             setTimeout(() => {
                 this.throwableObjects.splice(0, 1);
-            },5000);
+            }, 5000);
         }
-        if(this.keyboard.E && this.character.mirroredSideways && this.character.poison != 0){
+        if (this.keyboard.E && this.character.mirroredSideways && this.character.poison != 0) {
             let bubble = new ThrowableObject(this.character.x + 10, this.character.y + 120, this.character);
             this.throwableObjects.push(bubble);
+            bubble.timeOfDeath = Date.now() + 6000;
             this.character.poison -= 20;
             console.log('poisonlevel is', this.character.poison)
             this.poisonBar.setPercentage(this.character.poison);
             setTimeout(() => {
                 this.throwableObjects.splice(0, 1);
-            },5000);
+            }, 5000);
         }
-        
+
     }
 
     checkCollisions() {
         // Kollisionen mit den Gegnern überprüfen
         this.level.enemies.forEach((e) => {
             if (this.character.isColliding(e)) {
-                this.character.getHit();
-                this.statusBar.setPercentage(this.character.health);
+                if (this.character.isAttacking) {
+                    e.getHit();
+                    console.log('oouf!', e);
+                    if (e.health == 0) {
+                        console.log('me dead', e);
+                        e.timeOfDeath = Date.now() + 6000;
+                    }
+
+                } else {
+                    this.character.getHit();
+                    this.statusBar.setPercentage(this.character.health);
+                }
+
             }
         });
-    
+
         // Kollisionen von ThrowableObjects mit Gegnern überprüfen
         this.throwableObjects.forEach((to) => {
             this.level.enemies.forEach((e) => {
                 if (to.isColliding(e)) {
+                    this.throwableObjects.splice(this.throwableObjects.indexOf(to), 1);
                     e.getHit();
                     console.log('outch!', e);
+                    if (e.health == 0) {
+                        console.log('me dead', e);
+                        e.timeOfDeath = Date.now() + 6000;
+                    }
                 }
             });
         });
-    
+
         // Kollisionen mit Collectables überprüfen
         this.level.collectables.forEach((co) => {
             if (this.character.isColliding(co)) {
                 if (co.type === 1) { // Coin
-                    console.log('coin counter up by 1');
                     this.character.coins += 20;
                     this.coinBar.setPercentage(this.character.coins);
                 } else if (co.type === 2) { // Poison
-                    
                     this.character.poison += 20;
-                    console.log('poison counter up by 20', this.character.poison);
                     this.poisonBar.setPercentage(this.character.poison);
                 }
                 this.level.collectables.splice(this.level.collectables.indexOf(co), 1);
             }
         });
+
+        //Überpürfe den Todeszeitpunkt um enemies außerhalb des Bildschirms zu entfernen
+        this.level.enemies.forEach((e) => {
+            if (e.timeOfDeath && Date.now() > e.timeOfDeath && e.y < 0) {
+                this.level.enemies.splice(this.level.enemies.indexOf(e), 1);
+            }
+        });
+
     }
-    
-    
+
+
 
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -117,7 +140,7 @@ class World {
         this.ctx.translate(this.camera_x, 0);
 
         this.addToMap(this.character);
-        
+
         this.addObjectsToMap(this.level.collectables);
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.throwableObjects);
@@ -141,7 +164,7 @@ class World {
             this.mirrorSideways(mo);
         }
         mo.draw(this.ctx);
-        mo.drawFrame(this.ctx);
+        // mo.drawFrame(this.ctx);
         if (mo.mirroredSideways) {
             this.mirrorBackwards(mo);
         }

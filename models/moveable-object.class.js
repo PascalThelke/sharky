@@ -7,6 +7,7 @@ class MoveableObject extends DrawableObject {
     speedY = 0;
     acceleration = 0.5;
     lastActionTime = new Date().getTime();
+    timeOfDeath;
 
     offset = {
         top: 0,
@@ -70,7 +71,7 @@ class MoveableObject extends DrawableObject {
 
 
     getHit() {
-        if (this instanceof Jellyfish) {
+        if (this instanceof Jellyfish || this instanceof Endboss || this instanceof Pufferfish) {
             this.health -= 100;
             if (this.health < 0) {
                 this.health = 0;
