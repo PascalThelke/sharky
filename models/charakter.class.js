@@ -199,11 +199,7 @@ class Character extends MoveableObject {
             }
             if (this.isDead()) {
                 this.stopMovement();
-
                 this.playAnimation(this.DEAD_ANIMATION);
-
-
-
             } else if (this.isHurt()) {
                 this.playAnimation(this.IS_HURT_POISON);
             }
