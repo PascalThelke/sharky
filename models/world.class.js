@@ -83,7 +83,7 @@ class World {
 
     checkCharacterCollisions() {
         this.level.enemies.forEach((e) => {
-            if (this.character.isColliding(e)) {
+            if (this.character.isColliding(e) && !e.isDead()) {
                 if (this.character.isAttacking && (e instanceof Pufferfish || e instanceof Endboss)) {
                     e.getHit();
                     console.log('oouf!', e);

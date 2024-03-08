@@ -58,10 +58,8 @@ class MoveableObject extends DrawableObject {
 
 
     applyUpwardTrend() {
-        setInterval(() => {
-            this.y += this.speedY;
-            this.speedY -= this.acceleration;
-        }, 1000 / 60);
+        this.y += this.speedY;
+        this.speedY -= this.acceleration;
     }
 
 
