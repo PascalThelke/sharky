@@ -3,30 +3,30 @@ class StatusBar extends DrawableObject {
     percentage;
 
     LIFE_BAR = [
-        'img/4_markers/2_green/2_life/100_  copia 2.png',
-        'img/4_markers/2_green/2_life/80_  copia 3.png',
-        'img/4_markers/2_green/2_life/60_  copia 3.png',
-        'img/4_markers/2_green/2_life/40_  copia 3.png',
-        'img/4_markers/2_green/2_life/20_ copia 4.png',
-        'img/4_markers/2_green/2_life/0_  copia 3.png',
+        'img/4_markers/2_green/2_life/100.png',
+        'img/4_markers/2_green/2_life/80.png',
+        'img/4_markers/2_green/2_life/60.png',
+        'img/4_markers/2_green/2_life/40.png',
+        'img/4_markers/2_green/2_life/20.png',
+        'img/4_markers/2_green/2_life/0.png',
     ];
 
     COIN_BAR =[
-        'img/4_markers/2_green/1_coin/100_ copia 4.png',
-        'img/4_markers/2_green/1_coin/80_  copia 4.png',
-        'img/4_markers/2_green/1_coin/60_  copia 4.png',
-        'img/4_markers/2_green/1_coin/40_  copia 4.png',
-        'img/4_markers/2_green/1_coin/20_  copia 2.png',
-        'img/4_markers/2_green/1_coin/0_  copia 4.png'
+        'img/4_markers/2_green/1_coin/100.png',
+        'img/4_markers/2_green/1_coin/80.png',
+        'img/4_markers/2_green/1_coin/60.png',
+        'img/4_markers/2_green/1_coin/40.png',
+        'img/4_markers/2_green/1_coin/20.png',
+        'img/4_markers/2_green/1_coin/0.png'
     ];
     
     POSION_BAR = [
-        'img/4_markers/2_green/3_poisoned_bubbles/100_ copia 3.png',
-        'img/4_markers/2_green/3_poisoned_bubbles/80_ copia 2.png',
-        'img/4_markers/2_green/3_poisoned_bubbles/60_ copia 2.png',
-        'img/4_markers/2_green/3_poisoned_bubbles/40_ copia 2.png',
-        'img/4_markers/2_green/3_poisoned_bubbles/20_ copia 3.png',
-        'img/4_markers/2_green/3_poisoned_bubbles/0_ copia 2.png'
+        'img/4_markers/2_green/3_poisoned_bubbles/100.png',
+        'img/4_markers/2_green/3_poisoned_bubbles/80.png',
+        'img/4_markers/2_green/3_poisoned_bubbles/60.png',
+        'img/4_markers/2_green/3_poisoned_bubbles/40.png',
+        'img/4_markers/2_green/3_poisoned_bubbles/20.png',
+        'img/4_markers/2_green/3_poisoned_bubbles/0.png'
     ];
 
 

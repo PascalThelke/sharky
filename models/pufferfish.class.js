@@ -28,13 +28,13 @@ class Pufferfish extends MoveableObject {
     ];
 
     DEAD_ANIMATION = [
-        'img/2_enemys/1_pufferfish_3_colored_options/4_dead/1.Dead 1 (can animate by going up).png'
+        'img/2_enemys/1_pufferfish_3_colored_options/4_dead/deadanimation1.png'
     ];
 
 
 
     constructor() {
-        super().loadIMG('../img/2_enemys/1_pufferfish_3_colored_options/1_swim/1.swim1.png');
+        super().loadIMG('img/2_enemys/1_pufferfish_3_colored_options/1_swim/1.swim1.png');
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_BLOWED);
         this.loadImages(this.DEAD_ANIMATION);

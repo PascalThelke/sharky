@@ -27,11 +27,11 @@ class Endboss extends MoveableObject {
     ];
 
     DEAD_ANIMATION = [
-        'img/2_enemys/3_final_enemy/4_dead/Mesa de trabajo 2 copia 6.png',
-        'img/2_enemys/3_final_enemy/4_dead/Mesa de trabajo 2 copia 7.png',
-        'img/2_enemys/3_final_enemy/4_dead/Mesa de trabajo 2 copia 8.png',
-        'img/2_enemys/3_final_enemy/4_dead/Mesa de trabajo 2 copia 9.png',
-        'img/2_enemys/3_final_enemy/4_dead/Mesa de trabajo 2 copia 10.png'
+        'img/2_enemys/3_final_enemy/4_dead/deadanimation1.png',
+        'img/2_enemys/3_final_enemy/4_dead/deadanimation2.png',
+        'img/2_enemys/3_final_enemy/4_dead/deadanimation3.png',
+        'img/2_enemys/3_final_enemy/4_dead/deadanimation4.png',
+        'img/2_enemys/3_final_enemy/4_dead/deadanimation5.png'
     ];
     
     currentImage = 0;

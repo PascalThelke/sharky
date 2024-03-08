@@ -27,7 +27,7 @@ class Jellyfish extends MoveableObject {
 
 
     constructor() {
-        super().loadIMG('../img/2_enemys/2_jellyfish/2_regular_damage/Lila_1.png');
+        super().loadIMG('img/2_enemys/2_jellyfish/2_regular_damage/Lila_1.png');
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.DEAD_ANIMATION);
         this.x = 500 + Math.random() * 1500;

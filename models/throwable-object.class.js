@@ -14,7 +14,7 @@ class ThrowableObject extends MoveableObject {
 
 
     constructor(x, y, character) {
-        super().loadIMG('img/1_sharkie/4_attack/1_bubble_trap/Poisoned Bubble (for whale).png');
+        super().loadIMG('img/1_sharkie/4_attack/1_bubble_trap/Poisoned_bubble.png');
         this.x = x;
         this.y = y;
         this.character = character;

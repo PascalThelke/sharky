@@ -131,7 +131,7 @@ class Character extends MoveableObject {
 
 
     constructor() {
-        super().loadIMG('../img/1_sharkie/1_idle/1.png')
+        super().loadIMG('img/1_sharkie/1_idle/1.png')
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_FLOATING);
         this.loadImages(this.MEELE_ATTACK);
