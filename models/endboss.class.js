@@ -42,6 +42,13 @@ class Endboss extends MoveableObject {
         'img/2_enemys/3_final_enemy/2_floating/13.png'
     ];
 
+    IS_HURT = [
+        'img/2_enemys/3_final_enemy/5_hurt/1.png',
+        'img/2_enemys/3_final_enemy/5_hurt/2.png',
+        'img/2_enemys/3_final_enemy/5_hurt/3.png',
+        'img/2_enemys/3_final_enemy/5_hurt/4.png'
+    ];
+
     DEAD_ANIMATION = [
         'img/2_enemys/3_final_enemy/4_dead/deadanimation1.png',
         'img/2_enemys/3_final_enemy/4_dead/deadanimation2.png',
@@ -56,13 +63,15 @@ class Endboss extends MoveableObject {
         this.loadImages(this.IMAGES_FLOATING);
         this.loadImages(this.DEAD_ANIMATION);
         this.loadImages(this.IMAGES_SPAWNING);
+        this.loadImages(this.IS_HURT);
         this.x = 700 * 3;
-        this.y = 300;
+        this.y = 150;
         this.animate();
     }
 
 
     animate() {
+        // interval for checking dead animation
         setInterval(() => {
             if (this.isDead() && this.currentImageDead < this.DEAD_ANIMATION.length) {
                 this.playAnimation(this.DEAD_ANIMATION);
@@ -76,7 +85,9 @@ class Endboss extends MoveableObject {
                 this.deadAnimationPlayed = true;
             }
 
-        }, 250);
+        }, 200);
+
+        //interval for checking spawnanimation
         setInterval(() => {
             if (this.currentImage < this.IMAGES_SPAWNING.length && !this.isDead()) {
                 this.playAnimation(this.IMAGES_SPAWNING);
@@ -91,7 +102,15 @@ class Endboss extends MoveableObject {
             if (this.isDead()) {
                 this.applyUpwardTrend();
             }
-        }, 150);
+        }, 250);
+
+        //Interval for checking hurt animation
+        setInterval(() => {
+            if (this.isHurt()) {
+                this.playAnimation(this.IS_HURT);
+            }
+        
+        }, 50);
 
 
     }

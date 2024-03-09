@@ -187,7 +187,7 @@ class Character extends MoveableObject {
     //     let animationInterval = setInterval(() => {
     //         const currentTime = new Date().getTime();
     //         const timePassed = (currentTime - this.lastActionTime) / 1000;
-        
+
     //         if (timePassed >= 5) {
     //             if (!sleepAnimationPlayed) {
     //                 this.playAnimation(this.SLEEP_ANIMATION);
@@ -201,7 +201,7 @@ class Character extends MoveableObject {
     //             sleepAnimationPlayed = false;
     //             this.playAnimation(this.IMAGES_FLOATING);
     //         }
-        
+
     //         if (this.isDead() && !deadAnimationPlayed && i < 10) {
     //             this.playAnimation(this.DEAD_ANIMATION);
     //             deadAnimationPlayed = true;
@@ -211,12 +211,12 @@ class Character extends MoveableObject {
     //         } else if (this.isHurt()) {
     //             this.playAnimation(this.IS_HURT_POISON);
     //         }
-        
+
     //         if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT || this.world.keyboard.UP || this.world.keyboard.DOWN) {
     //             this.playAnimation(this.IMAGES_WALKING);
     //         }
     //     }, 350);
-        
+
 
 
 
@@ -250,9 +250,9 @@ class Character extends MoveableObject {
 
     animate() {
         let sleepAnimationPlayed = false;
-        
 
-        
+
+
         setInterval(() => {
 
         }, 350);
@@ -292,8 +292,7 @@ class Character extends MoveableObject {
                 if (!sleepAnimationPlayed) {
                     this.playAnimation(this.SLEEP_ANIMATION);
                     sleepAnimationPlayed = true;
-                }
-                else {
+                } else {
                     const lastIndex = this.SLEEP_ANIMATION.length - 1;
                     const lastFourImages = this.SLEEP_ANIMATION.slice(lastIndex - 3, lastIndex + 1);
                     this.playAnimation(lastFourImages);
