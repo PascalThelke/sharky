@@ -9,6 +9,9 @@ class MoveableObject extends DrawableObject {
     lastActionTime = new Date().getTime();
     timeOfDeath;
     deadAnimationPlayed = false;
+    currentImage = 0;
+    firstContact = false;
+    currentImageDead = 0;
 
     offset = {
         top: 0,
@@ -70,7 +73,7 @@ class MoveableObject extends DrawableObject {
 
 
     getHit() {
-        if (this instanceof Jellyfish || this instanceof Endboss || this instanceof Pufferfish) {
+        if (this instanceof Jellyfish || this instanceof Endboss) {
             this.health -= 100;
             if (this.health < 0) {
                 this.health = 0;
@@ -84,6 +87,15 @@ class MoveableObject extends DrawableObject {
             } else {
                 this.lastHit = new Date().getTime();
             }
+        }
+    }
+
+    getHitMeele() {
+        this.health -= 100;
+        if(this.health < 0){
+            this.health = 0;
+        }else {
+            this.lastHit = new Date().getTime();
         }
     }
 

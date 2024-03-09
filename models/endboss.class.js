@@ -2,9 +2,7 @@ class Endboss extends MoveableObject {
     health = 300;
     height = 250;
     width = 300;
-    currentImage = 0;
-    firstContact = false;
-    currentImageDead = 0;
+
 
     offset = {
         top: 130,
@@ -99,17 +97,16 @@ class Endboss extends MoveableObject {
                 this.currentImage = 0;
                 this.firstContact = true;
             }
-            if (this.isDead()) {
-                this.applyUpwardTrend();
-            }
+
         }, 250);
 
         //Interval for checking hurt animation
         setInterval(() => {
             if (this.isHurt()) {
                 this.playAnimation(this.IS_HURT);
+            } else if (this.isDead()) {
+                this.applyUpwardTrend();
             }
-        
         }, 50);
 
 

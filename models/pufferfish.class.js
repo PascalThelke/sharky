@@ -26,6 +26,14 @@ class Pufferfish extends MoveableObject {
 
     ];
 
+    IS_HURT = [
+        'img/2_enemys/1_pufferfish_3_colored_options/3_bubbleeswim/1.bubbleswim1.png',
+        'img/2_enemys/1_pufferfish_3_colored_options/3_bubbleeswim/1.bubbleswim2.png',
+        'img/2_enemys/1_pufferfish_3_colored_options/3_bubbleeswim/1.bubbleswim3.png',
+        'img/2_enemys/1_pufferfish_3_colored_options/3_bubbleeswim/1.bubbleswim4.png',
+        'img/2_enemys/1_pufferfish_3_colored_options/3_bubbleeswim/1.bubbleswim5.png'
+    ];
+
     DEAD_ANIMATION = [
         'img/2_enemys/1_pufferfish_3_colored_options/4_dead/deadanimation1.png'
     ];
@@ -37,6 +45,7 @@ class Pufferfish extends MoveableObject {
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_BLOWED);
         this.loadImages(this.DEAD_ANIMATION);
+        this.loadImages(this.IS_HURT);
         this.x = 500 + Math.random() * 1500;
         this.y = Math.random() * (this.resulutionheight - this.height);
         this.speed = 0.2 + Math.random() * 0.75;
@@ -44,11 +53,11 @@ class Pufferfish extends MoveableObject {
     }
 
     animate() {
+
         let blowed = false;
         setInterval(() => {
             if (this.isDead()) {
                 this.playAnimation(this.DEAD_ANIMATION);
-                
                 this.applyUpwardTrend();
             } else {
                 this.moveLeft();
@@ -64,12 +73,12 @@ class Pufferfish extends MoveableObject {
 
 
         setInterval(() => {
-            if (!blowed && !this.isDead()) {
+            if (!blowed && !this.isDead() && !this.isHurt()) {
                 this.playAnimation(this.IMAGES_WALKING);
                 setTimeout(() => {
                     blowed = true;
                 }, 3000);
-            } else if (blowed && !this.isDead()) {
+            } else if (blowed && !this.isDead() && !this.isHurt()) {
                 this.playAnimation(this.IMAGES_BLOWED);
                 setTimeout(() => {
                     blowed = false;
@@ -77,6 +86,15 @@ class Pufferfish extends MoveableObject {
             }
 
         }, 144);
+
+         //Interval for checking hurt animation
+         setInterval(() => {
+            if (this.isHurt()) {
+                this.playAnimation(this.IS_HURT);
+            }
+        
+        }, 350);
+
 
     }
 }

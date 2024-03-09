@@ -68,7 +68,7 @@ class World {
     checkThrowedObjectCollisions() {
         this.throwableObjects.forEach((to) => {
             this.level.enemies.forEach((e) => {
-                if (to.isColliding(e) && (e instanceof Jellyfish || e instanceof Endboss)) {
+                if (to.isColliding(e) && (e instanceof Jellyfish || e instanceof Endboss || e instanceof Pufferfish)) {
                     this.throwableObjects.splice(this.throwableObjects.indexOf(to), 1);
                     e.getHit();
                     console.log('outch!', e);
@@ -85,7 +85,7 @@ class World {
         this.level.enemies.forEach((e) => {
             if (this.character.isColliding(e) && !e.isDead()) {
                 if (this.character.isAttacking && (e instanceof Pufferfish || e instanceof Endboss)) {
-                    e.getHit();
+                    e.getHitMeele();
                     console.log('oouf!', e);
                     if (e.health == 0) {
                         console.log('me dead', e);

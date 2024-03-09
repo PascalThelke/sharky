@@ -57,14 +57,7 @@ class Character extends MoveableObject {
         'img/1_sharkie/1_idle/15.png',
         'img/1_sharkie/1_idle/16.png',
         'img/1_sharkie/1_idle/17.png',
-        'img/1_sharkie/1_idle/18.png',
-
-        // 'img/1_sharkie/3_swim/1.png',
-        // 'img/1_sharkie/3_swim/2.png',
-        // 'img/1_sharkie/3_swim/3.png',
-        // 'img/1_sharkie/3_swim/4.png',
-        // 'img/1_sharkie/3_swim/5.png',
-        // 'img/1_sharkie/3_swim/6.png'
+        'img/1_sharkie/1_idle/18.png'
     ];
 
     MEELE_ATTACK = [
@@ -147,106 +140,6 @@ class Character extends MoveableObject {
 
 
 
-    // animate() {
-    //     let sleepAnimationPlayed = false;
-    //     let deadAnimationPlayed = false;
-
-
-    //     setInterval(() => {
-
-    //     }, 350);
-
-
-    //     let movementInterval = setInterval(() => {
-    //         if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
-    //             this.moveRight();
-    //             this.getLastActionTime();
-    //             this.mirroredSideways = false;
-    //         }
-    //         if (this.world.keyboard.LEFT && this.x > this.world.level.level_end_y) {
-    //             this.moveLeft();
-    //             this.getLastActionTime();
-    //             this.mirroredSideways = true;
-    //         }
-    //         if (this.world.keyboard.UP && this.y > this.world.level.level_end_top) {
-    //             this.moveUP();
-    //             this.getLastActionTime();
-    //             this.mirroredUpways = true;
-    //             this.mirroredDownways = false;
-    //         }
-    //         if (this.world.keyboard.DOWN && this.y < this.world.level.level_end_bottom) {
-    //             this.moveDown();
-    //             this.getLastActionTime();
-    //             this.mirroredDownways = true;
-    //             this.mirroredUpways = false;
-    //         }
-    //         this.world.camera_x = -this.x + 100;
-    //     }, 1000 / 60);
-
-    //     let i = 0;
-    //     let animationInterval = setInterval(() => {
-    //         const currentTime = new Date().getTime();
-    //         const timePassed = (currentTime - this.lastActionTime) / 1000;
-
-    //         if (timePassed >= 5) {
-    //             if (!sleepAnimationPlayed) {
-    //                 this.playAnimation(this.SLEEP_ANIMATION);
-    //                 sleepAnimationPlayed = true;
-    //             } else {
-    //                 const lastIndex = this.SLEEP_ANIMATION.length - 1;
-    //                 const lastFourImages = this.SLEEP_ANIMATION.slice(lastIndex - 3, lastIndex + 1);
-    //                 this.playAnimation(lastFourImages);
-    //             }
-    //         } else {
-    //             sleepAnimationPlayed = false;
-    //             this.playAnimation(this.IMAGES_FLOATING);
-    //         }
-
-    //         if (this.isDead() && !deadAnimationPlayed && i < 10) {
-    //             this.playAnimation(this.DEAD_ANIMATION);
-    //             deadAnimationPlayed = true;
-    //             i++;
-    //         } else if (deadAnimationPlayed && i >= this.DEAD_ANIMATION.length) {
-    //             stopMovement(); 
-    //         } else if (this.isHurt()) {
-    //             this.playAnimation(this.IS_HURT_POISON);
-    //         }
-
-    //         if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT || this.world.keyboard.UP || this.world.keyboard.DOWN) {
-    //             this.playAnimation(this.IMAGES_WALKING);
-    //         }
-    //     }, 350);
-
-
-
-
-    //     let emoteInterval = setInterval(() => {
-    //         if (this.world.keyboard.SPACE && !sleepAnimationPlayed) {
-    //             if (!this.mirroredSideways) {
-    //                 this.isAttacking = true;
-    //                 this.playAnimation(this.MEELE_ATTACK);
-    //                 this.offset = this.meeleOffset;
-    //                 setTimeout(() => {
-    //                     this.offset = this.originOffset;
-    //                     this.isAttacking = false;
-    //                 }, 350);
-    //             } else {
-    //                 this.isAttacking = true;
-    //                 this.playAnimation(this.MEELE_ATTACK);
-    //                 this.offset = this.mirroredMeeleOffset;
-    //                 setTimeout(() => {
-    //                     this.offset = this.originOffset;
-    //                     this.isAttacking = false;
-    //                 }, 350);
-    //             }
-
-    //         }
-    //         if (this.world.keyboard.E && !sleepAnimationPlayed) {
-    //             this.playAnimation(this.RANGE_ATTACK);
-    //         }
-    //     }, 210);
-    //     this.intervalIds.push(animationInterval, movementInterval, emoteInterval);
-    // }
 
     animate() {
         let sleepAnimationPlayed = false;
@@ -254,9 +147,12 @@ class Character extends MoveableObject {
 
 
         setInterval(() => {
-
-        }, 350);
-
+            if (this.isDead() && !this.deadAnimationPlayed) {
+                this.playAnimation(this.DEAD_ANIMATION);
+                this.deadAnimationPlayed = true; 
+            }
+        }, 50);
+    
 
         let movementInterval = setInterval(() => {
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
@@ -301,16 +197,38 @@ class Character extends MoveableObject {
                 sleepAnimationPlayed = false;
                 this.playAnimation(this.IMAGES_FLOATING);
             }
-            if (this.isDead()) {
-                this.stopMovement();
-                this.playAnimation(this.DEAD_ANIMATION);
-            } else if (this.isHurt()) {
-                this.playAnimation(this.IS_HURT_POISON);
-            }
+           
             if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT || this.world.keyboard.UP || this.world.keyboard.DOWN) {
                 this.playAnimation(this.IMAGES_WALKING);
             }
         }, 350);
+
+         // interval for checking dead animation
+         setInterval(() => {
+            if (this.isDead() && this.currentImageDead < this.DEAD_ANIMATION.length) {
+                this.playAnimation(this.DEAD_ANIMATION);
+            } else if (this.deadAnimationPlayed) {
+                const lastImage = this.DEAD_ANIMATION.slice(this.DEAD_ANIMATION.length - 1);
+                this.playAnimation(lastImage);
+            }
+            this.currentImageDead++
+            if (this.isDead() && !this.deadAnimationPlayed) {
+                this.currentImageDead = 0;
+                this.deadAnimationPlayed = true;
+            }
+            
+
+        }, 200);
+        
+        // Interval for checking hurt/apply upwardtrend after death
+        setInterval(() => {
+                if(this.isDead()){
+                    this.applyUpwardTrend();
+                    this.stopMovement();
+                }else if (this.isHurt()) {
+                    this.playAnimation(this.IS_HURT_POISON);
+                }
+        }, 50);
 
 
         let emoteInterval = setInterval(() => {
