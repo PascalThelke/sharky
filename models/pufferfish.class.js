@@ -1,7 +1,6 @@
 class Pufferfish extends MoveableObject {
-
-    height = 100;
-    width = 150;
+    height = 75;
+    width = 125;
 
     offset = {
         top: 0,
@@ -47,18 +46,21 @@ class Pufferfish extends MoveableObject {
     animate() {
         let blowed = false;
         setInterval(() => {
-            this.moveLeft();
+            if (this.isDead()) {
+                this.playAnimation(this.DEAD_ANIMATION);
+                
+                this.applyUpwardTrend();
+            } else {
+                this.moveLeft();
+            }
+
+            
         }, 1000 / 60);
 
         setInterval(() => {
-            if (this.isDead()) {
-                this.playAnimation(this.DEAD_ANIMATION);
-                this.applyUpwardTrend();
-            } else {
-                this.playAnimation(this.IMAGES_WALKING);
-            }
+            this.playAnimation(this.IMAGES_WALKING);
 
-        }, 144);
+        }, 350);
 
 
         setInterval(() => {

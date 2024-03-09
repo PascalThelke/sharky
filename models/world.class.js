@@ -23,7 +23,7 @@ class World {
 
     setWorld() {
         this.character.world = this;
-        this.throwableObjects.world = this;
+        this.level.enemies[this.level.enemies.length - 1].world = this;
     };
 
     run() {
@@ -116,7 +116,7 @@ class World {
 
     checkDeadEnemyPosition() {
         this.level.enemies.forEach((e) => {
-            if (e.timeOfDeath && Date.now() > e.timeOfDeath && e.y < 0) {
+            if (e.timeOfDeath && Date.now() > e.timeOfDeath && e.y > 0) {
                 this.level.enemies.splice(this.level.enemies.indexOf(e), 1);
             }
         });

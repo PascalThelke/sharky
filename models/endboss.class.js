@@ -10,6 +10,7 @@ class Endboss extends MoveableObject {
         bottom: 50
     }
 
+    
     IMAGES_FLOATING = [
         'img/2_enemys/3_final_enemy/2_floating/1.png',
         'img/2_enemys/3_final_enemy/2_floating/2.png',
@@ -44,6 +45,7 @@ class Endboss extends MoveableObject {
         this.animate();
     }
 
+    
     animate() {
         setInterval(() => {
             if (this.isDead()) {
@@ -51,7 +53,9 @@ class Endboss extends MoveableObject {
                 this.applyUpwardTrend();
             }else{
                 this.playAnimation(this.IMAGES_FLOATING);
+                console.log('characterdata:', this.world.character);
             }
         }, 350);
+        
     }
 }
