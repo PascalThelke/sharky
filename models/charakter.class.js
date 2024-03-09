@@ -250,7 +250,7 @@ class Character extends MoveableObject {
 
     animate() {
         let sleepAnimationPlayed = false;
-        let deadAnimationPlayed = false;
+        
 
         
         setInterval(() => {

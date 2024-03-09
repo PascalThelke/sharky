@@ -8,6 +8,7 @@ class MoveableObject extends DrawableObject {
     acceleration = 0.5;
     lastActionTime = new Date().getTime();
     timeOfDeath;
+    deadAnimationPlayed = false;
 
     offset = {
         top: 0,
