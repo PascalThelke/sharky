@@ -11,7 +11,6 @@ class MoveableObject extends DrawableObject {
     deadAnimationPlayed = false;
     currentImage = 0;
     firstContact = false;
-    currentImageDead = 0;
 
     offset = {
         top: 0,

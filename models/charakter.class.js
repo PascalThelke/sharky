@@ -144,16 +144,6 @@ class Character extends MoveableObject {
     animate() {
         let sleepAnimationPlayed = false;
 
-
-
-        setInterval(() => {
-            if (this.isDead() && !this.deadAnimationPlayed) {
-                this.playAnimation(this.DEAD_ANIMATION);
-                this.deadAnimationPlayed = true; 
-            }
-        }, 50);
-    
-
         let movementInterval = setInterval(() => {
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
                 this.moveRight();
@@ -205,19 +195,16 @@ class Character extends MoveableObject {
 
          // interval for checking dead animation
          setInterval(() => {
-            if (this.isDead() && this.currentImageDead < this.DEAD_ANIMATION.length) {
+            if (this.isDead() && this.currentImage < this.DEAD_ANIMATION.length) {
                 this.playAnimation(this.DEAD_ANIMATION);
             } else if (this.deadAnimationPlayed) {
                 const lastImage = this.DEAD_ANIMATION.slice(this.DEAD_ANIMATION.length - 1);
                 this.playAnimation(lastImage);
             }
-            this.currentImageDead++
+            this.currentImage++
             if (this.isDead() && !this.deadAnimationPlayed) {
-                this.currentImageDead = 0;
                 this.deadAnimationPlayed = true;
             }
-            
-
         }, 200);
         
         // Interval for checking hurt/apply upwardtrend after death
