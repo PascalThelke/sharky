@@ -2,6 +2,7 @@ class Endboss extends MoveableObject {
     health = 300;
     height = 250;
     width = 300;
+    speed = 15;
 
 
     offset = {
@@ -62,8 +63,8 @@ class Endboss extends MoveableObject {
         this.loadImages(this.DEAD_ANIMATION);
         this.loadImages(this.IMAGES_SPAWNING);
         this.loadImages(this.IS_HURT);
-        this.x = 700 * 3;
-        this.y = 150;
+        this.x = 700 * 10;
+        this.y = 1;
         this.animate();
     }
 
@@ -86,8 +87,10 @@ class Endboss extends MoveableObject {
 
         //interval for checking spawnanimation
         setInterval(() => {
-            if (this.currentImage < this.IMAGES_SPAWNING.length && !this.isDead()) {
+            if (this.currentImage < this.IMAGES_SPAWNING.length && this.firstContact) {
+                this.x = 2400;
                 this.playAnimation(this.IMAGES_SPAWNING);
+               
             } else if (this.firstContact && !this.isDead()) {
                 this.playAnimation(this.IMAGES_FLOATING);
             }
@@ -95,6 +98,7 @@ class Endboss extends MoveableObject {
             if (this.world.character.x > 1600 && !this.firstContact) {
                 this.currentImage = 0;
                 this.firstContact = true;
+                
             }
 
         }, 250);
@@ -107,6 +111,32 @@ class Endboss extends MoveableObject {
                 this.applyUpwardTrend();
             }
         }, 50);
+
+        //interval für moveset
+        let movingDown = false; 
+
+        setInterval(() => {
+            if (movingDown && this.firstContact && !this.isDead()) {
+                if (this.y < this.resulutionheight - this.height && this.firstContact) {
+                    this.moveDown();
+                } else {
+                    movingDown = false; 
+                }
+            } else {
+                if (this.y > 0 && this.firstContact && !this.isDead()) {
+                    this.moveUP();
+                } else {
+                    movingDown = true; 
+                }
+            }
+            if (this.isDead()){
+                this.speed = 0.5;
+                this.moveUP();
+                movingDown =false;
+            };
+
+
+        }, 1000 / 60);
 
 
     }

@@ -9,6 +9,7 @@ class MoveableObject extends DrawableObject {
     lastActionTime = new Date().getTime();
     timeOfDeath;
     deadAnimationPlayed = false;
+    attackAnimationPlayed = false;
     currentImage = 0;
     firstContact = false;
 
@@ -100,6 +101,12 @@ class MoveableObject extends DrawableObject {
 
     isHurt() {
         let timepassed = new Date().getTime() - this.lastHit;
+        timepassed = timepassed / 1000;
+        return timepassed < 1;
+    }
+
+    inAttack(){
+        let timepassed = new Date().getTime() - this.lastActionTime;
         timepassed = timepassed / 1000;
         return timepassed < 1;
     }

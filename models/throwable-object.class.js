@@ -34,6 +34,6 @@ class ThrowableObject extends MoveableObject {
                     this.applyUpwardTrend();
                 }, 300);
             }
-        }, 1000 / 50);
+        }, 1000 / 60);
     }
 }

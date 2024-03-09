@@ -22,13 +22,13 @@ class CollecteableOject extends MoveableObject {
         'img/4_markers/4_poison/animations/8.png'
     ];
 
-    constructor(type){
+    constructor(type, x , y){
         super(); this.loadIMG('img/4_markers/1_coins/1.png');
         this.type = type;
         if (type == 1){
           this.currentImages = this.IMAGES_COINS;
-          this.x = 500 + Math.random() * 1500;
-          this.y = Math.random() * (this.resulutionheight - this.height);
+          this.x = x;
+          this.y = y;
         }else if (type == 2){
           this.currentImages = this.IMAGES_POISON;
           this.x = 500 + Math.random() * 1500;

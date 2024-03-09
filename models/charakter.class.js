@@ -242,7 +242,7 @@ class Character extends MoveableObject {
             if (this.world.keyboard.E && !sleepAnimationPlayed) {
                 this.playAnimation(this.RANGE_ATTACK);
             }
-        }, 210);
+        }, 50);
         this.intervalIds.push(animationInterval, movementInterval, emoteInterval);
     }
 

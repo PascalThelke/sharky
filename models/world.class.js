@@ -103,7 +103,7 @@ class World {
         this.level.collectables.forEach((co) => {
             if (this.character.isColliding(co)) {
                 if (co.type === 1) { // Coin
-                    this.character.coins += 20;
+                    this.character.coins += 10;
                     this.coinBar.setPercentage(this.character.coins);
                 } else if (co.type === 2) { // Poison
                     this.character.poison += 20;

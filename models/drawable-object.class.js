@@ -34,26 +34,30 @@ class DrawableObject {
     }
 
     drawFrame(ctx) {
-        if (this instanceof Character || this instanceof Pufferfish || this instanceof Endboss || this instanceof Jellyfish || this instanceof ThrowableObject || this instanceof CollecteableOject) {
+
             ctx.beginPath();
             ctx.lineWidth = '2';
-            ctx.strokeStyle = 'blue'; 
+            ctx.strokeStyle = 'blue';
             ctx.rect(this.x, this.y, this.width, this.height);
             ctx.stroke();
-    
+
             // Zeichne den roten Rahmen mit Berücksichtigung des Offsets
             ctx.beginPath();
-            ctx.strokeStyle = 'red'; 
+            ctx.strokeStyle = 'red';
             const offsetX = this.offset.left;
             const offsetY = this.offset.top;
             const width = this.width - this.offset.left - this.offset.right;
             const height = this.height - this.offset.top - this.offset.bottom;
             ctx.rect(this.x + offsetX, this.y + offsetY, width, height);
             ctx.stroke();
-        }
+
+
+            ctx.font = "30px Arial";
+            ctx.fillText("Hello World", 200, 200);
+        
     }
-    
-    
+
+
 
 }
 

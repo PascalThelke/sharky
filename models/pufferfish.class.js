@@ -85,15 +85,29 @@ class Pufferfish extends MoveableObject {
                 }, 1000);
             }
 
-        }, 144);
+        }, 200);
+
+         // interval for checking dead animation
+         setInterval(() => {
+            if (this.isDead() && this.currentImage < this.DEAD_ANIMATION.length) {
+                this.playAnimation(this.DEAD_ANIMATION);
+            } else if (this.deadAnimationPlayed) {
+                const lastImage = this.DEAD_ANIMATION.slice(this.DEAD_ANIMATION.length - 1);
+                this.playAnimation(lastImage);
+            }
+            this.currentImage++
+            if (this.isDead() && !this.deadAnimationPlayed) {
+                this.deadAnimationPlayed = true;
+            }
+        }, 200);
 
          //Interval for checking hurt animation
          setInterval(() => {
-            if (this.isHurt()) {
+            if (this.isHurt() && !this.isDead()) {
                 this.playAnimation(this.IS_HURT);
             }
         
-        }, 350);
+        }, 50);
 
 
     }
