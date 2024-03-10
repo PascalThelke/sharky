@@ -171,13 +171,13 @@ class Endboss extends MoveableObject {
         }, 1000 / 60);
 
         
-        setInterval(() => {
-            if (movingDown){
-                movingDown = false;
-            }else if (!movingDown){
-                movingDown = true;
-            }
-        }, 3000);
+        // setInterval(() => {
+        //     if (movingDown){
+        //         movingDown = false;
+        //     }else if (!movingDown){
+        //         movingDown = true;
+        //     }
+        // }, 3000);
         
 
 

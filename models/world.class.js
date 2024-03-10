@@ -9,7 +9,7 @@ class World {
     coinBar = new StatusBar(20, 50, 1, 0);
     poisonBar = new StatusBar(20, 90, 2, 0);
     throwableObjects = [];
-    
+
 
 
     constructor(canvas, keyboard) {
@@ -32,13 +32,18 @@ class World {
             this.checkCollisions();
             this.checkPositionsForDespawn();
 
-        }, 200);
+        }, 150);
+        setInterval(() => {
+            this.checkBossCollisions();
+        }, 1);
+
     };
 
     checkCollisions() {
         this.checkCharacterCollisions();
         this.checkThrowedObjectCollisions();
         this.checkCollectableCollisions();
+
     }
 
     checkPositionsForDespawn() {
@@ -95,6 +100,20 @@ class World {
                     this.character.getHit();
                     this.statusBar.setPercentage(this.character.health);
                 }
+            }
+        });
+    };
+
+    checkBossCollisions() {
+        this.level.enemies.forEach((e) => {
+            if (this.level.enemies[this.level.enemies.length - 1].isColliding(e) && (e instanceof Jellyfish || e instanceof Pufferfish)) {
+                e.getHitMeele();
+                console.log('oouf!', e);
+                if (e.health == 0) {
+                    console.log('me dead', e);
+                    e.timeOfDeath = Date.now() + 6000;
+                }
+
             }
         });
     };
