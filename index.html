@@ -23,13 +23,28 @@
     <script src="./models/endboss.class.js"></script>
     <script src="./levels/level1.js"></script>
  
-    <title>Sharkie</title>
+    <title>Sharky</title>
 </head>
 
-<body onload="init()">
-    <h1>Sharkie</h1>
+<body>
+    <h1>Sharky</h1>
+    <span id="handyscreen_info">(move you screen sideways to play properly)</span>
+    <div id="startscreen">
+        <button id="start_button" onclick="init()">Start Game</button>
+        <button id="key_button" onclick="renderKeys()">Keys</button>
+        <button id="about_button" onclick="renderAbout()">About</button>
+    </div>
     <canvas id="canvas" width="720" height="480">
     </canvas>
+    <div id="overlay_container" onclick="closeOverlay()">
+        <div id="midlayer">
+            <div id="option_overlay" onclick="noClose(event)"></div>
+        </div>
+    </div>
+    <footer id="footer">
+            <button id="legal_button">Legal Notice</button>
+            <button id="privacy_button">Privacy Policy</button>
+    </footer>
     <div id="hud">
         <div class="column" style="width: 30%; height: 100%; justify-content: flex-end;">
             <div>
@@ -44,7 +59,7 @@
             </div>
         </div>
         <div style="display: flex; align-items: flex-end; height: 60%; width: 30%;">
-            <button>X</button>
+            <button id="buttonE">X</button>
             <button id="buttonSpace">Y</button>
         </div>
     </div>
