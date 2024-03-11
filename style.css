@@ -37,13 +37,20 @@ canvas {
     overflow-y: auto;
     -ms-overflow-style: none;
     scrollbar-width: none;
+    transform: translateX(200%);
+    transition: transform 125ms ease-in-out;
+}
+
+#option_overlay h3 {
+    -webkit-text-fill-color: transparent;
+    -webkit-text-stroke: 2px;
 }
 
 #option_overlay::-webkit-scrollbar {
     display: none;
-  }
+}
 
-.button_indicator{
+.button_indicator {
     border: 2px solid darkblue;
     border-radius: 4px;
     width: 32px;
@@ -52,7 +59,7 @@ canvas {
     background-color: whitesmoke;
 }
 
-.button_indicator_space{
+.button_indicator_space {
     border: 2px solid darkblue;
     border-radius: 4px;
     width: 72px;
@@ -69,19 +76,21 @@ canvas {
 
 }
 
-.movement_row img{
+.movement_row img {
     width: 56px;
 }
 
-.enemy_explanation{
+.enemy_explanation {
     font-size: 14px;
     overflow-y: auto;
     height: 64px;
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
 }
 
-#overlay_container{
+#overlay_container {
     position: fixed;
     top: 0;
     bottom: 0;
@@ -92,7 +101,7 @@ canvas {
     z-index: 99999;
 }
 
-#midlayer{
+#midlayer {
     height: 100%;
     width: 100%;
     display: flex;
@@ -102,7 +111,7 @@ canvas {
 
 .enemy_explanation::-webkit-scrollbar {
     display: none;
-  }
+}
 
 #startscreen {
     display: flex;
@@ -114,7 +123,7 @@ canvas {
 
 }
 
-#handyscreen_info{
+#handyscreen_info {
     color: red;
     display: none;
 }
@@ -206,16 +215,21 @@ footer button:hover {
     align-items: center;
 }
 
-.g4{
+.g4 {
     gap: 4px;
 }
 
-.w84{
+.w84 {
     width: 84%;
 }
 
-.mt40{
+.mt40 {
     margin-top: 40px;
+}
+
+.unfill_font{
+    -webkit-text-fill-color: transparent;
+    -webkit-text-stroke: 2px;
 }
 
 @font-face {
@@ -232,7 +246,7 @@ footer button:hover {
         width: 100%;
     }
 
-    #handyscreen_info{
+    #handyscreen_info {
         display: unset;
     }
 
@@ -241,7 +255,7 @@ footer button:hover {
 @media only screen and (max-width: 420px) {
 
 
-    #handyscreen_info{
+    #handyscreen_info {
         display: unset;
     }
 
@@ -255,6 +269,7 @@ footer button:hover {
 
     canvas {
         height: 100vh;
+        width: 100vw;
     }
 
     h1 {

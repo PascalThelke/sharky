@@ -11,65 +11,81 @@ function init() {
     document.getElementById('footer').style.display = "none";
 }
 
-function renderKeys() {
+function showKeys(){
+    renderKeys();
     document.getElementById('overlay_container').style.display = 'flex';
+    setTimeout(() => {
+        document.getElementById('option_overlay').style.transform = 'translateX(0%)';
+    }, 125);
+    
+}
+
+function renderKeys() {
     document.getElementById('option_overlay').innerHTML = '';
     document.getElementById('option_overlay').innerHTML += `
     <div class="column g4">
             <h2>How to move:</h2>
             <div class="movement_row">
                 <span class="button_indicator">W</span>
-                <span>UP</span>
+                <span class ="unfill_font">UP</span>
             </div>
             <div class="movement_row">
                 <span class="button_indicator">A</span>
-                <span>LEFT</span>
+                <span class ="unfill_font">LEFT</span>
             </div>
             <div class="movement_row">
                 <span class="button_indicator">S</span>
-                <span>DOWN</span>
+                <span class ="unfill_font">DOWN</span>
             </div>
             <div class="movement_row">
                 <span class="button_indicator">D</span>
-                <span>RIGHT</span>
+                <span class ="unfill_font">RIGHT</span>
             </div>
         </div>
         <div class="column g4 mt40">
             <h2>How to attack:</h2>
             <div class="movement_row">
                 <span class="button_indicator">E</span>
-                <span>RANGE</span>
+                <span class ="unfill_font">RANGE</span>
             </div>
             <div class="movement_row">
                 <span class="button_indicator_space">SPACE</span>
-                <span>MEELE</span>
+                <span class ="unfill_font">MEELE</span>
             </div>
         </div>         
     `;
 }
 
-function renderAbout() {
+function showAbout(){
+    renderAbout();
     document.getElementById('overlay_container').style.display = 'flex';
+    setTimeout(() => {
+        document.getElementById('option_overlay').style.transform = 'translateX(0%)';
+    }, 125);
+}
+
+function renderAbout() {
+    
     document.getElementById('option_overlay').innerHTML = '';
     document.getElementById('option_overlay').innerHTML += ` 
     <div class="column g4 w84">
     <h2>Enemies</h2>
     <div class="movement_row">
-        <span>Pufferfisch</span>
+        <h3>Pufferfisch</h3>
         <img src="./img/2_enemys/1_pufferfish_3_colored_options/1_swim/1.swim1.png" alt="">
     </div>
     <span class="enemy_explanation">
-        Watch out! They will hurt you if you get too close to them, so try to stay away. Poison doesn't seem to be effective against them, and with their stings, they can resist any form of bubbly things. Maybe a hard slap could do it?
+        Watch out! They will hurt you if you get too close, so try to stay away. Poison doesn't seem to be effective against them, and with their spines, they can resist any form of bubbly things. Maybe a hard slap could do it?
     </span>
     <div class="movement_row">
-        <span>Jellyfish</span>
+        <h3>Jellyfish</h3>
         <img src="./img/2_enemys/2_jellyfish/2_regular_damage/Lila_1.png" alt="">
     </div>
     <span class="enemy_explanation">
         Be cautious around these jellyfish enemies as they often remain stationary and should not be approached too closely. However, they are susceptible to poison, and if poisoned, they would be defenseless against the influences of their surroundings.
     </span>
     <div class="movement_row">
-        <span>Orca</span>
+        <h3>Orca</h3>
         <img src="./img/2_enemys/3_final_enemy/2_floating/1.png" alt="">
     </div>
     <span class="enemy_explanation">
@@ -79,14 +95,14 @@ function renderAbout() {
 <div class="column g4 w84 mt40">
     <h2>Collectables</h2>
     <div class="movement_row">
-        <span>Coins</span>
+        <h3>Coins</h3>
         <img src="./img/4_markers//2_green/coin.png" alt="">
     </div>
     <span class="enemy_explanation">
         In this test level, 10 coins are hidden. Can you find them all?
     </span>
     <div class="movement_row">
-        <span>Poison</span>
+        <h3>Poison</h3>
         <img src="./img/4_markers/2_green/poison.png" alt="">
     </div>
     <span class="enemy_explanation">
@@ -97,7 +113,11 @@ function renderAbout() {
 }
 
 function closeOverlay(){
-    document.getElementById('overlay_container').style.display = 'none';
+    document.getElementById('option_overlay').style.transform = 'translateX(200%)';
+    setTimeout(() => {
+        document.getElementById('overlay_container').style.display = 'none';
+    }, 125);
+   
 }
 
 function noClose(event){
