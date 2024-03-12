@@ -1,6 +1,7 @@
 class Pufferfish extends MoveableObject {
     height = 75;
     width = 125;
+    blowed = false;
 
     offset = {
         top: 0,
@@ -53,62 +54,58 @@ class Pufferfish extends MoveableObject {
     }
 
     animate() {
+        setInterval(() => this.deathAnimation(), 1000 / 60);
+        setInterval(() => this.playAnimation(this.IMAGES_WALKING), 350);
+        setInterval(() => this.pufferfishBehavior(), 200);
+        setInterval(() => this.hurtAnimation(), 50);
+    }
 
-        let blowed = false;
-        setInterval(() => {
-            if (this.isDead()) {
-                this.playAnimation(this.DEAD_ANIMATION);
-                this.applyUpwardTrend();
-            } else {
-                this.moveLeft();
-            }
+    pufferfishBehavior() {
+        if (!this.blowed && !this.isDead() && !this.isHurt()) {
+            this.blowUp();
+        } else if (this.blowed && !this.isDead() && !this.isHurt()) {
+            this.deflate();
+        }
+    }
 
-            
-        }, 1000 / 60);
+    blowUp() {
+        this.playAnimation(this.IMAGES_WALKING);
+        setTimeout(() => {
+            this.blowed = true;
+        }, 3000);
+    }
 
-        setInterval(() => {
-            this.playAnimation(this.IMAGES_WALKING);
+    deflate() {
+        this.playAnimation(this.IMAGES_BLOWED);
+        setTimeout(() => {
+            this.blowed = false;
+        }, 1000);
+    }
 
-        }, 350);
+    hurtAnimation() {
+        if (this.isHurt() && !this.isDead()) {
+            this.playAnimation(this.IS_HURT);
+        }
+    }
 
+    deathAnimation() {
+        if (this.isDead() && this.currentImage < this.DEAD_ANIMATION.length) {
+            this.playAnimation(this.DEAD_ANIMATION);
+        } else if (this.deadAnimationPlayed) {
+            this.lastImageDeath();
+        }
+        this.currentImage++
+        if (this.isDead() && !this.deadAnimationPlayed) {
+            this.deadAnimationPlayed = true;
+        }
+        else {
+            this.moveLeft();
+        }
+    }
 
-        setInterval(() => {
-            if (!blowed && !this.isDead() && !this.isHurt()) {
-                this.playAnimation(this.IMAGES_WALKING);
-                setTimeout(() => {
-                    blowed = true;
-                }, 3000);
-            } else if (blowed && !this.isDead() && !this.isHurt()) {
-                this.playAnimation(this.IMAGES_BLOWED);
-                setTimeout(() => {
-                    blowed = false;
-                }, 1000);
-            }
-
-        }, 200);
-
-         // interval for checking dead animation
-         setInterval(() => {
-            if (this.isDead() && this.currentImage < this.DEAD_ANIMATION.length) {
-                this.playAnimation(this.DEAD_ANIMATION);
-            } else if (this.deadAnimationPlayed) {
-                const lastImage = this.DEAD_ANIMATION.slice(this.DEAD_ANIMATION.length - 1);
-                this.playAnimation(lastImage);
-            }
-            this.currentImage++
-            if (this.isDead() && !this.deadAnimationPlayed) {
-                this.deadAnimationPlayed = true;
-            }
-        }, 200);
-
-         //Interval for checking hurt animation
-         setInterval(() => {
-            if (this.isHurt() && !this.isDead()) {
-                this.playAnimation(this.IS_HURT);
-            }
-        
-        }, 50);
-
-
+    lastImageDeath() {
+        const lastImage = this.DEAD_ANIMATION.slice(this.DEAD_ANIMATION.length - 1);
+        this.playAnimation(lastImage);
+        this.applyUpwardTrend();
     }
 }

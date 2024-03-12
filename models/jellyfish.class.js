@@ -24,8 +24,6 @@ class Jellyfish extends MoveableObject {
         'img/2_enemys/2_jellyfish/1_dead/2_lila/L4.png'
     ];
 
-
-
     constructor() {
         super().loadIMG('img/2_enemys/2_jellyfish/2_regular_damage/Lila_1.png');
         this.loadImages(this.IMAGES_WALKING);
@@ -52,7 +50,6 @@ class Jellyfish extends MoveableObject {
     death(){
         if (this.isDead()) {
             this.playAnimation(this.DEAD_ANIMATION);
-
         }else{
             this.playAnimation(this.IMAGES_WALKING);
         }

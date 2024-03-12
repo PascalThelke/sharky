@@ -29,7 +29,6 @@ class StatusBar extends DrawableObject {
         'img/4_markers/2_green/3_poisoned_bubbles/0.png'
     ];
 
-
     constructor(x, y, type, progress) {
         super();
         if (type == 0){
@@ -46,7 +45,6 @@ class StatusBar extends DrawableObject {
         this.height = 50;
         this.setPercentage(progress);
     }
-
 
     setPercentage(percentage) {
         this.percentage = percentage;

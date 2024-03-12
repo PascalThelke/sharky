@@ -34,17 +34,17 @@ class CollecteableOject extends MoveableObject {
           this.x = 500 + Math.random() * 1500;
           this.y = 400;
           this.height = 60;
-
         }
-        
           this.loadImages(this.currentImages);
-   
           this.animate();
-        
     }
 
     animate() {
-        setInterval(() => {
+        setInterval(() => this.animateItemsBouncing(), 1000/3);
+        setInterval(() => this.playAnimation(this.currentImages), 144);
+    }
+
+    animateItemsBouncing(){
       if (this.intervalCount <= 1) {
         this.moveDown();
         this.intervalCount += 1;
@@ -55,13 +55,5 @@ class CollecteableOject extends MoveableObject {
           this.intervalCount = 0;
         }
       }
-    }, 1000 / 3);
-    
-    
-        setInterval(() => {
-            this.playAnimation(this.currentImages);
-        }, 144);
     }
-
-
 }

@@ -4,6 +4,8 @@ class Endboss extends MoveableObject {
     width = 300;
     speed = 5;
     currentImageAttacking;
+    movingForward = false;
+    movingDown = false;
 
     offset = {
         top: 130,
@@ -65,7 +67,6 @@ class Endboss extends MoveableObject {
         'img/2_enemys/3_final_enemy/3_attack/6.png'
     ];
 
-
     constructor() {
         super().loadIMG(this.IMAGES_FLOATING[0]);
         this.loadImages(this.IMAGES_FLOATING);
@@ -78,151 +79,145 @@ class Endboss extends MoveableObject {
         this.animate();
     }
 
-    showWinningScreen(){
+    animate() {
+        setInterval(() => this.deathAnimation(), 200);
+        setInterval(() => this.spawnAnimation(), 250);
+        setInterval(() => this.hurtAnimation(), 50);
+        setInterval(() => this.movementPatternAnimationUp(), 1000 / 60);
+        setInterval(() => this.movementPatternAnimationLeft(), 1000 / 60);
+        setInterval(() => this.endOfTheGameAnimation(), 1000 / 60);
+        setInterval(() => this.attackAnitmation(), 200);
+    }
+
+    deathAnimation() {
+        if (this.isDead() && this.currentImage < this.DEAD_ANIMATION.length) {
+            this.playAnimation(this.DEAD_ANIMATION);
+        } else if (this.deadAnimationPlayed) {
+            const lastImage = this.DEAD_ANIMATION.slice(this.DEAD_ANIMATION.length - 1);
+            this.playAnimation(lastImage);
+        }
+        this.currentImage++
+        if (this.isDead() && !this.deadAnimationPlayed) {
+            this.deadAnimationPlayed = true;
+        }
+    }
+
+    spawnAnimation() {
+        if (this.currentImage < this.IMAGES_SPAWNING.length && this.firstContact) {
+            this.x = 2400;
+            this.y = 1;
+            this.playAnimation(this.IMAGES_SPAWNING);
+
+        } else if (this.firstContact && !this.isDead()) {
+            this.playAnimation(this.IMAGES_FLOATING);
+        }
+        this.currentImage++;
+        if (this.world.character.x > 1600 && !this.firstContact) {
+            this.world.background_music.pause();
+            this.world.boss_spawn_sound.play();
+        }
+        if (this.world.character.x > 1800 && !this.firstContact) {
+            this.currentImage = 0;
+            this.firstContact = true;
+            setTimeout(() => {
+                this.world.boss_encounter_sound.play();
+            }, 3000);
+        }
+    }
+
+    hurtAnimation() {
+        if (!this.isDead() && this.isHurt()) {
+            this.playAnimation(this.IS_HURT);
+        } else if (this.isDead()) {
+            this.initiateDeadEnd();
+        }
+    }
+
+    initiateDeadEnd() {
+        this.applyUpwardTrend();
+        this.world.boss_encounter_sound.pause();
+        this.world.background_music.play();
+    }
+
+    movementPatternAnimationUp() {
+        if (this.movingDown && this.firstContact && !this.isDead()) {
+            if (this.y < this.resulutionheight - this.height && this.firstContact) {
+                this.moveDown();
+            } else {
+                this.movingDown = false;
+            }
+        } else {
+            if (this.y > -100 && this.firstContact && !this.isDead()) {
+                this.moveUP();
+            } else {
+                this.movingDown = true;
+            }
+        }
+    }
+
+    movementPatternAnimationLeft() {
+        if (this.movingForward && this.firstContact && !this.isHurt() && !this.isDead() && !this.attackAnimationPlayed) {
+            if (this.x < this.resolutionwidth - this.width) {
+                this.moveRight();
+            } else {
+                this.movingForward = false;
+            }
+        } else if (!this.movingForward && this.firstContact && !this.isHurt() && !this.isDead() && this.attackAnimationPlayed) {
+            if (this.x > 0) {
+                this.moveLeft();
+            } else {
+                this.movingForward = true;
+            }
+        }
+    }
+
+    endOfTheGameAnimation() {
+        if (this.isDead()) {
+            this.speed = 0.5;
+            this.moveUP();
+            this.movingDown = false;
+            this.endTheGame();
+        };
+    }
+
+    endTheGame() {
+        setTimeout(() => {
+            clearAllIntervals();
+            showWinningScreen();
+        }, 3000);
+    }
+
+    attackAnitmation() {
+        if (!this.isDead() && !this.isHurt() && this.firstContact && !this.attackAnimationPlayed) {
+            setTimeout(() => {
+                if (!this.isDead() && this.currentImageAttacking < this.MEELE_ATTACK.length - 1) {
+                    this.playAnimation(this.MEELE_ATTACK);
+                    this.currentImageAttacking++;
+                } else if (!this.isDead()) {
+                    this.resetAttackAnimation();
+                }
+            }, 4000);
+        }
+    }
+
+    resetAttackAnimation() {
+        this.currentImageAttacking = 0;
+        this.attackAnimationPlayed = true;
+        setTimeout(() => {
+            this.attackAnimationPlayed = false;
+        }, 4000);
+    }
+
+    showWinningScreen() {
         document.getElementById('winscreen_overlay').style.display = 'unset';
         setTimeout(() => {
             document.getElementById('wintext').style.transform = 'translateX(0%)';
         }, 125);
     }
 
+};
 
-    animate() {
-        // interval for checking dead animation
-        setInterval(() => {
-            if (this.isDead() && this.currentImage < this.DEAD_ANIMATION.length) {
-                this.playAnimation(this.DEAD_ANIMATION);
-            } else if (this.deadAnimationPlayed) {
-                const lastImage = this.DEAD_ANIMATION.slice(this.DEAD_ANIMATION.length - 1);
-                this.playAnimation(lastImage);
-            }
-            this.currentImage++
-            if (this.isDead() && !this.deadAnimationPlayed) {
-                this.deadAnimationPlayed = true;
-            }
-
-        }, 200);
-
-        //interval for checking spawnanimation
-        setInterval(() => {
-            if (this.currentImage < this.IMAGES_SPAWNING.length && this.firstContact) {
-                this.x = 2400;
-                this.y = 1;
-                this.playAnimation(this.IMAGES_SPAWNING);
-
-            } else if (this.firstContact && !this.isDead()) {
-                this.playAnimation(this.IMAGES_FLOATING);
-            }
-            this.currentImage++;
-            if (this.world.character.x > 1600 && !this.firstContact) {
-                this.world.background_music.pause();
-                this.world.boss_spawn_sound.play();
-                
-            }
-            if (this.world.character.x > 1800 && !this.firstContact) {
-                this.currentImage = 0;
-                this.firstContact = true;
-                setTimeout(() => {
-                    this.world.boss_encounter_sound.play();
-                }, 3000);
-            }
-
-        }, 250);
-
-        //Interval for checking hurt animation
-        setInterval(() => {
-            if (!this.isDead() && this.isHurt()) {
-                this.playAnimation(this.IS_HURT);
-            } else if (this.isDead()) {
-                this.applyUpwardTrend();
-                this.world.boss_encounter_sound.pause();
-                this.world.background_music.play();
-            }
-        }, 50);
-
-        //interval für moveset
-        let movingDown = false;
-
-        setInterval(() => {
-            if (movingDown && this.firstContact && !this.isDead()) {
-                if (this.y < this.resulutionheight - this.height && this.firstContact) {
-                    this.moveDown();
-                } else {
-                    movingDown = false;
-                }
-            } else {
-                if (this.y > -100 && this.firstContact && !this.isDead()) {
-                    this.moveUP();
-                } else {
-                    movingDown = true;
-                }
-            }
-            if (this.isDead()) {
-                this.speed = 0.5;
-                this.moveUP();
-                movingDown = false;
-                setTimeout(() => {
-                    clearAllIntervals();
-                    showWinningScreen();
-                }, 3000);
-            };
-
-
-        }, 1000 / 60);
-
-
-        let movingForward = false;
-
-        setInterval(() => {
-            if (movingForward && this.firstContact && !this.isHurt() && !this.isDead() && !this.attackAnimationPlayed) {
-                if (this.x < this.resolutionwidth - this.width) {
-                    this.moveRight();
-                } else {
-                    movingForward = false;
-                }
-            } else if (!movingForward && this.firstContact && !this.isHurt() && !this.isDead() && this.attackAnimationPlayed) {
-                if (this.x > 0) {
-                    this.moveLeft();
-                } else {
-                    movingForward = true;
-                }
-            }
-
-        }, 1000 / 60);
-
-
-        // setInterval(() => {
-        //     if (movingDown){
-        //         movingDown = false;
-        //     }else if (!movingDown){
-        //         movingDown = true;
-        //     }
-        // }, 3000);
-
-
-
-        setInterval(() => {
-            if (!this.isDead() && !this.isHurt() && this.firstContact && !this.attackAnimationPlayed) {
-                setTimeout(() => {
-                    if (!this.isDead() && this.currentImageAttacking < this.MEELE_ATTACK.length - 1) {
-                        this.playAnimation(this.MEELE_ATTACK);
-                        this.currentImageAttacking++;
-                    } else if (!this.isDead()) {
-                        this.currentImageAttacking = 0;
-                        this.attackAnimationPlayed = true;
-                        setTimeout(() => {
-                            this.attackAnimationPlayed = false;
-                        }, 4000);
-                    }
-                }, 4000);
-            }
-        }, 200);
-
-
-
-    }
-}
-
-function showWinningScreen(){
+function showWinningScreen() {
     document.getElementById('wintext').innerHTML = "YOU WIN"
     document.getElementById('winscreen_overlay').style.display = 'unset';
     document.getElementById('try_again_button').style.display = 'unset';
@@ -230,8 +225,8 @@ function showWinningScreen(){
         document.getElementById('wintext').style.transform = 'translateY(0%)';
         document.getElementById('try_again_button').style.transform = 'translateY(0%)';
     }, 125);
-}
+};
 
 function clearAllIntervals() {
     for (let i = 1; i < 9999; i++) window.clearInterval(i);
-  }
+};

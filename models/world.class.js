@@ -178,7 +178,6 @@ class World {
         })
     };
 
-
     checkDeadEnemyPosition() {
         this.level.enemies.forEach((e) => {
             if (e.timeOfDeath && Date.now() > e.timeOfDeath && e.y > 0) {

@@ -4,8 +4,6 @@ class Level {
     backgroundObjects;
     background;
     collectables;
-
-    
     level_end_y = -480;
     level_end_x = 750*3;
     level_end_top = -90;
