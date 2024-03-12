@@ -8,28 +8,28 @@ class Character extends MoveableObject {
     originOffset;
     isAttacking = false;
     intervalIds = [];
-
+    movementInterval;
+    sleepAnimationPlayed = false;
+    animationInterval;
+    emoteInterval;
     mirroredMeeleOffset = {
         top: 120,
         left: -20,
         right: 180,
         bottom: 55
     }
-
     meeleOffset = {
         top: 120,
         left: 180,
         right: -20,
         bottom: 55
     };
-
     offset = {
         top: 120,
         left: 60,
         right: 60,
         bottom: 55
     };
-
 
     IMAGES_WALKING = [
         'img/1_sharkie/3_swim/1.png',
@@ -121,8 +121,6 @@ class Character extends MoveableObject {
         'img/1_sharkie/2_long_idle/I14.png'
     ];
 
-
-
     constructor() {
         super().loadIMG('img/1_sharkie/1_idle/1.png')
         this.loadImages(this.IMAGES_WALKING);
@@ -136,180 +134,208 @@ class Character extends MoveableObject {
         this.x = 150;
         this.originOffset = this.offset;
         this.animate();
-    }
-
-
-
+    };
 
     animate() {
-        let sleepAnimationPlayed = false;
+        this.movementsInterval();
+        this.sleepAnimationInterval();
+        this.deadAnimationInterval();
+        this.hurtAnimationInterval();
+        this.attackAnimationInterval();
+    };
 
-        let movementInterval = setInterval(() => {
-            this.world.swim_sound.pause();
-            if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
-                this.moveRight();
-                this.getLastActionTime();
-                this.world.swim_sound.play();
-                this.mirroredSideways = false;
-            }
-            if (this.world.keyboard.LEFT && this.x > this.world.level.level_end_y) {
-                this.moveLeft();
-                this.getLastActionTime();
-                this.world.swim_sound.play();
-                this.mirroredSideways = true;
-            }
-            if (this.world.keyboard.UP && this.y > this.world.level.level_end_top) {
-                this.moveUP();
-                this.getLastActionTime();
-                this.world.swim_sound.play();
-                this.mirroredUpways = true;
-                this.mirroredDownways = false;
-            }
-            if (this.world.keyboard.DOWN && this.y < this.world.level.level_end_bottom) {
-                this.moveDown();
-                this.getLastActionTime();
-                this.world.swim_sound.play();
-                this.mirroredDownways = true;
-                this.mirroredUpways = false;
-            }
-            this.world.camera_x = -this.x + 100;
-        }, 1000 / 60);
+    attackAnimationInterval() {
+        this.emoteInterval = setInterval(() => this.playAttackAnimation(), 50);
+        this.intervalIds.push(this.emoteInterval);
+    };
+
+    sleepAnimationInterval() {
+        this.animationInterval = setInterval(() => this.playSleepAnimation(), 350);
+        this.intervalIds.push(this.animationInterval);
+    };
+
+    movementsInterval() {
+        this.movementInterval = setInterval(() => this.playMovementAnimation(), 1000 / 60);
+        this.intervalIds.push(this.movementInterval);
+    };
+
+    hurtAnimationInterval() {
+        setInterval(() => this.playHurtAnimation(), 50);
+    };
 
 
-        let animationInterval = setInterval(() => {
-            const currentTime = new Date().getTime();
-            const timePassed = (currentTime - this.lastActionTime) / 1000;
-            if (timePassed >= 5) {
-                if (!sleepAnimationPlayed) {
-                    this.playAnimation(this.SLEEP_ANIMATION);
-                    this.world.snore_sound.play();
-                    sleepAnimationPlayed = true;
-                } else {
-                    const lastIndex = this.SLEEP_ANIMATION.length - 1;
-                    const lastFourImages = this.SLEEP_ANIMATION.slice(lastIndex - 3, lastIndex + 1);
-                    this.playAnimation(lastFourImages);
-                }
+    deadAnimationInterval() {
+        setInterval(() => this.playDeathAnimation(), 200);
+    };
+
+    playAttackAnimation() {
+        if (this.world.keyboard.SPACE && !this.sleepAnimationPlayed) {
+            if (!this.mirroredSideways) {
+                this.attacking();
             } else {
-                sleepAnimationPlayed = false;
-                this.playAnimation(this.IMAGES_FLOATING);
-                this.world.snore_sound.pause();
+                this.mirroredAttacking();
             }
+        }
+        if (this.world.keyboard.E && !this.sleepAnimationPlayed) {
+            this.playAnimation(this.RANGE_ATTACK);
+        }
+    };
 
-            if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT || this.world.keyboard.UP || this.world.keyboard.DOWN) {
-                this.playAnimation(this.IMAGES_WALKING);
-            }
+    attacking() {
+        this.isAttacking = true;
+        this.playAnimation(this.MEELE_ATTACK);
+        this.world.meele_sound.play();
+        this.offset = this.meeleOffset;
+        this.resetOffset();
+    };
+
+    mirroredAttacking() {
+        this.isAttacking = true;
+        this.playAnimation(this.MEELE_ATTACK);
+        this.world.meele_sound.play();
+        this.offset = this.mirroredMeeleOffset;
+        this.resetOffset();
+    };
+
+    resetOffset() {
+        setTimeout(() => {
+            this.offset = this.originOffset;
+            this.isAttacking = false;
         }, 350);
+    };
 
+    playHurtAnimation() {
+        if (this.isDead()) {
+            this.animateEndGame();
+        } else if (this.isHurt()) {
+            this.playAnimation(this.IS_HURT_POISON);
+            this.world.hurt_sound.play();
+        }
+    };
 
-        // //soundintervall walking
-        // setInterval(() => {
-        //     this.swim_sound.pause();
-        //     if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT || this.world.keyboard.UP || this.world.keyboard.DOWN) {
-        //         this.swim_sound.play();
-        //     }
-        // }, 1000);
-
-        // // //soundintervall meele
-        // // setInterval(() => {
-        // //     this.meele_sound.pause();
-        // //     if (this.world.keyboard.SPACE && !sleepAnimationPlayed) {
-        // //         if (!this.mirroredSideways) {
-        // //             this.meele_sound.play();
-        // //         } else {
-        // //             this.meele_sound.play();
-        // //         }
-        // //     }
-
-        // // }, 350);
-
-        // //soundintervall ranged
-        // setInterval(() => {
-        //     this.ranged_sound.pause();
-        //     if (this.world.keyboard.E && !sleepAnimationPlayed) {
-        //         this.ranged_sound.play();
-        //     }
-
-        // }, 300);
-
-        // interval for checking dead animation
-        setInterval(() => {
-            if (this.isDead() && this.currentImage < this.DEAD_ANIMATION.length) {
-                this.playAnimation(this.DEAD_ANIMATION);
-                
-            } else if (this.deadAnimationPlayed) {
-                const lastImage = this.DEAD_ANIMATION.slice(this.DEAD_ANIMATION.length - 1);
-                this.playAnimation(lastImage);
-                
-            }
-            this.currentImage++
-            if (this.isDead() && !this.deadAnimationPlayed) {
-                this.deadAnimationPlayed = true;
-                this.world.background_music.pause();
-                setTimeout(() => {
-                    this.world.death_sound.play();
-                }, 500);
-                this.world.game_over_sound.play();
-                setTimeout(() => {
-                    clearAllIntervals();
-                    showGameOverScreen();
-                }, 3000);
-            }
-        }, 200);
-
-        // Interval for checking hurt/apply upwardtrend after death
-        setInterval(() => {
-            if (this.isDead()) {
-                this.applyUpwardTrend();
-                this.stopMovement();
-                this.world.hurt_sound.pause();
-                this.world.snore_sound.pause();
-            } else if (this.isHurt()) {
-                this.playAnimation(this.IS_HURT_POISON);
-                this.world.hurt_sound.play();
-            }
-        }, 50);
-
-
-        let emoteInterval = setInterval(() => {
-            if (this.world.keyboard.SPACE && !sleepAnimationPlayed) {
-                if (!this.mirroredSideways) {
-                    this.isAttacking = true;
-                    this.playAnimation(this.MEELE_ATTACK);
-                    this.world.meele_sound.play();
-                    this.offset = this.meeleOffset;
-                    setTimeout(() => {
-                        this.offset = this.originOffset;
-                        this.isAttacking = false;
-                    }, 350);
-                } else {
-                    this.isAttacking = true;
-                    this.playAnimation(this.MEELE_ATTACK);
-                    this.world.meele_sound.play();
-                    this.offset = this.mirroredMeeleOffset;
-                    setTimeout(() => {
-                        this.offset = this.originOffset;
-                        this.isAttacking = false;
-                    }, 350);
-                }
-
-            }
-            if (this.world.keyboard.E && !sleepAnimationPlayed) {
-                this.playAnimation(this.RANGE_ATTACK);
-            }
-        }, 50);
-        this.intervalIds.push(animationInterval, movementInterval, emoteInterval);
+    animateEndGame() {
+        this.applyUpwardTrend();
+        this.stopMovement();
+        this.world.hurt_sound.pause();
+        this.world.snore_sound.pause();
     }
 
+    playDeathAnimation() {
+        if (this.isDead() && this.currentImage < this.DEAD_ANIMATION.length) {
+            this.playAnimation(this.DEAD_ANIMATION);
+        } else if (this.deadAnimationPlayed) {
+            const lastImage = this.DEAD_ANIMATION.slice(this.DEAD_ANIMATION.length - 1);
+            this.playAnimation(lastImage);
+        }
+        this.currentImage++
+        this.setEndgameSound();
+    };
 
+    endGame() {
+        setTimeout(() => {
+            clearAllIntervals();
+            showGameOverScreen();
+        }, 3000);
+    };
+
+    setEndgameSound() {
+        if (this.isDead() && !this.deadAnimationPlayed) {
+            this.deadAnimationPlayed = true;
+            this.world.background_music.pause();
+            setTimeout(() => {
+                this.world.death_sound.play();
+            }, 500);
+            this.world.game_over_sound.play();
+            this.endGame();
+        }
+    };
+
+    playSleepAnimation() {
+        const currentTime = new Date().getTime();
+        const timePassed = (currentTime - this.lastActionTime) / 1000;
+        if (timePassed >= 5) {
+            if (!this.sleepAnimationPlayed) {
+                this.sleep();
+            } else {
+               this.getLastSleepImage();
+            }
+        } else {
+            this.noSleep();
+        }
+    };
+
+    getLastSleepImage(){
+        const lastIndex = this.SLEEP_ANIMATION.length - 1;
+        const lastFourImages = this.SLEEP_ANIMATION.slice(lastIndex - 3, lastIndex + 1);
+        this.playAnimation(lastFourImages);
+    }
+
+    sleep() {
+        this.playAnimation(this.SLEEP_ANIMATION);
+        this.world.snore_sound.play();
+        this.sleepAnimationPlayed = true;
+    }
+
+    noSleep(){
+        this.sleepAnimationPlayed = false;
+        this.playAnimation(this.IMAGES_FLOATING);
+        this.world.snore_sound.pause();
+    }
+
+    playMovementAnimation() {
+        this.world.swim_sound.pause();
+        if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
+            this.movementRight();
+        }
+        if (this.world.keyboard.LEFT && this.x > this.world.level.level_end_y) {
+            this.movementLeft();
+        }
+        if (this.world.keyboard.UP && this.y > this.world.level.level_end_top) {
+            this.movementUP();
+        }
+        if (this.world.keyboard.DOWN && this.y < this.world.level.level_end_bottom) {
+            this.movementDown();
+        }
+        this.world.camera_x = -this.x + 100;
+    };
+
+    movementRight() {
+        this.moveRight();
+        this.getLastActionTime();
+        this.world.swim_sound.play();
+        this.mirroredSideways = false;
+    };
+
+    movementLeft() {
+        this.moveLeft();
+        this.getLastActionTime();
+        this.world.swim_sound.play();
+        this.mirroredSideways = true;
+    };
+
+    movementUP() {
+        this.moveUP();
+        this.getLastActionTime();
+        this.world.swim_sound.play();
+        this.mirroredUpways = true;
+        this.mirroredDownways = false;
+    };
+
+    movementDown() {
+        this.moveDown();
+        this.getLastActionTime();
+        this.world.swim_sound.play();
+        this.mirroredDownways = true;
+        this.mirroredUpways = false;
+    };
 
     stopMovement() {
         this.intervalIds.forEach(clearInterval);
-    }
+    };
 
+};
 
-}
-
-function showGameOverScreen(){
+function showGameOverScreen() {
     document.getElementById('wintext').innerHTML = 'YOU LOOSE';
     document.getElementById('winscreen_overlay').style.display = 'unset';
     document.getElementById('try_again_button').style.display = 'unset';

@@ -1,5 +1,4 @@
 class Background extends MoveableObject{
-
     height = this.resulutionheight;
     width = this.resulutionwidth;
 
@@ -7,8 +6,5 @@ class Background extends MoveableObject{
         super().loadIMG(imagePath);
         this.x = x;
         this.y = this.resulutionheight - this.height;
-
-
     }
-
 }

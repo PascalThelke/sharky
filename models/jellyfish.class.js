@@ -36,41 +36,45 @@ class Jellyfish extends MoveableObject {
         this.animate();
     }
 
-    animate() {
-        let movingDown = false; 
-
-        setInterval(() => {
-            if (movingDown) {
-                if (this.y < this.resulutionheight - this.height) {
-                    this.moveDown();
-                } else {
-                    movingDown = false; 
-                }
-            } else {
-                if (this.y > 0) {
-                    this.moveUP();
-                } else {
-                    movingDown = true; 
-                }
-            }
-            if (this.isDead()){
-                this.moveUP();
-                movingDown =false;
-            };
-
-
-        }, 1000 / 60);
-
-
-        setInterval(() => {
-            if (this.isDead()) {
-                this.playAnimation(this.DEAD_ANIMATION);
- 
-            }else{
-                this.playAnimation(this.IMAGES_WALKING);
-            }
-       
-        }, 144);
+    animate() { 
+        this.movementInterval();
+        this.deathInterval();
     }
 
+    movementInterval(){
+        setInterval(() => this.movement(), 1000/60);
+    }
+
+    deathInterval(){
+        setInterval(() => this.death(), 144);
+    }
+
+    death(){
+        if (this.isDead()) {
+            this.playAnimation(this.DEAD_ANIMATION);
+
+        }else{
+            this.playAnimation(this.IMAGES_WALKING);
+        }
+    }
+
+    movement(){
+        if (this.movingDown) {
+            if (this.y < this.resulutionheight - this.height) {
+                this.moveDown();
+            } else {
+                this.movingDown = false; 
+            }
+        } else {
+            if (this.y > 0) {
+                this.moveUP();
+            } else {
+                this.movingDown = true; 
+            }
+        }
+        if (this.isDead()){
+            this.moveUP();
+            this.movingDown =false;
+        };
+    }
 }

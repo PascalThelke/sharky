@@ -20,7 +20,6 @@ class DrawableObject {
             img.src = path;
             this.imageChache[path] = img;
         });
-
     }
 
     loadRandomImage(imagePaths) {
@@ -34,14 +33,11 @@ class DrawableObject {
     }
 
     drawFrame(ctx) {
-
             ctx.beginPath();
             ctx.lineWidth = '2';
             ctx.strokeStyle = 'blue';
             ctx.rect(this.x, this.y, this.width, this.height);
             ctx.stroke();
-
-            // Zeichne den roten Rahmen mit Berücksichtigung des Offsets
             ctx.beginPath();
             ctx.strokeStyle = 'red';
             const offsetX = this.offset.left;
@@ -50,14 +46,6 @@ class DrawableObject {
             const height = this.height - this.offset.top - this.offset.bottom;
             ctx.rect(this.x + offsetX, this.y + offsetY, width, height);
             ctx.stroke();
-
-
-            ctx.font = "30px Arial";
-            ctx.fillText("Hello World", 200, 200);
-        
     }
-
-
-
 }
 

@@ -10,8 +10,6 @@ class World {
     poisonBar = new StatusBar(20, 90, 2, 0);
     throwableObjects = [];
     allAudios = [];
-
-
     SOUNDS = [
         'audio/1movement_sound.mp3',
         'audio/1bubbles_ranged.mp3',
@@ -28,7 +26,6 @@ class World {
         'audio/1boss_encounter.mp3'
     ];
 
-
     swim_sound = new Audio(this.SOUNDS[0]);
     ranged_sound = new Audio(this.SOUNDS[1]);
     snore_sound = new Audio(this.SOUNDS[2]);
@@ -42,8 +39,6 @@ class World {
     poison_sound = new Audio(this.SOUNDS[10]);
     boss_spawn_sound = new Audio(this.SOUNDS[11]);
     boss_encounter_sound = new Audio(this.SOUNDS[12]);
-    
-
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -95,12 +90,12 @@ class World {
         this.checkThrowedObjectCollisions();
         this.checkCollectableCollisions();
 
-    }
+    };
 
     checkPositionsForDespawn() {
         this.checkDeadEnemyPosition();
         this.checkBubblePosition();
-    }
+    };
 
     checkThorwObject() {
         if (this.keyboard.E && !this.character.mirroredSideways && this.character.poison != 0) {
@@ -111,7 +106,6 @@ class World {
             let bubble = new ThrowableObject(this.character.x + 10, this.character.y + 120, this.character);
             this.createBubble(bubble);
         }
-
     };
 
     createBubble(bubble) {
@@ -120,7 +114,7 @@ class World {
         this.character.poison -= 20;
         this.ranged_sound.play();
         this.poisonBar.setPercentage(this.character.poison);
-    }
+    };
 
     checkThrowedObjectCollisions() {
         this.throwableObjects.forEach((to) => {
@@ -128,11 +122,9 @@ class World {
                 if (to.isColliding(e) && (e instanceof Jellyfish || e instanceof Endboss || e instanceof Pufferfish)) {
                     this.throwableObjects.splice(this.throwableObjects.indexOf(to), 1);
                     e.getHit();
-                    console.log('outch!', e);
                     if (e.health == 0) {
-                        console.log('me dead', e);
                         e.timeOfDeath = Date.now() + 6000;
-                        if(e.y < 0){
+                        if (e.y < 0) {
                             this.world.death_sound.play();
                         }
                     }
@@ -146,9 +138,7 @@ class World {
             if (this.character.isColliding(e) && !e.isDead()) {
                 if (this.character.isAttacking && (e instanceof Pufferfish || e instanceof Endboss)) {
                     e.getHitMeele();
-                    console.log('oouf!', e);
                     if (e.health == 0) {
-                        console.log('me dead', e);
                         e.timeOfDeath = Date.now() + 6000;
                     }
                 } else {
@@ -163,9 +153,7 @@ class World {
         this.level.enemies.forEach((e) => {
             if (this.level.enemies[this.level.enemies.length - 1].isColliding(e) && (e instanceof Jellyfish || e instanceof Pufferfish)) {
                 e.getHitMeele();
-                console.log('oouf!', e);
                 if (e.health == 0) {
-                    console.log('me dead', e);
                     e.timeOfDeath = Date.now() + 6000;
                 }
 
@@ -187,8 +175,8 @@ class World {
                 }
                 this.level.collectables.splice(this.level.collectables.indexOf(co), 1);
             }
-        });
-    }
+        })
+    };
 
 
     checkDeadEnemyPosition() {
@@ -196,74 +184,65 @@ class World {
             if (e.timeOfDeath && Date.now() > e.timeOfDeath && e.y > 0) {
                 this.level.enemies.splice(this.level.enemies.indexOf(e), 1);
             }
-        });
-    }
+        })
+    };
 
     checkBubblePosition() {
         this.throwableObjects.forEach((to) => {
             if (to.timeOfDeath && Date.now() > to.timeOfDeath && to.y < 0) {
                 this.throwableObjects.splice(this.throwableObjects.indexOf(to), 1);
             }
-        });
-    }
-
-
+        })
+    };
 
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.ctx.translate(this.camera_x, 0);
-
         this.addObjectsToMap(this.level.background);
         this.addObjectsToMap(this.level.environment);
         this.addObjectsToMap(this.level.backgroundObjects);
-
         this.ctx.translate(-this.camera_x, 0);
         this.addToMap(this.statusBar);
         this.addToMap(this.coinBar);
         this.addToMap(this.poisonBar);
         this.ctx.translate(this.camera_x, 0);
-
         this.addToMap(this.character);
-
         this.addObjectsToMap(this.level.collectables);
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.throwableObjects);
-
         this.ctx.translate(-this.camera_x, 0);
-
         let self = this;
         requestAnimationFrame(function () {
             self.draw();
-        });
-    }
+        })
+    };
 
     addObjectsToMap(objects) {
         objects.forEach(o => {
             this.addToMap(o);
-        });
-    }
+        })
+    };
 
     addToMap(mo) {
         if (mo.mirroredSideways) {
             this.mirrorSideways(mo);
         }
         mo.draw(this.ctx);
-        // mo.drawFrame(this.ctx);
         if (mo.mirroredSideways) {
             this.mirrorBackwards(mo);
         }
-    }
+    };
 
     mirrorSideways(mo) {
         this.ctx.save();
-        this.ctx.translate(mo.width, 0); // wird um die eigene Breite verschoben
-        this.ctx.scale(-1, 1);  // kontext wird gespiegelt
-        mo.x = mo.x * -1;  // x koordinate spiegeln
-    }
+        this.ctx.translate(mo.width, 0);
+        this.ctx.scale(-1, 1);
+        mo.x = mo.x * -1;
+    };
 
     mirrorBackwards(mo) {
         mo.x = mo.x * -1;
         this.ctx.restore();
-    }
+    };
 
 }

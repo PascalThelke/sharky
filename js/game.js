@@ -2,12 +2,7 @@ let canvas;
 let world;
 let keyboard = new Keyboard();
 
-function init() {
-
-}
-
 function initGame() {
-
     initLevel();
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard);
@@ -16,27 +11,15 @@ function initGame() {
     document.getElementById('footer').style.display = "none";
 }
 
-function tryAgain() {
-    pauseAllAudios();
+function backToMenu() {
     document.getElementById('winscreen_overlay').style.display = 'none';
     document.getElementById('try_again_button').style.display = 'none';
-    initLevel();
-    canvas = document.getElementById('canvas');
-    world = new World(canvas, keyboard);
-
+    location.reload();
 }
 
 function startAllIntervals() {
     for (let i = 1; i < 9999; i++) window.setInterval(i);
 }
-
-function pauseAllAudios() {
-    allAudios.forEach(audio => {
-        audio.pause();
-        audio.currentTime = 0;
-    });
-}
-
 
 function showKeys() {
     renderKeys();
@@ -44,7 +27,41 @@ function showKeys() {
     setTimeout(() => {
         document.getElementById('option_overlay').style.transform = 'translateX(0%)';
     }, 125);
+}
 
+function showAbout() {
+    renderAbout();
+    document.getElementById('overlay_container').style.display = 'flex';
+    setTimeout(() => {
+        document.getElementById('option_overlay').style.transform = 'translateY(0%)';
+    }, 125);
+}
+
+function showLegalNotice() {
+    renderLegalNotice();
+    document.getElementById('overlay_container').style.display = 'unset';
+    setTimeout(() => {
+        document.getElementById('option_overlay').style.transform = 'translateY(0%)';
+    }, 125);
+}
+
+function showPrivacyPolicy() {
+    renderPrivacyPolicy();
+    document.getElementById('overlay_container').style.display = 'unset';
+    setTimeout(() => {
+        document.getElementById('option_overlay').style.transform = 'translateY(0%)';
+    }, 125);
+}
+
+function closeOverlay() {
+    document.getElementById('option_overlay').style.transform = 'translateY(200%)';
+    setTimeout(() => {
+        document.getElementById('overlay_container').style.display = 'none';
+    }, 125);
+}
+
+function noClose(event) {
+    event.stopPropagation();
 }
 
 function renderKeys() {
@@ -83,16 +100,7 @@ function renderKeys() {
     `;
 }
 
-function showAbout() {
-    renderAbout();
-    document.getElementById('overlay_container').style.display = 'flex';
-    setTimeout(() => {
-        document.getElementById('option_overlay').style.transform = 'translateY(0%)';
-    }, 125);
-}
-
 function renderAbout() {
-
     document.getElementById('option_overlay').innerHTML = '';
     document.getElementById('option_overlay').innerHTML += ` 
     <div class="column g20 w84">
@@ -118,8 +126,8 @@ function renderAbout() {
     <span class="enemy_explanation">
         Beware of these orca as they often emerge unexpectedly and hunt alone. It's best not to cross paths with them. Further information is rare as there are few survivors who have lived through an encounter with this monstrous creature.
     </span>
-</div>
-<div class="column g20 w84 mt40">
+    </div>
+    <div class="column g20 w84 mt40">
     <h2>Collectables</h2>
     <div class="movement_row">
         <h3>Coins</h3>
@@ -139,16 +147,61 @@ function renderAbout() {
     `;
 }
 
-function closeOverlay() {
-    document.getElementById('option_overlay').style.transform = 'translateY(200%)';
-    setTimeout(() => {
-        document.getElementById('overlay_container').style.display = 'none';
-    }, 125);
-
+function renderLegalNotice() {
+    document.getElementById('option_overlay').innerHTML = '';
+    document.getElementById('option_overlay').innerHTML += ` 
+    <h2>Legal Notice</h2>
+    <p>
+        This website and its content are owned and operated by:
+    </p>
+    <p class="mr85">
+        Pascal Thelke <br>
+        Talstr. 32<br>
+        Hattingen, Germany<br>
+        Email: <a href="mailto:p.thelke@outlook.de">p.thelke@outlook.de</a>
+    </p>
+    <h3>Disclaimer:</h3>
+    <p>
+        We strive to provide accurate and up-to-date information on this website; however, we cannot
+        guarantee the accuracy, completeness, or reliability of the content. The use of the information on
+        this website is at your own risk. We reserve the right to modify or discontinue any aspect of the
+        website at any time without prior notice.
+    </p>
+    <h3>Third-Party Websites:</h3>
+    <p>
+        This website may contain links to third-party websites. These links are provided solely for your
+        convenience and do not imply any endorsement of the content on those websites. We are not
+        responsible for the content of any third-party websites linked to from this website.
+    </p>
+    <h3>Copyright Notice:</h3>
+    <p>
+        All content, including text, images, graphics, and other materials on this website, are the property
+        of Pascal Thelke unless otherwise stated. Unauthorized use or reproduction of any content from this
+        website is prohibited.
+    </p>
+    
+    `;
 }
 
-function noClose(event) {
-    event.stopPropagation();
+function renderPrivacyPolicy() {
+    document.getElementById('option_overlay').innerHTML = '';
+    document.getElementById('option_overlay').innerHTML += ` 
+    <h2>Privacy policy</h2>
+                <p>
+                    We do not collect or use any personal data of our users. Our game does not process any data
+                    outside of the user-generated gameplay behavior within the game.
+                </p>
+                <p>
+                    No information is gathered to be
+                    shared with third parties, and we do not use any analytics tools to track user behavior outside of
+                    the game.
+                </p>
+                <p>
+                    All data generated within the game is solely used for the gameplay experience and not for
+                    any other purposes.
+                </p>
+    
+    `;
 }
 
 document.getElementById('buttonLeft').addEventListener('touchstart', (e) => {
@@ -176,8 +229,6 @@ document.getElementById('buttonSpace').addEventListener('touchstart', (e) => {
     keyboard.SPACE = true;
 });
 
-
-//keine funktion?
 document.getElementById('buttonE').addEventListener('touchstart', (e) => {
     if (event.cancelable) event.preventDefault();
     keyboard.E = true;
@@ -208,13 +259,11 @@ document.getElementById('buttonSpace').addEventListener('touchend', (e) => {
     keyboard.SPACE = false;
 });
 
-//keine funktion?
 document.getElementById('buttonE').addEventListener('touchend', (e) => {
     if (event.cancelable) event.preventDefault();
     keyboard.E = false;
 });
 
-// Umwandlung der Touch-Ereignis-Listener in if-else-Anweisungen
 document.addEventListener('keydown', (event) => {
     if (event.key === 'w') {
         keyboard.UP = true;
