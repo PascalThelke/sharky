@@ -2,6 +2,24 @@ let canvas;
 let world;
 let keyboard = new Keyboard();
 
+
+const soundButton = document.getElementById("sound_button");
+const soundImage = soundButton.src;
+const muteImage = 'img/mute_icon.png';
+
+soundButton.addEventListener("mouseover", function () {
+    if (!world.swim_sound.muted) {
+        this.src = muteImage;
+    }
+});
+
+soundButton.addEventListener("mouseout", function () {
+    if (!world.swim_sound.muted) {
+        this.src = soundImage;
+    }
+});
+
+
 /**
  * Initializes the game.
  * @param {HTMLElement} canvas - The canvas element.
@@ -14,7 +32,17 @@ function initGame() {
     document.getElementById('startscreen').style.display = "none";
     document.getElementById('canvas').style.display = "block";
     document.getElementById('footer').style.display = "none";
+    document.getElementById('sound_button').style.display = "unset";
 }
+
+soundButton.addEventListener('click', function() {
+    world.muteAllSounds(!world.swim_sound.muted);
+    if (world.swim_sound.muted) {
+        soundButton.src = muteImage;
+    } else {
+        soundButton.src = soundImage;
+    }
+});
 
 /**
  * Returns to the main menu.

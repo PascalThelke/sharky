@@ -7,7 +7,6 @@ body {
     background-image: url('./img/3_backgrounds/the_background.jpg');
     background-position: top;
     font-family: 'luckiestguy', Arial, Helvetica, sans-serif;
-    height: 100vh;
 }
 
 h1 {
@@ -20,6 +19,24 @@ h1 {
 canvas {
     background-color: black;
     display: none;
+}
+
+#icon_container {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    z-index: 99;
+}
+
+#sound_button {
+    height: 32px;
+    margin: 32px;
+    transition: transform 225ms ease-in-out;
+    display: none;
+}
+
+#sound_button:hover {
+    scale: 0.9;
 }
 
 #option_overlay {
@@ -41,7 +58,7 @@ canvas {
     transition: transform 125ms ease-in-out;
 }
 
-#option_overlay p{
+#option_overlay p {
     font-size: 20px;
     padding: 0px 16px 0px 16px;
 }
@@ -105,7 +122,7 @@ canvas {
     z-index: 99999;
 }
 
-#winscreen_overlay{
+#winscreen_overlay {
     position: fixed;
     top: 0;
     bottom: 0;
@@ -116,7 +133,7 @@ canvas {
     z-index: 99999;
 }
 
-#winscreen_overlay h1{
+#winscreen_overlay h1 {
     font-size: 56px;
     transform: translateY(-600%);
     transition: transform 225ms ease-in-out;
@@ -125,7 +142,7 @@ canvas {
     -webkit-text-stroke: 2px;
 }
 
-#winscreen_overlay button{
+#winscreen_overlay button {
     transform: translateY(-800%);
     transition: transform 225ms ease-in-out;
     display: none;
@@ -262,11 +279,11 @@ footer button:hover {
     margin-top: 40px;
 }
 
-.mr85{
+.mr85 {
     margin-right: 85px;
 }
 
-.unfill_font{
+.unfill_font {
     -webkit-text-fill-color: transparent;
     -webkit-text-stroke: 2px;
     width: 56px;
@@ -280,6 +297,7 @@ footer button:hover {
 
 /* for smartphones*/
 @media only screen and (max-width: 720px) {
+
     #hud,
     canvas {
         width: 100%;

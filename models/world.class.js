@@ -315,4 +315,31 @@ class World {
         mo.x = mo.x * -1;
         this.ctx.restore();
     }
+    
+    /**
+     * Mutes or unmutes all sounds in the game.
+     * @param {boolean} mute - True to mute all sounds, false to unmute.
+     */
+    muteAllSounds(mute) {
+        this.swim_sound.muted = mute;
+        this.ranged_sound.muted = mute;
+        this.snore_sound.muted = mute;
+        this.meele_sound.muted = mute;
+        this.hurt_sound.muted = mute;
+        this.death_sound.muted = mute;
+        this.game_over_sound.muted = mute;
+        this.background_music.muted = mute;
+        this.background_sound.muted = mute;
+        this.poison_sound.muted = mute;
+        this.coin_sound.muted = mute;
+        this.boss_encounter_sound.muted = mute;
+    }
+
 }
+
+// function muteAllSounds() {
+//     // Alle Audio-Elemente durchgehen und die Stummschaltung umkehren
+//     this.allAudios.forEach(audio => {
+//         audio.muted = !audio.muted;
+//     });
+// }
