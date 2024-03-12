@@ -9,17 +9,68 @@ class World {
     coinBar = new StatusBar(20, 50, 1, 0);
     poisonBar = new StatusBar(20, 90, 2, 0);
     throwableObjects = [];
+    allAudios = [];
 
+
+    SOUNDS = [
+        'audio/1movement_sound.mp3',
+        'audio/1bubbles_ranged.mp3',
+        'audio/1snore.mp3',
+        'audio/1meele.mp3',
+        'audio/1hurt.mp3',
+        'audio/1death.mp3',
+        'audio/1game-over.mp3',
+        'audio/1background_music.mp3',
+        'audio/1background_sound.mp3',
+        'audio/1coin.mp3',
+        'audio/1poison.mp3',
+        'audio/1orca.mp3',
+        'audio/1boss_encounter.mp3'
+    ];
+
+
+    swim_sound = new Audio(this.SOUNDS[0]);
+    ranged_sound = new Audio(this.SOUNDS[1]);
+    snore_sound = new Audio(this.SOUNDS[2]);
+    meele_sound = new Audio(this.SOUNDS[3]);
+    hurt_sound = new Audio(this.SOUNDS[4]);
+    death_sound = new Audio(this.SOUNDS[5]);
+    game_over_sound = new Audio(this.SOUNDS[6]);
+    background_music = new Audio(this.SOUNDS[7]);
+    background_sound = new Audio(this.SOUNDS[8]);
+    coin_sound = new Audio(this.SOUNDS[9]);
+    poison_sound = new Audio(this.SOUNDS[10]);
+    boss_spawn_sound = new Audio(this.SOUNDS[11]);
+    boss_encounter_sound = new Audio(this.SOUNDS[12]);
+    
 
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.keyboard = keyboard;
+        this.setVolume();
         this.draw();
         this.setWorld();
         this.run();
+        this.background_music.play();
+        this.background_sound.play();
     };
+
+    setVolume() {
+        this.swim_sound.volume = 0.05;
+        this.meele_sound.volume = 0.2;
+        this.ranged_sound.volume = 0.1;
+        this.snore_sound.volume = 0.3;
+        this.hurt_sound.volume = 0.05;
+        this.death_sound.volume = 0.05;
+        this.game_over_sound.volume = 0.09;
+        this.background_music.volume = 0.09;
+        this.background_sound.volume = 0.4;
+        this.poison_sound.volume = 0.09;
+        this.coin_sound.volume = 0.09;
+        this.boss_encounter_sound.volume = 0.09;
+    }
 
     setWorld() {
         this.character.world = this;
@@ -67,6 +118,7 @@ class World {
         this.throwableObjects.push(bubble);
         bubble.timeOfDeath = Date.now() + 6000;
         this.character.poison -= 20;
+        this.ranged_sound.play();
         this.poisonBar.setPercentage(this.character.poison);
     }
 
@@ -80,6 +132,9 @@ class World {
                     if (e.health == 0) {
                         console.log('me dead', e);
                         e.timeOfDeath = Date.now() + 6000;
+                        if(e.y < 0){
+                            this.world.death_sound.play();
+                        }
                     }
                 }
             });
@@ -124,14 +179,17 @@ class World {
                 if (co.type === 1) { // Coin
                     this.character.coins += 10;
                     this.coinBar.setPercentage(this.character.coins);
+                    this.coin_sound.play();
                 } else if (co.type === 2) { // Poison
                     this.character.poison += 20;
                     this.poisonBar.setPercentage(this.character.poison);
+                    this.poison_sound.play();
                 }
                 this.level.collectables.splice(this.level.collectables.indexOf(co), 1);
             }
         });
     }
+
 
     checkDeadEnemyPosition() {
         this.level.enemies.forEach((e) => {

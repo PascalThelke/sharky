@@ -26,19 +26,25 @@
     <title>Sharky</title>
 </head>
 
-<body>
+<body onload="init()">
     <h1>Sharky</h1>
     <span id="handyscreen_info">(move you screen sideways to play properly)</span>
     <div id="startscreen">
-        <button id="start_button" onclick="init()">Start Game</button>
+        <button id="start_button" onclick="initGame()">Play</button>
         <button id="key_button" onclick="showKeys()">Keys</button>
         <button id="about_button" onclick="showAbout()">About</button>
     </div>
     <canvas id="canvas" width="720" height="480">
     </canvas>
     <div id="overlay_container" onclick="closeOverlay()">
-        <div id="midlayer">
+        <div class="midlayer">
             <div id="option_overlay" onclick="noClose(event)"></div>
+        </div>
+    </div>
+    <div id="winscreen_overlay">
+        <div class="midlayer column g20">
+            <h1 id="wintext"></h1>
+            <button id="try_again_button" onclick="tryAgain()">Try again</button>
         </div>
     </div>
     <footer id="footer">

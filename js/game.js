@@ -3,27 +3,54 @@ let world;
 let keyboard = new Keyboard();
 
 function init() {
+
+}
+
+function initGame() {
+
+    initLevel();
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard);
-    console.log('My character ist', world.character)
     document.getElementById('startscreen').style.display = "none";
     document.getElementById('canvas').style.display = "block";
     document.getElementById('footer').style.display = "none";
 }
 
-function showKeys(){
+function tryAgain() {
+    pauseAllAudios();
+    document.getElementById('winscreen_overlay').style.display = 'none';
+    document.getElementById('try_again_button').style.display = 'none';
+    initLevel();
+    canvas = document.getElementById('canvas');
+    world = new World(canvas, keyboard);
+
+}
+
+function startAllIntervals() {
+    for (let i = 1; i < 9999; i++) window.setInterval(i);
+}
+
+function pauseAllAudios() {
+    allAudios.forEach(audio => {
+        audio.pause();
+        audio.currentTime = 0;
+    });
+}
+
+
+function showKeys() {
     renderKeys();
     document.getElementById('overlay_container').style.display = 'flex';
     setTimeout(() => {
         document.getElementById('option_overlay').style.transform = 'translateX(0%)';
     }, 125);
-    
+
 }
 
 function renderKeys() {
     document.getElementById('option_overlay').innerHTML = '';
     document.getElementById('option_overlay').innerHTML += `
-    <div class="column g4">
+    <div class="column g20">
             <h2>How to move:</h2>
             <div class="movement_row">
                 <span class="button_indicator">W</span>
@@ -42,7 +69,7 @@ function renderKeys() {
                 <span class ="unfill_font">RIGHT</span>
             </div>
         </div>
-        <div class="column g4 mt40">
+        <div class="column g20 mt40">
             <h2>How to attack:</h2>
             <div class="movement_row">
                 <span class="button_indicator">E</span>
@@ -56,19 +83,19 @@ function renderKeys() {
     `;
 }
 
-function showAbout(){
+function showAbout() {
     renderAbout();
     document.getElementById('overlay_container').style.display = 'flex';
     setTimeout(() => {
-        document.getElementById('option_overlay').style.transform = 'translateX(0%)';
+        document.getElementById('option_overlay').style.transform = 'translateY(0%)';
     }, 125);
 }
 
 function renderAbout() {
-    
+
     document.getElementById('option_overlay').innerHTML = '';
     document.getElementById('option_overlay').innerHTML += ` 
-    <div class="column g4 w84">
+    <div class="column g20 w84">
     <h2>Enemies</h2>
     <div class="movement_row">
         <h3>Pufferfisch</h3>
@@ -89,10 +116,10 @@ function renderAbout() {
         <img src="./img/2_enemys/3_final_enemy/2_floating/1.png" alt="">
     </div>
     <span class="enemy_explanation">
-        Beware of these orca enemies as they often emerge unexpectedly and hunt alone. It's best not to cross paths with them. Further information is scarce as there are few survivors who have lived through an encounter with this monstrous creature.
+        Beware of these orca as they often emerge unexpectedly and hunt alone. It's best not to cross paths with them. Further information is rare as there are few survivors who have lived through an encounter with this monstrous creature.
     </span>
 </div>
-<div class="column g4 w84 mt40">
+<div class="column g20 w84 mt40">
     <h2>Collectables</h2>
     <div class="movement_row">
         <h3>Coins</h3>
@@ -112,62 +139,62 @@ function renderAbout() {
     `;
 }
 
-function closeOverlay(){
-    document.getElementById('option_overlay').style.transform = 'translateX(200%)';
+function closeOverlay() {
+    document.getElementById('option_overlay').style.transform = 'translateY(200%)';
     setTimeout(() => {
         document.getElementById('overlay_container').style.display = 'none';
     }, 125);
-   
+
 }
 
-function noClose(event){
+function noClose(event) {
     event.stopPropagation();
 }
 
 document.getElementById('buttonLeft').addEventListener('touchstart', (e) => {
-    e.preventDefault();
+    if (event.cancelable) event.preventDefault();
     keyboard.LEFT = true;
 });
 
 document.getElementById('buttonRight').addEventListener('touchstart', (e) => {
-    e.preventDefault();
+    if (event.cancelable) event.preventDefault();
     keyboard.RIGHT = true;
 });
 
 document.getElementById('buttonUP').addEventListener('touchstart', (e) => {
-    e.preventDefault();
+    if (event.cancelable) event.preventDefault();
     keyboard.UP = true;
 });
 
 document.getElementById('buttonDown').addEventListener('touchstart', (e) => {
-    e.preventDefault();
+    if (event.cancelable) event.preventDefault();
     keyboard.DOWN = true;
 });
 
 document.getElementById('buttonSpace').addEventListener('touchstart', (e) => {
-    e.preventDefault();
+    if (event.cancelable) event.preventDefault();
     keyboard.SPACE = true;
 });
 
 
 //keine funktion?
 document.getElementById('buttonE').addEventListener('touchstart', (e) => {
-    e.preventDefault();
+    if (event.cancelable) event.preventDefault();
     keyboard.E = true;
 });
 
 document.getElementById('buttonLeft').addEventListener('touchend', (e) => {
-    e.preventDefault();
+    if (event.cancelable) event.preventDefault();
     keyboard.LEFT = false;
 });
 
 document.getElementById('buttonRight').addEventListener('touchend', (e) => {
-    e.preventDefault();
+    if (event.cancelable) event.preventDefault();
     keyboard.RIGHT = false;
 });
 
 document.getElementById('buttonUP').addEventListener('touchend', (e) => {
-    e.preventDefault();
+    if (event.cancelable) event.preventDefault();
     keyboard.UP = false;
 });
 
@@ -183,7 +210,7 @@ document.getElementById('buttonSpace').addEventListener('touchend', (e) => {
 
 //keine funktion?
 document.getElementById('buttonE').addEventListener('touchend', (e) => {
-    e.preventDefault();
+    if (event.cancelable) event.preventDefault();
     keyboard.E = false;
 });
 

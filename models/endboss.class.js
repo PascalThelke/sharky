@@ -1,5 +1,5 @@
 class Endboss extends MoveableObject {
-    health = 300;
+    health = 400;
     height = 250;
     width = 300;
     speed = 5;
@@ -78,6 +78,13 @@ class Endboss extends MoveableObject {
         this.animate();
     }
 
+    showWinningScreen(){
+        document.getElementById('winscreen_overlay').style.display = 'unset';
+        setTimeout(() => {
+            document.getElementById('wintext').style.transform = 'translateX(0%)';
+        }, 125);
+    }
+
 
     animate() {
         // interval for checking dead animation
@@ -106,11 +113,17 @@ class Endboss extends MoveableObject {
                 this.playAnimation(this.IMAGES_FLOATING);
             }
             this.currentImage++;
+            if (this.world.character.x > 1600 && !this.firstContact) {
+                this.world.background_music.pause();
+                this.world.boss_spawn_sound.play();
+                
+            }
             if (this.world.character.x > 1800 && !this.firstContact) {
                 this.currentImage = 0;
                 this.firstContact = true;
-
-
+                setTimeout(() => {
+                    this.world.boss_encounter_sound.play();
+                }, 3000);
             }
 
         }, 250);
@@ -121,6 +134,8 @@ class Endboss extends MoveableObject {
                 this.playAnimation(this.IS_HURT);
             } else if (this.isDead()) {
                 this.applyUpwardTrend();
+                this.world.boss_encounter_sound.pause();
+                this.world.background_music.play();
             }
         }, 50);
 
@@ -145,6 +160,10 @@ class Endboss extends MoveableObject {
                 this.speed = 0.5;
                 this.moveUP();
                 movingDown = false;
+                setTimeout(() => {
+                    clearAllIntervals();
+                    showWinningScreen();
+                }, 3000);
             };
 
 
@@ -170,7 +189,7 @@ class Endboss extends MoveableObject {
 
         }, 1000 / 60);
 
-        
+
         // setInterval(() => {
         //     if (movingDown){
         //         movingDown = false;
@@ -178,7 +197,7 @@ class Endboss extends MoveableObject {
         //         movingDown = true;
         //     }
         // }, 3000);
-        
+
 
 
         setInterval(() => {
@@ -202,3 +221,17 @@ class Endboss extends MoveableObject {
 
     }
 }
+
+function showWinningScreen(){
+    document.getElementById('wintext').innerHTML = "YOU WIN"
+    document.getElementById('winscreen_overlay').style.display = 'unset';
+    document.getElementById('try_again_button').style.display = 'unset';
+    setTimeout(() => {
+        document.getElementById('wintext').style.transform = 'translateY(0%)';
+        document.getElementById('try_again_button').style.transform = 'translateY(0%)';
+    }, 125);
+}
+
+function clearAllIntervals() {
+    for (let i = 1; i < 9999; i++) window.clearInterval(i);
+  }

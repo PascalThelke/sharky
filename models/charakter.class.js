@@ -145,25 +145,30 @@ class Character extends MoveableObject {
         let sleepAnimationPlayed = false;
 
         let movementInterval = setInterval(() => {
+            this.world.swim_sound.pause();
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
                 this.moveRight();
                 this.getLastActionTime();
+                this.world.swim_sound.play();
                 this.mirroredSideways = false;
             }
             if (this.world.keyboard.LEFT && this.x > this.world.level.level_end_y) {
                 this.moveLeft();
                 this.getLastActionTime();
+                this.world.swim_sound.play();
                 this.mirroredSideways = true;
             }
             if (this.world.keyboard.UP && this.y > this.world.level.level_end_top) {
                 this.moveUP();
                 this.getLastActionTime();
+                this.world.swim_sound.play();
                 this.mirroredUpways = true;
                 this.mirroredDownways = false;
             }
             if (this.world.keyboard.DOWN && this.y < this.world.level.level_end_bottom) {
                 this.moveDown();
                 this.getLastActionTime();
+                this.world.swim_sound.play();
                 this.mirroredDownways = true;
                 this.mirroredUpways = false;
             }
@@ -177,6 +182,7 @@ class Character extends MoveableObject {
             if (timePassed >= 5) {
                 if (!sleepAnimationPlayed) {
                     this.playAnimation(this.SLEEP_ANIMATION);
+                    this.world.snore_sound.play();
                     sleepAnimationPlayed = true;
                 } else {
                     const lastIndex = this.SLEEP_ANIMATION.length - 1;
@@ -186,35 +192,81 @@ class Character extends MoveableObject {
             } else {
                 sleepAnimationPlayed = false;
                 this.playAnimation(this.IMAGES_FLOATING);
+                this.world.snore_sound.pause();
             }
-           
+
             if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT || this.world.keyboard.UP || this.world.keyboard.DOWN) {
                 this.playAnimation(this.IMAGES_WALKING);
             }
         }, 350);
 
-         // interval for checking dead animation
-         setInterval(() => {
+
+        // //soundintervall walking
+        // setInterval(() => {
+        //     this.swim_sound.pause();
+        //     if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT || this.world.keyboard.UP || this.world.keyboard.DOWN) {
+        //         this.swim_sound.play();
+        //     }
+        // }, 1000);
+
+        // // //soundintervall meele
+        // // setInterval(() => {
+        // //     this.meele_sound.pause();
+        // //     if (this.world.keyboard.SPACE && !sleepAnimationPlayed) {
+        // //         if (!this.mirroredSideways) {
+        // //             this.meele_sound.play();
+        // //         } else {
+        // //             this.meele_sound.play();
+        // //         }
+        // //     }
+
+        // // }, 350);
+
+        // //soundintervall ranged
+        // setInterval(() => {
+        //     this.ranged_sound.pause();
+        //     if (this.world.keyboard.E && !sleepAnimationPlayed) {
+        //         this.ranged_sound.play();
+        //     }
+
+        // }, 300);
+
+        // interval for checking dead animation
+        setInterval(() => {
             if (this.isDead() && this.currentImage < this.DEAD_ANIMATION.length) {
                 this.playAnimation(this.DEAD_ANIMATION);
+                
             } else if (this.deadAnimationPlayed) {
                 const lastImage = this.DEAD_ANIMATION.slice(this.DEAD_ANIMATION.length - 1);
                 this.playAnimation(lastImage);
+                
             }
             this.currentImage++
             if (this.isDead() && !this.deadAnimationPlayed) {
                 this.deadAnimationPlayed = true;
+                this.world.background_music.pause();
+                setTimeout(() => {
+                    this.world.death_sound.play();
+                }, 500);
+                this.world.game_over_sound.play();
+                setTimeout(() => {
+                    clearAllIntervals();
+                    showGameOverScreen();
+                }, 3000);
             }
         }, 200);
-        
+
         // Interval for checking hurt/apply upwardtrend after death
         setInterval(() => {
-                if(this.isDead()){
-                    this.applyUpwardTrend();
-                    this.stopMovement();
-                }else if (this.isHurt()) {
-                    this.playAnimation(this.IS_HURT_POISON);
-                }
+            if (this.isDead()) {
+                this.applyUpwardTrend();
+                this.stopMovement();
+                this.world.hurt_sound.pause();
+                this.world.snore_sound.pause();
+            } else if (this.isHurt()) {
+                this.playAnimation(this.IS_HURT_POISON);
+                this.world.hurt_sound.play();
+            }
         }, 50);
 
 
@@ -223,6 +275,7 @@ class Character extends MoveableObject {
                 if (!this.mirroredSideways) {
                     this.isAttacking = true;
                     this.playAnimation(this.MEELE_ATTACK);
+                    this.world.meele_sound.play();
                     this.offset = this.meeleOffset;
                     setTimeout(() => {
                         this.offset = this.originOffset;
@@ -231,6 +284,7 @@ class Character extends MoveableObject {
                 } else {
                     this.isAttacking = true;
                     this.playAnimation(this.MEELE_ATTACK);
+                    this.world.meele_sound.play();
                     this.offset = this.mirroredMeeleOffset;
                     setTimeout(() => {
                         this.offset = this.originOffset;
@@ -253,4 +307,14 @@ class Character extends MoveableObject {
     }
 
 
+}
+
+function showGameOverScreen(){
+    document.getElementById('wintext').innerHTML = 'YOU LOOSE';
+    document.getElementById('winscreen_overlay').style.display = 'unset';
+    document.getElementById('try_again_button').style.display = 'unset';
+    setTimeout(() => {
+        document.getElementById('wintext').style.transform = 'translateY(0%)';
+        document.getElementById('try_again_button').style.transform = 'translateY(0%)';
+    }, 125);
 }
