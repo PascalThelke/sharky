@@ -78,7 +78,6 @@ canvas {
     width: 100%;
     justify-content: space-between;
     align-items: center;
-
 }
 
 .movement_row img {
@@ -134,7 +133,6 @@ canvas {
     width: 224px;
     text-wrap: nowrap;
 }
-
 
 .midlayer {
     height: 100%;
@@ -209,7 +207,6 @@ footer button:hover {
     cursor: pointer;
 }
 
-
 #hud {
     display: none;
     align-items: center;
@@ -283,7 +280,6 @@ footer button:hover {
 
 /* for smartphones*/
 @media only screen and (max-width: 720px) {
-
     #hud,
     canvas {
         width: 100%;
@@ -292,12 +288,9 @@ footer button:hover {
     #handyscreen_info {
         display: unset;
     }
-
 }
 
 @media only screen and (max-width: 420px) {
-
-
     #handyscreen_info {
         display: unset;
     }
@@ -305,7 +298,6 @@ footer button:hover {
 }
 
 @media only screen and (max-height: 480px) {
-
     #hud {
         display: flex;
     }

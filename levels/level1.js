@@ -1,4 +1,8 @@
 let level1;
+
+/**
+ * Initiates the arrays for the level.
+ */
 function initLevel(){
     level1 = new Level(
         [

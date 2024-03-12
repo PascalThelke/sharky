@@ -1,3 +1,7 @@
+/**
+ * Represents an end boss in a game.
+ * @extends MoveableObject
+ */
 class Endboss extends MoveableObject {
     health = 400;
     height = 250;
@@ -67,6 +71,9 @@ class Endboss extends MoveableObject {
         'img/2_enemys/3_final_enemy/3_attack/6.png'
     ];
 
+    /**
+     * Constructs a new Endboss object.
+     */
     constructor() {
         super().loadIMG(this.IMAGES_FLOATING[0]);
         this.loadImages(this.IMAGES_FLOATING);
@@ -79,6 +86,9 @@ class Endboss extends MoveableObject {
         this.animate();
     }
 
+    /**
+    * Initiates various animations for the end boss.
+    */
     animate() {
         setInterval(() => this.deathAnimation(), 200);
         setInterval(() => this.spawnAnimation(), 250);
@@ -89,6 +99,9 @@ class Endboss extends MoveableObject {
         setInterval(() => this.attackAnitmation(), 200);
     }
 
+    /**
+     * Manages the death animation for the end boss.
+     */
     deathAnimation() {
         if (this.isDead() && this.currentImage < this.DEAD_ANIMATION.length) {
             this.playAnimation(this.DEAD_ANIMATION);
@@ -102,6 +115,9 @@ class Endboss extends MoveableObject {
         }
     }
 
+    /**
+     * Manages the spawn animation for the end boss.
+    */
     spawnAnimation() {
         if (this.currentImage < this.IMAGES_SPAWNING.length && this.firstContact) {
             this.x = 2400;
@@ -125,6 +141,11 @@ class Endboss extends MoveableObject {
         }
     }
 
+    /**
+    * Handles the hurt animation of the end boss.
+    * If the boss is not dead and is hurt, it plays the hurt animation.
+    * If the boss is dead, it initiates the end of the game.
+    */
     hurtAnimation() {
         if (!this.isDead() && this.isHurt()) {
             this.playAnimation(this.IS_HURT);
@@ -133,12 +154,20 @@ class Endboss extends MoveableObject {
         }
     }
 
+    /**
+     * Initiates the end sequence of the game when the boss is defeated.
+     * Applies an upward trend, pauses the boss encounter sound, and resumes background music.
+     */
     initiateDeadEnd() {
         this.applyUpwardTrend();
         this.world.boss_encounter_sound.pause();
         this.world.background_music.play();
     }
 
+    /**
+     * Animates the vertical movement pattern of the end boss.
+     * Moves the boss up and down within a specified range based on its current state.
+     */
     movementPatternAnimationUp() {
         if (this.movingDown && this.firstContact && !this.isDead()) {
             if (this.y < this.resulutionheight - this.height && this.firstContact) {
@@ -155,6 +184,10 @@ class Endboss extends MoveableObject {
         }
     }
 
+    /**
+     * Animates the horizontal movement pattern of the end boss.
+     * Moves the boss left and right within a specified range based on its current state.
+     */
     movementPatternAnimationLeft() {
         if (this.movingForward && this.firstContact && !this.isHurt() && !this.isDead() && !this.attackAnimationPlayed) {
             if (this.x < this.resolutionwidth - this.width) {
@@ -171,6 +204,10 @@ class Endboss extends MoveableObject {
         }
     }
 
+    /**
+     * Handles the end-of-game animation for the end boss.
+     * Slows down the boss, moves it upwards, and triggers the end of the game sequence.
+     */
     endOfTheGameAnimation() {
         if (this.isDead()) {
             this.speed = 0.5;
@@ -180,6 +217,9 @@ class Endboss extends MoveableObject {
         };
     }
 
+    /**
+     * Ends the game by clearing all intervals and displaying the winning screen after a delay.
+     */
     endTheGame() {
         setTimeout(() => {
             clearAllIntervals();
@@ -187,6 +227,11 @@ class Endboss extends MoveableObject {
         }, 3000);
     }
 
+    /**
+     * Initiates the attack animation for the end boss.
+     * Plays the melee attack animation sequence with a delay, if the boss is not dead, not hurt,
+     * it's the first contact with the player, and the attack animation has not been played.
+     */
     attackAnitmation() {
         if (!this.isDead() && !this.isHurt() && this.firstContact && !this.attackAnimationPlayed) {
             setTimeout(() => {
@@ -200,6 +245,10 @@ class Endboss extends MoveableObject {
         }
     }
 
+    /**
+    * Resets the attack animation state after it has been played.
+    * Resets the current image index for attack animation and sets attackAnimationPlayed to false after a delay.
+    */
     resetAttackAnimation() {
         this.currentImageAttacking = 0;
         this.attackAnimationPlayed = true;
@@ -208,6 +257,9 @@ class Endboss extends MoveableObject {
         }, 4000);
     }
 
+    /**
+     * Displays the winning screen by showing the overlay and animating the winning text.
+     */
     showWinningScreen() {
         document.getElementById('winscreen_overlay').style.display = 'unset';
         setTimeout(() => {
@@ -217,6 +269,9 @@ class Endboss extends MoveableObject {
 
 };
 
+/**
+ * Displays the winning screen by setting the winning text, showing the overlay, and displaying the try again button with animations.
+ */
 function showWinningScreen() {
     document.getElementById('wintext').innerHTML = "YOU WIN"
     document.getElementById('winscreen_overlay').style.display = 'unset';
@@ -227,6 +282,10 @@ function showWinningScreen() {
     }, 125);
 };
 
+/**
+ * Clears all intervals created by setInterval() up to a maximum interval ID.
+ * 
+ */
 function clearAllIntervals() {
     for (let i = 1; i < 9999; i++) window.clearInterval(i);
 };

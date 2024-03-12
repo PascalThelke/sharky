@@ -1,3 +1,7 @@
+/**
+ * Represents the character object that extends the MoveableObject class.
+ *  @extends MoveableObject
+ */
 class Character extends MoveableObject {
     world;
     width = 300;
@@ -121,6 +125,10 @@ class Character extends MoveableObject {
         'img/1_sharkie/2_long_idle/I14.png'
     ];
 
+
+    /**
+    * Initializes a new instance of the Character class.
+    */
     constructor() {
         super().loadIMG('img/1_sharkie/1_idle/1.png')
         this.loadImages(this.IMAGES_WALKING);
@@ -136,6 +144,9 @@ class Character extends MoveableObject {
         this.animate();
     };
 
+    /**
+    * Initiates various animation intervals.
+    */
     animate() {
         this.movementsInterval();
         this.sleepAnimationInterval();
@@ -144,30 +155,49 @@ class Character extends MoveableObject {
         this.attackAnimationInterval();
     };
 
+    /**
+     * Initiates the interval for attack animations.
+     */
     attackAnimationInterval() {
         this.emoteInterval = setInterval(() => this.playAttackAnimation(), 50);
         this.intervalIds.push(this.emoteInterval);
     };
 
+    /**
+     * Initiates the interval for sleep animations.
+     */
     sleepAnimationInterval() {
         this.animationInterval = setInterval(() => this.playSleepAnimation(), 350);
         this.intervalIds.push(this.animationInterval);
     };
 
+
+    /**
+     * Initiates the interval for movement animations.
+     */
     movementsInterval() {
         this.movementInterval = setInterval(() => this.playMovementAnimation(), 1000 / 60);
         this.intervalIds.push(this.movementInterval);
     };
 
+    /**
+     * Initiates the interval for hurt animations.
+     */
     hurtAnimationInterval() {
         setInterval(() => this.playHurtAnimation(), 50);
     };
 
-
+    /**
+     * Initiates the interval for death animations.
+     */
     deadAnimationInterval() {
         setInterval(() => this.playDeathAnimation(), 200);
     };
 
+
+    /**
+     * Plays attack animations based on keyboard input.
+     */
     playAttackAnimation() {
         if (this.world.keyboard.SPACE && !this.sleepAnimationPlayed) {
             if (!this.mirroredSideways) {
@@ -181,6 +211,9 @@ class Character extends MoveableObject {
         }
     };
 
+    /**
+    * Initiates melee attack animation.
+    */
     attacking() {
         this.isAttacking = true;
         this.playAnimation(this.MEELE_ATTACK);
@@ -189,6 +222,9 @@ class Character extends MoveableObject {
         this.resetOffset();
     };
 
+    /**
+    * Initiates mirrored melee attack animation.
+    */
     mirroredAttacking() {
         this.isAttacking = true;
         this.playAnimation(this.MEELE_ATTACK);
@@ -197,6 +233,9 @@ class Character extends MoveableObject {
         this.resetOffset();
     };
 
+    /**
+    * Reset the offset after attacking.
+    */
     resetOffset() {
         setTimeout(() => {
             this.offset = this.originOffset;
@@ -204,6 +243,10 @@ class Character extends MoveableObject {
         }, 350);
     };
 
+
+    /**
+    * Plays hurt animation.
+    */
     playHurtAnimation() {
         if (this.isDead()) {
             this.animateEndGame();
@@ -213,6 +256,9 @@ class Character extends MoveableObject {
         }
     };
 
+    /**
+    * Initiates the End animation.
+    */
     animateEndGame() {
         this.applyUpwardTrend();
         this.stopMovement();
@@ -220,6 +266,9 @@ class Character extends MoveableObject {
         this.world.snore_sound.pause();
     }
 
+    /**
+    * Plays death animation.
+    */
     playDeathAnimation() {
         if (this.isDead() && this.currentImage < this.DEAD_ANIMATION.length) {
             this.playAnimation(this.DEAD_ANIMATION);
@@ -231,6 +280,9 @@ class Character extends MoveableObject {
         this.setEndgameSound();
     };
 
+    /**
+    * End the game and frezzes the Screen.
+    */
     endGame() {
         setTimeout(() => {
             clearAllIntervals();
@@ -238,6 +290,9 @@ class Character extends MoveableObject {
         }, 3000);
     };
 
+    /**
+     * Sets endgame sounds and triggers endgame actions if character is dead.
+     */
     setEndgameSound() {
         if (this.isDead() && !this.deadAnimationPlayed) {
             this.deadAnimationPlayed = true;
@@ -250,6 +305,9 @@ class Character extends MoveableObject {
         }
     };
 
+    /**
+    * Plays sleep animation.
+    */
     playSleepAnimation() {
         const currentTime = new Date().getTime();
         const timePassed = (currentTime - this.lastActionTime) / 1000;
@@ -257,31 +315,43 @@ class Character extends MoveableObject {
             if (!this.sleepAnimationPlayed) {
                 this.sleep();
             } else {
-               this.getLastSleepImage();
+                this.getLastSleepImage();
             }
         } else {
             this.noSleep();
         }
     };
 
-    getLastSleepImage(){
+    /**
+     * Retrieves the last four images from the sleep animation array and plays them.
+     */
+    getLastSleepImage() {
         const lastIndex = this.SLEEP_ANIMATION.length - 1;
         const lastFourImages = this.SLEEP_ANIMATION.slice(lastIndex - 3, lastIndex + 1);
         this.playAnimation(lastFourImages);
     }
 
+    /**
+     * Initiates the sleep animation and plays associated sounds.
+     */
     sleep() {
         this.playAnimation(this.SLEEP_ANIMATION);
         this.world.snore_sound.play();
         this.sleepAnimationPlayed = true;
     }
 
-    noSleep(){
+    /**
+    * Cancels the sleep animation and plays associated sounds.
+    */
+    noSleep() {
         this.sleepAnimationPlayed = false;
         this.playAnimation(this.IMAGES_FLOATING);
         this.world.snore_sound.pause();
     }
 
+    /**
+    * Plays movement animations based on keyboard input and updates camera position.
+    */
     playMovementAnimation() {
         this.world.swim_sound.pause();
         if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
@@ -299,6 +369,9 @@ class Character extends MoveableObject {
         this.world.camera_x = -this.x + 100;
     };
 
+    /**
+    * Initiates movement to the right, updates action time, plays swim sound, and sets mirrored sideways flag.
+    */
     movementRight() {
         this.moveRight();
         this.getLastActionTime();
@@ -306,6 +379,9 @@ class Character extends MoveableObject {
         this.mirroredSideways = false;
     };
 
+    /**
+     * Initiates movement to the left, updates action time, plays swim sound, and sets mirrored sideways flag.
+    */
     movementLeft() {
         this.moveLeft();
         this.getLastActionTime();
@@ -313,6 +389,9 @@ class Character extends MoveableObject {
         this.mirroredSideways = true;
     };
 
+    /**
+     * Initiates movement upward, updates action time, plays swim sound, and sets mirrored upward and downward flags.
+     */
     movementUP() {
         this.moveUP();
         this.getLastActionTime();
@@ -321,6 +400,9 @@ class Character extends MoveableObject {
         this.mirroredDownways = false;
     };
 
+    /**
+     * Initiates movement downward, updates action time, plays swim sound, and sets mirrored downward and upward flags.
+     */
     movementDown() {
         this.moveDown();
         this.getLastActionTime();
@@ -329,12 +411,18 @@ class Character extends MoveableObject {
         this.mirroredUpways = false;
     };
 
+    /**
+    * Stops all movement intervals.
+    */
     stopMovement() {
         this.intervalIds.forEach(clearInterval);
     };
 
 };
 
+/**
+ * Displays the game over screen with appropriate message and buttons.
+ */
 function showGameOverScreen() {
     document.getElementById('wintext').innerHTML = 'YOU LOOSE';
     document.getElementById('winscreen_overlay').style.display = 'unset';

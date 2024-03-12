@@ -2,6 +2,11 @@ let canvas;
 let world;
 let keyboard = new Keyboard();
 
+/**
+ * Initializes the game.
+ * @param {HTMLElement} canvas - The canvas element.
+ * @param {Object} keyboard - The keyboard object.
+ */
 function initGame() {
     initLevel();
     canvas = document.getElementById('canvas');
@@ -11,16 +16,18 @@ function initGame() {
     document.getElementById('footer').style.display = "none";
 }
 
+/**
+ * Returns to the main menu.
+ */
 function backToMenu() {
     document.getElementById('winscreen_overlay').style.display = 'none';
     document.getElementById('try_again_button').style.display = 'none';
     location.reload();
 }
 
-function startAllIntervals() {
-    for (let i = 1; i < 9999; i++) window.setInterval(i);
-}
-
+/**
+ * Shows the keys overlay.
+ */
 function showKeys() {
     renderKeys();
     document.getElementById('overlay_container').style.display = 'flex';
@@ -29,6 +36,9 @@ function showKeys() {
     }, 125);
 }
 
+/**
+ * Shows the about overlay.
+ */
 function showAbout() {
     renderAbout();
     document.getElementById('overlay_container').style.display = 'flex';
@@ -37,6 +47,9 @@ function showAbout() {
     }, 125);
 }
 
+/**
+ * Shows the legal notice overlay.
+ */
 function showLegalNotice() {
     renderLegalNotice();
     document.getElementById('overlay_container').style.display = 'unset';
@@ -45,6 +58,9 @@ function showLegalNotice() {
     }, 125);
 }
 
+/**
+ * Shows the privacy policy overlay.
+ */
 function showPrivacyPolicy() {
     renderPrivacyPolicy();
     document.getElementById('overlay_container').style.display = 'unset';
@@ -53,6 +69,10 @@ function showPrivacyPolicy() {
     }, 125);
 }
 
+
+/**
+ * Closes the overlay.
+ */
 function closeOverlay() {
     document.getElementById('option_overlay').style.transform = 'translateY(200%)';
     setTimeout(() => {
@@ -60,10 +80,17 @@ function closeOverlay() {
     }, 125);
 }
 
+/**
+ * Stops the close event.
+ */
 function noClose(event) {
     event.stopPropagation();
 }
 
+
+/**
+ * Renders the text into the key overlay.
+ */
 function renderKeys() {
     document.getElementById('option_overlay').innerHTML = '';
     document.getElementById('option_overlay').innerHTML += `
@@ -100,6 +127,10 @@ function renderKeys() {
     `;
 }
 
+
+/**
+ * Renders the text into the about overlay.
+ */
 function renderAbout() {
     document.getElementById('option_overlay').innerHTML = '';
     document.getElementById('option_overlay').innerHTML += ` 
@@ -147,6 +178,10 @@ function renderAbout() {
     `;
 }
 
+
+/**
+ * Renders the text into the legal notice overlay.
+ */
 function renderLegalNotice() {
     document.getElementById('option_overlay').innerHTML = '';
     document.getElementById('option_overlay').innerHTML += ` 
@@ -183,27 +218,34 @@ function renderLegalNotice() {
     `;
 }
 
+
+/**
+ * Renders the text into the privacy policy overlay.
+ */
 function renderPrivacyPolicy() {
     document.getElementById('option_overlay').innerHTML = '';
     document.getElementById('option_overlay').innerHTML += ` 
     <h2>Privacy policy</h2>
-                <p>
-                    We do not collect or use any personal data of our users. Our game does not process any data
-                    outside of the user-generated gameplay behavior within the game.
-                </p>
-                <p>
-                    No information is gathered to be
-                    shared with third parties, and we do not use any analytics tools to track user behavior outside of
-                    the game.
-                </p>
-                <p>
-                    All data generated within the game is solely used for the gameplay experience and not for
-                    any other purposes.
-                </p>
-    
+        <p>
+            We do not collect or use any personal data of our users. Our game does not process any data
+             outside of the user-generated gameplay behavior within the game.
+         </p>
+        <p>
+            No information is gathered to be
+            shared with third parties, and we do not use any analytics tools to track user behavior outside of
+            the game.
+        </p>
+        <p>
+            All data generated within the game is solely used for the gameplay experience and not for
+            any other purposes.
+        </p>
     `;
 }
 
+
+/**
+ * Checks if any keys pressed.
+ */
 document.getElementById('buttonLeft').addEventListener('touchstart', (e) => {
     if (event.cancelable) event.preventDefault();
     keyboard.LEFT = true;
