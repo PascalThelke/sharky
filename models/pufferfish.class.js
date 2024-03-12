@@ -1,3 +1,7 @@
+/**
+ * Represents a pufferfish object that extends MoveableObject.
+ * @extends MoveableObject
+ */
 class Pufferfish extends MoveableObject {
     height = 75;
     width = 125;
@@ -40,7 +44,10 @@ class Pufferfish extends MoveableObject {
     ];
 
 
-
+    /**
+     * Constructs a new Pufferfish object.
+     * Loads initial images and sets initial position, speed, and animation.
+     */
     constructor() {
         super().loadIMG('img/2_enemys/1_pufferfish_3_colored_options/1_swim/1.swim1.png');
         this.loadImages(this.IMAGES_WALKING);
@@ -53,6 +60,10 @@ class Pufferfish extends MoveableObject {
         this.animate();
     }
 
+    /**
+     * Starts the animations for the pufferfish.
+     * Sets intervals for various animation functions.
+     */
     animate() {
         setInterval(() => this.deathAnimation(), 1000 / 60);
         setInterval(() => this.playAnimation(this.IMAGES_WALKING), 350);
@@ -60,6 +71,11 @@ class Pufferfish extends MoveableObject {
         setInterval(() => this.hurtAnimation(), 50);
     }
 
+    /**
+     * Controls the behavior of the pufferfish based on its current state.
+     * If not already inflated, dead, or hurt, the pufferfish inflates.
+     * If already inflated, dead, or hurt, the pufferfish deflates.
+     */
     pufferfishBehavior() {
         if (!this.blowed && !this.isDead() && !this.isHurt()) {
             this.blowUp();
@@ -68,6 +84,9 @@ class Pufferfish extends MoveableObject {
         }
     }
 
+    /**
+    * Inflates the pufferfish, playing the walking animation and setting the 'blowed' flag to true after a delay.
+    */
     blowUp() {
         this.playAnimation(this.IMAGES_WALKING);
         setTimeout(() => {
@@ -75,6 +94,9 @@ class Pufferfish extends MoveableObject {
         }, 3000);
     }
 
+    /**
+     * Deflates the pufferfish, playing the deflating animation and setting the 'blowed' flag to false after a delay.
+     */
     deflate() {
         this.playAnimation(this.IMAGES_BLOWED);
         setTimeout(() => {
@@ -82,12 +104,21 @@ class Pufferfish extends MoveableObject {
         }, 1000);
     }
 
+    /**
+     * Plays the hurt animation if the pufferfish is hurt and not dead.
+     */
     hurtAnimation() {
         if (this.isHurt() && !this.isDead()) {
             this.playAnimation(this.IS_HURT);
         }
     }
 
+    /**
+     * Manages the death animation of the pufferfish.
+     * If the pufferfish is dead and there are more images to display in the death animation,
+     * it plays the next image in the sequence. If all images in the death animation have been played,
+     * it performs the final image of the death animation and applies an upward trend.
+     */
     deathAnimation() {
         if (this.isDead() && this.currentImage < this.DEAD_ANIMATION.length) {
             this.playAnimation(this.DEAD_ANIMATION);
@@ -102,7 +133,10 @@ class Pufferfish extends MoveableObject {
             this.moveLeft();
         }
     }
-
+    
+    /**
+     * Plays the last image of the death animation and applies an upward trend.
+     */
     lastImageDeath() {
         const lastImage = this.DEAD_ANIMATION.slice(this.DEAD_ANIMATION.length - 1);
         this.playAnimation(lastImage);

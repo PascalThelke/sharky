@@ -1,3 +1,6 @@
+/**
+ * Represents the game world containing characters, levels, and game logic.
+ */
 class World {
     character = new Character();
     level = level1;
@@ -40,6 +43,11 @@ class World {
     boss_spawn_sound = new Audio(this.SOUNDS[11]);
     boss_encounter_sound = new Audio(this.SOUNDS[12]);
 
+    /**
+     * Constructs a new World instance.
+     * @param {HTMLCanvasElement} canvas - The HTML canvas element to render the game on.
+     * @param {Keyboard} keyboard - The keyboard input handler for controlling the game.
+     */
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
@@ -50,8 +58,11 @@ class World {
         this.run();
         this.background_music.play();
         this.background_sound.play();
-    };
+    }
 
+    /**
+     * Sets the volume levels for various audio elements in the game.
+     */
     setVolume() {
         this.swim_sound.volume = 0.05;
         this.meele_sound.volume = 0.2;
@@ -67,11 +78,17 @@ class World {
         this.boss_encounter_sound.volume = 0.09;
     }
 
+    /**
+     * Sets the world reference for the character and the last enemy in the level.
+     */
     setWorld() {
         this.character.world = this;
         this.level.enemies[this.level.enemies.length - 1].world = this;
-    };
+    }
 
+    /**
+     * Runs the main game loop, checking for various game events and collisions periodically.
+     */
     run() {
         setInterval(() => {
             this.checkThorwObject();
@@ -82,21 +99,28 @@ class World {
         setInterval(() => {
             this.checkBossCollisions();
         }, 1);
+    }
 
-    };
-
+    /**
+     * Checks for collisions between various game entities.
+     */
     checkCollisions() {
         this.checkCharacterCollisions();
         this.checkThrowedObjectCollisions();
         this.checkCollectableCollisions();
+    }
 
-    };
-
+    /**
+     * Checks positions of entities for despawning conditions.
+     */
     checkPositionsForDespawn() {
         this.checkDeadEnemyPosition();
         this.checkBubblePosition();
-    };
+    }
 
+    /**
+     * Checks conditions for throwing a throwable object (bubble) based on keyboard input and character state.
+     */
     checkThorwObject() {
         if (this.keyboard.E && !this.character.mirroredSideways && this.character.poison != 0) {
             let bubble = new ThrowableObject(this.character.x + 220, this.character.y + 120, this.character);
@@ -106,16 +130,25 @@ class World {
             let bubble = new ThrowableObject(this.character.x + 10, this.character.y + 120, this.character);
             this.createBubble(bubble);
         }
-    };
+    }
 
+    /**
+     * Creates a new throwable object (bubble) and adds it to the list of throwable objects.
+     * @param {ThrowableObject} bubble - The throwable object (bubble) to create.
+     */
     createBubble(bubble) {
         this.throwableObjects.push(bubble);
         bubble.timeOfDeath = Date.now() + 6000;
         this.character.poison -= 20;
         this.ranged_sound.play();
         this.poisonBar.setPercentage(this.character.poison);
-    };
+    }
 
+    /**
+     * Checks for collisions between throwable objects and enemies, and updates game state accordingly.
+     * @param {ThrowableObject} to - The throwable object being checked for collisions.
+     * @param {Enemy} e - The enemy being checked for collisions with the throwable object.
+     */
     checkThrowedObjectCollisions() {
         this.throwableObjects.forEach((to) => {
             this.level.enemies.forEach((e) => {
@@ -131,8 +164,12 @@ class World {
                 }
             });
         });
-    };
+    }
 
+    /**
+     * Checks for collisions between the character and enemies, and updates game state accordingly.
+     * @param {Enemy} e - The enemy being checked for collision with the character.
+     */
     checkCharacterCollisions() {
         this.level.enemies.forEach((e) => {
             if (this.character.isColliding(e) && !e.isDead()) {
@@ -147,8 +184,12 @@ class World {
                 }
             }
         });
-    };
+    }
 
+    /**
+     * Checks for collisions between the character and boss enemies, and updates game state accordingly.
+     * @param {Enemy} e - The boss enemy being checked for collision with the character.
+     */
     checkBossCollisions() {
         this.level.enemies.forEach((e) => {
             if (this.level.enemies[this.level.enemies.length - 1].isColliding(e) && (e instanceof Jellyfish || e instanceof Pufferfish)) {
@@ -159,8 +200,12 @@ class World {
 
             }
         });
-    };
+    }
 
+    /**
+     * Checks for collisions between the character and collectable objects, and updates game state accordingly.
+     * @param {Collectable} co - The collectable object being checked for collision with the character.
+     */
     checkCollectableCollisions() {
         this.level.collectables.forEach((co) => {
             if (this.character.isColliding(co)) {
@@ -176,24 +221,35 @@ class World {
                 this.level.collectables.splice(this.level.collectables.indexOf(co), 1);
             }
         })
-    };
+    }
 
+    /**
+     * Checks positions of dead enemies for despawning conditions.
+     * @param {Enemy} e - The dead enemy being checked for despawning conditions.
+     */
     checkDeadEnemyPosition() {
         this.level.enemies.forEach((e) => {
             if (e.timeOfDeath && Date.now() > e.timeOfDeath && e.y > 0) {
                 this.level.enemies.splice(this.level.enemies.indexOf(e), 1);
             }
         })
-    };
+    }
 
+    /**
+     * Checks positions of bubbles (throwable objects) for despawning conditions.
+     * @param {ThrowableObject} to - The bubble (throwable object) being checked for despawning conditions.
+     */
     checkBubblePosition() {
         this.throwableObjects.forEach((to) => {
             if (to.timeOfDeath && Date.now() > to.timeOfDeath && to.y < 0) {
                 this.throwableObjects.splice(this.throwableObjects.indexOf(to), 1);
             }
         })
-    };
+    }
 
+    /**
+     * Draws all game objects on the canvas.
+     */
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.ctx.translate(this.camera_x, 0);
@@ -214,14 +270,22 @@ class World {
         requestAnimationFrame(function () {
             self.draw();
         })
-    };
+    }
 
+    /**
+     * Adds an array of objects to the map.
+     * @param {Array} objects - The array of objects to be added to the map.
+     */
     addObjectsToMap(objects) {
         objects.forEach(o => {
             this.addToMap(o);
         })
-    };
+    }
 
+    /**
+     * Adds a map object to the game map and handles mirroring if necessary.
+     * @param {MapObject} mo - The map object to be added to the map.
+     */
     addToMap(mo) {
         if (mo.mirroredSideways) {
             this.mirrorSideways(mo);
@@ -230,18 +294,25 @@ class World {
         if (mo.mirroredSideways) {
             this.mirrorBackwards(mo);
         }
-    };
+    }
 
+    /**
+     * Mirrors a map object sideways.
+     * @param {MapObject} mo - The map object to be mirrored.
+     */
     mirrorSideways(mo) {
         this.ctx.save();
         this.ctx.translate(mo.width, 0);
         this.ctx.scale(-1, 1);
         mo.x = mo.x * -1;
-    };
+    }
 
+    /**
+     * Restores the canvas state and reverses the mirroring of a map object.
+     * @param {MapObject} mo - The map object to reverse the mirroring for.
+     */
     mirrorBackwards(mo) {
         mo.x = mo.x * -1;
         this.ctx.restore();
-    };
-
+    }
 }

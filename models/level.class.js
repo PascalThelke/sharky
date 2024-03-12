@@ -1,3 +1,12 @@
+/**
+ * Represents a game level.
+ * @constructor
+ * @param {Array} enemies - Array of enemy objects.
+ * @param {Array} environment - Array of environment objects.
+ * @param {Array} backgroundObjects - Array of background object.
+ * @param {string} background - Background image URL.
+ * @param {Array} collectables - Array of collectable objects.
+ */
 class Level {
     enemies;
     environment;

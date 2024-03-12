@@ -1,3 +1,7 @@
+/**
+ * Represents a status bar.
+ * @extends DrawableObject
+ */
 class StatusBar extends DrawableObject {
     currentImages;
     percentage;
@@ -11,7 +15,7 @@ class StatusBar extends DrawableObject {
         'img/4_markers/2_green/2_life/0.png',
     ];
 
-    COIN_BAR =[
+    COIN_BAR = [
         'img/4_markers/2_green/1_coin/100.png',
         'img/4_markers/2_green/1_coin/80.png',
         'img/4_markers/2_green/1_coin/60.png',
@@ -19,7 +23,7 @@ class StatusBar extends DrawableObject {
         'img/4_markers/2_green/1_coin/20.png',
         'img/4_markers/2_green/1_coin/0.png'
     ];
-    
+
     POSION_BAR = [
         'img/4_markers/2_green/3_poisoned_bubbles/100.png',
         'img/4_markers/2_green/3_poisoned_bubbles/80.png',
@@ -29,13 +33,20 @@ class StatusBar extends DrawableObject {
         'img/4_markers/2_green/3_poisoned_bubbles/0.png'
     ];
 
+    /**
+     * Creates a StatusBar object.
+     * @param {number} x - The x-coordinate of the status bar.
+     * @param {number} y - The y-coordinate of the status bar.
+     * @param {number} type - The type of status bar (0 for life, 1 for coin, 2 for poisoned bubbles).
+     * @param {number} progress - The progress percentage of the status bar.
+     */
     constructor(x, y, type, progress) {
         super();
-        if (type == 0){
+        if (type == 0) {
             this.currentImages = this.LIFE_BAR;
-        }else if (type == 1){
+        } else if (type == 1) {
             this.currentImages = this.COIN_BAR;
-        }else if (type == 2){
+        } else if (type == 2) {
             this.currentImages = this.POSION_BAR;
         }
         this.loadImages(this.currentImages);
@@ -46,6 +57,10 @@ class StatusBar extends DrawableObject {
         this.setPercentage(progress);
     }
 
+    /**
+     * Sets the percentage of the status bar.
+     * @param {number} percentage - The percentage value to set.
+     */
     setPercentage(percentage) {
         this.percentage = percentage;
         let path = this.currentImages[this.resolveImageIndex()];
@@ -53,6 +68,10 @@ class StatusBar extends DrawableObject {
 
     }
 
+    /**
+     * Resolves the index of the image based on the current percentage.
+     * @returns {number} The index of the image in the currentImages array.
+     */
     resolveImageIndex() {
         if (this.percentage == 100) {
             return 0;
