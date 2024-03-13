@@ -86,7 +86,7 @@ class MoveableObject extends DrawableObject {
                 this.lastHit = new Date().getTime();
             }
         } else {
-            this.health -= 5;
+            this.health -= 10;
             if (this.health < 0) {
                 this.health = 0;
             } else {

@@ -19,7 +19,6 @@ soundButton.addEventListener("mouseout", function () {
     }
 });
 
-
 /**
  * Initializes the game.
  * @param {HTMLElement} canvas - The canvas element.
@@ -33,6 +32,13 @@ function initGame() {
     document.getElementById('canvas').style.display = "block";
     document.getElementById('footer').style.display = "none";
     document.getElementById('sound_button').style.display = "unset";
+    initHud();
+}
+
+function initHud() {
+    if (window.matchMedia("(max-height: 480px)").matches) {
+        document.getElementById('hud').style.display = "flex";
+    }
 }
 
 soundButton.addEventListener('click', function() {

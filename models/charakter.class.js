@@ -320,6 +320,9 @@ class Character extends MoveableObject {
         } else {
             this.noSleep();
         }
+        if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT || this.world.keyboard.UP || this.world.keyboard.DOWN) {
+            this.playAnimation(this.IMAGES_WALKING);
+        }
     };
 
     /**

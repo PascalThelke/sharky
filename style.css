@@ -3,10 +3,12 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     background-image: url('./img/3_backgrounds/the_background.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
     background-position: top;
     font-family: 'luckiestguy', Arial, Helvetica, sans-serif;
+    height: 100vh;
 }
 
 h1 {
@@ -36,6 +38,7 @@ canvas {
 }
 
 #sound_button:hover {
+    cursor: pointer;
     scale: 0.9;
 }
 
@@ -295,6 +298,16 @@ footer button:hover {
 }
 
 
+@media only screen and (min-width: 320px) {
+
+    #hud {
+        display: none;
+    }
+    
+
+    
+}
+
 /* for smartphones*/
 @media only screen and (max-width: 720px) {
 
@@ -304,7 +317,20 @@ footer button:hover {
     }
 
     #handyscreen_info {
-        display: unset;
+        display: none;
+    }
+
+    #startscreen{
+        flex-direction: row;
+    }
+
+    #option_overlay{
+        height: 320px;
+        width: 600px;
+    }
+
+    #startscreen button{
+        width: 200px;
     }
 }
 
@@ -316,8 +342,13 @@ footer button:hover {
 }
 
 @media only screen and (max-height: 480px) {
-    #hud {
-        display: flex;
+
+    #icon_container{
+        margin-bottom: -100px;
+    }
+
+    body{
+        justify-content: center;
     }
 
     canvas {

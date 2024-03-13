@@ -75,6 +75,7 @@ class World {
         this.background_sound.volume = 0.4;
         this.poison_sound.volume = 0.09;
         this.coin_sound.volume = 0.09;
+        this.boss_spawn_sound.volume = 0.5;
         this.boss_encounter_sound.volume = 0.09;
     }
 
@@ -332,14 +333,9 @@ class World {
         this.background_sound.muted = mute;
         this.poison_sound.muted = mute;
         this.coin_sound.muted = mute;
+        this.boss_spawn_sound.muted = mute;
         this.boss_encounter_sound.muted = mute;
     }
 
 }
 
-// function muteAllSounds() {
-//     // Alle Audio-Elemente durchgehen und die Stummschaltung umkehren
-//     this.allAudios.forEach(audio => {
-//         audio.muted = !audio.muted;
-//     });
-// }
