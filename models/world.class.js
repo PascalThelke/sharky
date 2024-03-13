@@ -75,7 +75,7 @@ class World {
         this.background_sound.volume = 0.4;
         this.poison_sound.volume = 0.09;
         this.coin_sound.volume = 0.09;
-        this.boss_spawn_sound.volume = 0.5;
+        this.boss_spawn_sound.volume = 0.2;
         this.boss_encounter_sound.volume = 0.09;
     }
 

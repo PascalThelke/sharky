@@ -177,8 +177,11 @@ canvas {
 }
 
 #handyscreen_info {
-    color: red;
     display: none;
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
+    object-fit: cover;
 }
 
 #try_again_button,
@@ -332,11 +335,15 @@ footer button:hover {
     #startscreen button{
         width: 200px;
     }
-}
 
-@media only screen and (max-width: 420px) {
     #handyscreen_info {
         display: unset;
+    }
+}
+
+@media only screen and (max-height: 420px) {
+    #handyscreen_info {
+        display: none;
     }
 
 }

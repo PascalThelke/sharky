@@ -129,7 +129,9 @@ class Endboss extends MoveableObject {
         }
         this.currentImage++;
         if (this.world.character.x > 1600 && !this.firstContact) {
-            this.world.background_music.pause();
+            if(this.world.background_music.play()){
+                this.world.background_music.pause();
+            }
             this.world.boss_spawn_sound.play();
         }
         if (this.world.character.x > 1800 && !this.firstContact) {
@@ -160,7 +162,9 @@ class Endboss extends MoveableObject {
      */
     initiateDeadEnd() {
         this.applyUpwardTrend();
-        this.world.boss_encounter_sound.pause();
+        if(this.world.boss_encounter_sound.play()){
+            this.world.boss_encounter_sound.pause();
+        }
         this.world.background_music.play();
     }
 
