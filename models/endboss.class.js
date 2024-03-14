@@ -129,7 +129,7 @@ class Endboss extends MoveableObject {
         }
         this.currentImage++;
         if (this.world.character.x > 1600 && !this.firstContact) {
-            if(this.world.background_music.play()){
+            if(this.background_music_played){
                 this.world.background_music.pause();
             }
             this.world.boss_spawn_sound.play();
@@ -139,6 +139,7 @@ class Endboss extends MoveableObject {
             this.firstContact = true;
             setTimeout(() => {
                 this.world.boss_encounter_sound.play();
+                this.world.boss_fight_sound = true;
             }, 3000);
         }
     }
@@ -162,7 +163,7 @@ class Endboss extends MoveableObject {
      */
     initiateDeadEnd() {
         this.applyUpwardTrend();
-        if(this.world.boss_encounter_sound.play()){
+        if(this.world.boss_fight_sound){
             this.world.boss_encounter_sound.pause();
         }
         this.world.background_music.play();

@@ -356,7 +356,6 @@ class Character extends MoveableObject {
     * Plays movement animations based on keyboard input and updates camera position.
     */
     playMovementAnimation() {
-        this.world.swim_sound.pause();
         if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
             this.movementRight();
         }

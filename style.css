@@ -323,9 +323,7 @@ footer button:hover {
         display: none;
     }
 
-    #startscreen{
-        flex-direction: row;
-    }
+ 
 
     #option_overlay{
         height: 320px;
@@ -341,11 +339,14 @@ footer button:hover {
     }
 }
 
-@media only screen and (max-height: 420px) {
+@media only screen and (max-height: 480px) {
     #handyscreen_info {
         display: none;
     }
 
+    #startscreen{
+        flex-direction: row;
+    }
 }
 
 @media only screen and (max-height: 480px) {

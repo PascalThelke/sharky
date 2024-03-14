@@ -8,6 +8,8 @@ class World {
     ctx;
     keyboard;
     camera_x = 0;
+    background_music_played = false;
+    boss_fight_sound = false;
     statusBar = new StatusBar(20, 10, 0, 100);
     coinBar = new StatusBar(20, 50, 1, 0);
     poisonBar = new StatusBar(20, 90, 2, 0);
@@ -57,6 +59,7 @@ class World {
         this.setWorld();
         this.run();
         this.background_music.play();
+        this.background_music_played = true;
         this.background_sound.play();
     }
 
@@ -159,7 +162,7 @@ class World {
                     if (e.health == 0) {
                         e.timeOfDeath = Date.now() + 6000;
                         if (e.y < 0) {
-                            this.world.death_sound.play();
+                            this.death_sound.play();
                         }
                     }
                 }
